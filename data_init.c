@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/04/29 18:22:31 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/01 16:49:36 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	init_data(t_data *data, char **envp)
 	data->input = NULL;
 	get_path(data); // set a current path in data struct
 	data->cmd_list = NULL;
-	data->redir_list = NULL;
+	data->is_single = 0;
+	data->is_double = 0;
 }
-
+	
 void	get_path(t_data *data)
 {
 	char	*cwd;

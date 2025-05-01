@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/04/29 19:05:38 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/01 16:49:11 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 #include <readline/history.h>
 #include "libft/libft.h"
 
-typedef struct s_data		t_data;
-typedef struct s_command	t_command;
-typedef struct s_redir      t_redir;
-typedef enum e_redir_type	t_redir_type;
+typedef struct s_data			t_data;
+typedef struct s_command		t_command;
+typedef struct s_redir      	t_redir;
+typedef enum e_redir_type		t_redir_type;
 
 
 /* --- tokens --- */
@@ -42,6 +42,7 @@ typedef struct s_redir
     struct s_redir	*next;
 }				t_redir;
 
+/* This struct represent node of commands */
 typedef struct s_command
 {
     char				**args;
@@ -52,11 +53,24 @@ typedef struct s_command
 /* This structure holds all general data about a shell */
 typedef struct s_data
 {
-	char		**env;
-	char		*input;
-	char		*current_path;
-	t_command	*cmd_list;
-	t_redir		*redir_list;
+	char			**env;
+	char			*input;
+	char			*current_path;
+	t_command		*cmd_list;
+	int				is_single;
+	int				is_double;
 }				t_data;
 
+/* data_init.c */
+void	init_data(t_data *data, char **envp);
+void	get_path(t_data *data);
+
+/* env_var.c */
+char	**copy_envp(char **envp);
+
 /* --- minishell.c --- */
+void	create_command_list(t_data *data);
+int		check_for_quotes(t_data *data);
+
+/* quotes_check.c */
+int		check_for_quotes(t_data *data);
