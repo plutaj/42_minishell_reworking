@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/01 16:49:36 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/03 13:09:44 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,23 @@ void	get_path(t_data *data)
 		exit(1);
 	}
 	data->current_path = ft_strdup(cwd);
+}
+
+void	set_data_to_default(t_data *data)
+{
+	t_command	*temp;
+
+	temp = data->cmd_list;
+	while (data->cmd_list)
+	{
+		temp = data->cmd_list->next;
+		free(data->cmd_list);
+		data->cmd_list = temp;
+	}
+	data->cmd_list = NULL;
+	if (data->input)
+	{
+		free (data->input);
+		data->input = NULL;
+	}
 }

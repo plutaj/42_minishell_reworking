@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
+#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/05/01 15:55:14 by jpluta           ###   ########.fr        #
+#    Updated: 2025/05/03 12:12:49 by jozefpluta       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ LDFLAGS = -lreadline
 SRC = \
 data_init.c \
 env_var.c \
+free_functions.c \
 minishell.c \
 quotes_check.c \
 

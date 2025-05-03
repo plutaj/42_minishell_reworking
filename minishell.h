@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/01 16:49:11 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/03 13:08:25 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_redir
 typedef struct s_command
 {
     char				**args;
+    int                 arg_i;
     t_redir				*redir;
     struct s_command	*next;
 }				t_command;
@@ -64,13 +65,19 @@ typedef struct s_data
 /* data_init.c */
 void	init_data(t_data *data, char **envp);
 void	get_path(t_data *data);
+void	set_data_to_default(t_data *data);
 
 /* env_var.c */
 char	**copy_envp(char **envp);
 
+/* free_functions.c */
+void	free_2d_array(char **arr);
+
 /* --- minishell.c --- */
 void	create_command_list(t_data *data);
-int		check_for_quotes(t_data *data);
+void	split_args_and_redirs(t_data *data, t_command *new_cmd, char *s);
+void	copy_string_till_quotes(t_data *data, char **new_s, int *i, int *len);
+int     get_index_of_quotes(char *s, t_data *data);
 
 /* quotes_check.c */
 int		check_for_quotes(t_data *data);
