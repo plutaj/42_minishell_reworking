@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/03 13:23:41 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/05 19:10:13 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	print_linked_list(t_command *cmd_list)
 				printf("%d ARGS: ", node);
 		while (cmd_list->args[i])
 		{
-			printf("%s ", cmd_list->args[i]);
+			printf("\n|%s|", cmd_list->args[i]);
 			i++;
 		}
+		printf("\n_______________________________________");
 		if (cmd_list->redir)
 			printf("%d REDIRS: ", node);
 		while (cmd_list->redir)
@@ -111,8 +112,11 @@ void	split_args_and_redirs(t_data *data, t_command *new_cmd, char *s)
 		if ((len = get_index_of_quotes(new_s[i], data)))
 		{
 			new_s[i][len] = '\0';
-			new_cmd->args[arg_i] = ft_strdup(new_s[i]);
-			arg_i++;
+			if (len != 0)
+			{
+				new_cmd->args[arg_i] = ft_strdup(new_s[i]); // pridal som [i][len + 1]
+				arg_i++;
+			}
 			len++;
 			if (new_s[i][len])
 			{
@@ -136,6 +140,7 @@ void	copy_string_till_quotes(t_data *data, char **new_s, int *i, int *len)
 {
 	char	quote;
 	char	*start;
+	char	*temp;
 	
 	start = &(new_s[*i][*len]);
 	if (data->is_single)
@@ -144,23 +149,53 @@ void	copy_string_till_quotes(t_data *data, char **new_s, int *i, int *len)
 		quote = '\"';
 	else
 		printf("____mistake in copy_string_till_quotes______");
-	while (new_s[*i])
+	while (new_s[*i] && quote)
 	{
-		while (new_s[*i][*len])
+		while (new_s[*i][*len] && quote)
 		{
-			if (new_s[*i][*len] == quote)
+			if (new_s[*i][*len] == quote) // found another quotes
 			{
-				// maybe needed to handle the case if quotes continues to another row
 				new_s[*i][*len] = '\0';
-				data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(start);
+				if (!data->cmd_list->args[data->cmd_list->arg_i])
+					data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(start);
+				else
+				{
+					temp = ft_strjoin(data->cmd_list->args[data->cmd_list->arg_i], start);
+					free (data->cmd_list->args[data->cmd_list->arg_i]);
+					data->cmd_list->args[data->cmd_list->arg_i] = temp;
+				}
 				if (quote == '\'')
 					data->is_single = 0;
 				else if (quote == '\"')
 					data->is_double = 0;
+				data->cmd_list->arg_i += 1;
+				quote = 0;
+			}
+			else // EOF but no end of quotes
+			{
+				// temp = ft_strjoin(data->cmd_list->args[data->cmd_list->arg_i], start);
+				// free(data->cmd_list->args[data->cmd_list->arg_i]);
+				// data->cmd_list->args[data->cmd_list->arg_i] = temp;
+				if (!data->cmd_list->args[data->cmd_list->arg_i])
+					data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(start);
+				else
+				{
+					temp = ft_strjoin(data->cmd_list->args[data->cmd_list->arg_i], start);
+					free (data->cmd_list->args[data->cmd_list->arg_i]);
+					data->cmd_list->args[data->cmd_list->arg_i] = temp;
+				}
+				break ;
 			}
 			*len += 1;
 		}
+		*len = 0;
 		*i += 1;
+	}
+	if (new_s[*i][*len + 1])
+	{
+		*len += 1;
+		data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(&(new_s[*i][*len]));
+		data->cmd_list->arg_i += 1;
 	}
 }
 
