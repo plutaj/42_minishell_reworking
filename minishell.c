@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/05 19:10:13 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/06 18:42:43 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	create_command_list(t_data *data)
 		new_cmd->args = NULL;
 		new_cmd->redir = NULL;
 		new_cmd->next = NULL;
-		split_args_and_redirs(data, new_cmd, s[i]);
+		new_cmd = split_args_and_redirs(new_cmd, s[i]);
 		if (!data->cmd_list)
 			data->cmd_list = new_cmd;
 		else
@@ -96,107 +96,78 @@ void	create_command_list(t_data *data)
 	free_2d_array(s);
 }
 
-void	split_args_and_redirs(t_data *data, t_command *new_cmd, char *s)
+t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 {
 	char	**new_s;
 	int		i;
 	int		arg_i;
-	int		len;
+	char	quote;
+	char	*temp;
 
 	new_s = ft_split(s, ' ');
 	i = 0;
 	arg_i = 0;
-	new_cmd->args = (char **)malloc(sizeof(char *) * 254);
+	quote = 0;
+	new_cmd->args = (char **)calloc(254, sizeof(char *)); // safer than malloc
+	if (!new_cmd->args)
+		return (NULL);
+
 	while (new_s[i])
 	{
-		if ((len = get_index_of_quotes(new_s[i], data)))
+		if (starts_with_quote(new_s[i]))
 		{
-			new_s[i][len] = '\0';
-			if (len != 0)
+			quote = new_s[i][0];
+			char *arg = ft_strdup(new_s[i] + 1); // skip the opening quote
+			i++;
+
+			while (new_s[i] && !ends_with_quote(new_s[i], quote))
 			{
-				new_cmd->args[arg_i] = ft_strdup(new_s[i]); // pridal som [i][len + 1]
-				arg_i++;
+				temp = ft_strjoin(arg, " ");
+				free(arg);
+				arg = temp;
+
+				temp = ft_strjoin(arg, new_s[i]);
+				free(arg);
+				arg = temp;
+				i++;
 			}
-			len++;
-			if (new_s[i][len])
+
+			if (new_s[i] && ends_with_quote(new_s[i], quote))
 			{
-				new_cmd->arg_i = arg_i;
-				copy_string_till_quotes(data, new_s, &i, &len);// cpy till single or double quotes (depend on whats 1 in data structure is true)
-				arg_i = new_cmd->arg_i;
+				new_s[i][ft_strlen(new_s[i]) - 1] = '\0'; // strip closing quote
+
+				temp = ft_strjoin(arg, " ");
+				free(arg);
+				arg = temp;
+
+				temp = ft_strjoin(arg, new_s[i]);
+				free(arg);
+				arg = temp;
 			}
+			new_cmd->args[arg_i++] = arg;
 		}
 		else
 		{
-			new_cmd->args[arg_i] = ft_strdup(new_s[i]);
-			arg_i++;
+			new_cmd->args[arg_i++] = ft_strdup(new_s[i]);
 		}
 		i++;
 	}
-	new_cmd->args[arg_i++] = NULL; // otazne
-	free_2d_array(new_s);
+	new_cmd->args[arg_i] = NULL;
+	free_2d_array(new_s); // assuming this safely frees your split array
+	return (new_cmd);
 }
 
-void	copy_string_till_quotes(t_data *data, char **new_s, int *i, int *len)
+int starts_with_quote(const char *s)
 {
-	char	quote;
-	char	*start;
-	char	*temp;
-	
-	start = &(new_s[*i][*len]);
-	if (data->is_single)
-		quote = '\'';
-	else if (data->is_double)
-		quote = '\"';
-	else
-		printf("____mistake in copy_string_till_quotes______");
-	while (new_s[*i] && quote)
-	{
-		while (new_s[*i][*len] && quote)
-		{
-			if (new_s[*i][*len] == quote) // found another quotes
-			{
-				new_s[*i][*len] = '\0';
-				if (!data->cmd_list->args[data->cmd_list->arg_i])
-					data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(start);
-				else
-				{
-					temp = ft_strjoin(data->cmd_list->args[data->cmd_list->arg_i], start);
-					free (data->cmd_list->args[data->cmd_list->arg_i]);
-					data->cmd_list->args[data->cmd_list->arg_i] = temp;
-				}
-				if (quote == '\'')
-					data->is_single = 0;
-				else if (quote == '\"')
-					data->is_double = 0;
-				data->cmd_list->arg_i += 1;
-				quote = 0;
-			}
-			else // EOF but no end of quotes
-			{
-				// temp = ft_strjoin(data->cmd_list->args[data->cmd_list->arg_i], start);
-				// free(data->cmd_list->args[data->cmd_list->arg_i]);
-				// data->cmd_list->args[data->cmd_list->arg_i] = temp;
-				if (!data->cmd_list->args[data->cmd_list->arg_i])
-					data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(start);
-				else
-				{
-					temp = ft_strjoin(data->cmd_list->args[data->cmd_list->arg_i], start);
-					free (data->cmd_list->args[data->cmd_list->arg_i]);
-					data->cmd_list->args[data->cmd_list->arg_i] = temp;
-				}
-				break ;
-			}
-			*len += 1;
-		}
-		*len = 0;
-		*i += 1;
-	}
-	if (new_s[*i][*len + 1])
-	{
-		*len += 1;
-		data->cmd_list->args[data->cmd_list->arg_i] = ft_strdup(&(new_s[*i][*len]));
-		data->cmd_list->arg_i += 1;
-	}
+	return (s[0] == '\'' || s[0] == '\"');
+}
+
+int ends_with_quote(const char *s, char quote)
+{
+	int len = ft_strlen(s);
+	if (len == 0)
+		return 0;
+	return (s[len - 1] == quote);
 }
 
 int	get_index_of_quotes(char *s, t_data *data)
