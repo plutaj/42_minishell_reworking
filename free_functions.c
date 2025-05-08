@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:08:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/03 12:08:53 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/08 17:05:02 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void	free_2d_array(char **arr)
 	i = 0;
 	while (arr[i])
 		free(arr[i++]);
-	free(arr);
+	if (arr) // added if
+		free(arr);
 }

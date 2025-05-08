@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/07 15:57:23 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/08 17:50:37 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	    **copy_envp(char **envp);
 void	    free_2d_array(char **arr);
 
 /* --- minishell.c --- */
-t_redir	    *add_redir_node(char *token, char *file_or_delimiter);
+void		add_redir_node(char **args, t_command *cmd_list);
 int         check_for_redir(char *arg);
 void	    create_redir_list(t_data *data);
 void	    print_linked_list(t_command *cmd_list); // for printing purposes

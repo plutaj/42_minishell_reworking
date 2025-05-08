@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/07 15:59:34 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/08 18:01:37 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,21 @@ void	print_linked_list(t_command *cmd_list)
 	while (cmd_list)
 	{
 		if (cmd_list->args[i])
-				printf("%d ARGS: ", node);
+				printf("NODE %d \nArray of commands:", node);
 		while (cmd_list->args[i])
 		{
-			printf("\n|%s|", cmd_list->args[i]);
+			printf("\n%s", cmd_list->args[i]);
 			i++;
 		}
-		printf("\n_______________________________________");
-		if (cmd_list->redir)
-			printf("%d REDIRS: ", node);
+		printf("\n");
+		if (cmd_list->redir != NULL)
+			printf("\nList of redirections:");
 		while (cmd_list->redir)
 		{
-			printf("TYPE %u %s", cmd_list->redir->type, cmd_list->redir->file_or_limiter);
+			printf("\nTYPE %u\n FILE OR DELIMITER%s", cmd_list->redir->type, cmd_list->redir->file_or_limiter);
 			cmd_list->redir = cmd_list->redir->next;
 		}
+		printf("\n");
 		printf("\n");
 		i = 0;
 		node++;
@@ -88,36 +89,60 @@ int	check_for_redir(char *arg)
 void	create_redir_list(t_data *data)
 {
 	t_command	*cmd_list;
-	char		*new_args;
 	int			i;
+	int			x;
 	
 	cmd_list = data->cmd_list;
 	i = 0;
-	new_args = (char **)malloc(sizeof(char *) * 254);
 	while (cmd_list)
 	{
-		while (cmd_list->args)
+		while (cmd_list->args && cmd_list->args[i])
 		{
-			if (check_for_redir(cmd_list->args[i]));
+			if (check_for_redir(cmd_list->args[i]))
 			{
-				// funkcia ktora CUTne aktualny args o "i" rows a vytvori z nich linked list of redirections
-				if (cmd_list->args[i + 1])
-				{
-					cmd_list->redir = add_redir_node(cmd_list->args[i], cmd_list->args[i + 1]);
-					// funkcia ktora CUTne aktualny args o "i" rowS
-				}
+				add_redir_node(&(cmd_list->args[i]), cmd_list);
+				x = i;
+				while (cmd_list->args[x])
+					free(cmd_list->args[x++]);
+				cmd_list->args[i] = NULL;
+				continue ;
 			}
 			i++;
 		}
+		i = 0;
 		cmd_list = cmd_list->next;
 	}
 }
 
-t_redir	*add_redir_node(char *token, char *file_or_delimiter)
+void	add_redir_node(char **args, t_command *cmd_list)
 {
-	t_redir *new;
+	t_redir *new_redir;
+	t_redir *temp_redir;
 
-	
+	new_redir = (t_redir *)malloc(sizeof(t_redir));
+	if (ft_strcmp(args[0], "<") == 0)
+		new_redir->type = REDIR_INPUT;
+	else if (ft_strcmp(args[0], ">") == 0)
+		new_redir->type = REDIR_OUTPUT;
+	else if (ft_strcmp(args[0], ">>") == 0)
+		new_redir->type = REDIR_APPEND;
+	else if (ft_strcmp(args[0], "<<") == 0)
+		new_redir->type = REDIR_HEREDOC;
+	if (args[1])
+		new_redir->file_or_limiter = ft_strdup(args[1]);
+	else
+		new_redir->file_or_limiter = NULL;
+	new_redir->next = NULL;
+	if (!cmd_list->redir)
+		cmd_list->redir = new_redir;
+	else
+	{
+		temp_redir = cmd_list->redir;
+		while (temp_redir)
+			temp_redir = temp_redir->next;
+		temp_redir = new_redir;
+		temp_redir->next = NULL;
+	}
 }
 
 void	create_command_list(t_data *data)
@@ -165,6 +190,16 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 		if (starts_with_quote(new_s[i]))
 		{
 			quote = new_s[i][0];
+			// added
+			if (ends_with_quote(new_s[i], quote) && ft_strlen(new_s[i]) > 1)
+			{
+				// Quote starts and ends in same token — remove both quotes
+				char *trimmed = ft_substr(new_s[i], 1, ft_strlen(new_s[i]) - 2);
+				new_cmd->args[arg_i++] = trimmed;
+				i++;
+				continue ;
+			}
+			// added
 			arg = ft_strdup(new_s[i] + 1); // skip the opening quote
 			i++;
 			while (new_s[i] && !ends_with_quote(new_s[i], quote))
@@ -186,12 +221,16 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 				temp = ft_strjoin(arg, new_s[i]);
 				free(arg);
 				arg = temp;
+				i++;
 			}
 			new_cmd->args[arg_i++] = arg;
 		}
 		else
+		{
 			new_cmd->args[arg_i++] = ft_strdup(new_s[i]);
-		i++;
+			i++; // added this 
+		}
+		// i++; // commented this
 	}
 	new_cmd->args[arg_i] = NULL;
 	free_2d_array(new_s);

@@ -1,0 +1,1 @@
+cat < input.txt | grep "error" | sort | uniq > output.txt
