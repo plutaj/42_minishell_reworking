@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/06 18:42:43 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/07 15:59:34 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,60 @@ int main(int argc, char **argv, char **envp)
 			exit(1); // handle this like not correct pair of quotes
 		}
 		create_command_list(&data);
+		create_redir_list(&data);
 		print_linked_list(data.cmd_list);
 		set_data_to_default(&data);
 	}
     return (0);
+}
+
+int	check_for_redir(char *arg)
+{
+	if (ft_strcmp(arg, "<") == 0)
+		return (1);
+	else if (ft_strcmp(arg, ">") == 0)
+		return (1);
+	else if (ft_strcmp(arg, "<<") == 0)
+		return (1);
+	else if (ft_strcmp(arg, ">>") == 0)
+		return (1);
+	return (0);
+}
+
+
+void	create_redir_list(t_data *data)
+{
+	t_command	*cmd_list;
+	char		*new_args;
+	int			i;
+	
+	cmd_list = data->cmd_list;
+	i = 0;
+	new_args = (char **)malloc(sizeof(char *) * 254);
+	while (cmd_list)
+	{
+		while (cmd_list->args)
+		{
+			if (check_for_redir(cmd_list->args[i]));
+			{
+				// funkcia ktora CUTne aktualny args o "i" rows a vytvori z nich linked list of redirections
+				if (cmd_list->args[i + 1])
+				{
+					cmd_list->redir = add_redir_node(cmd_list->args[i], cmd_list->args[i + 1]);
+					// funkcia ktora CUTne aktualny args o "i" rowS
+				}
+			}
+			i++;
+		}
+		cmd_list = cmd_list->next;
+	}
+}
+
+t_redir	*add_redir_node(char *token, char *file_or_delimiter)
+{
+	t_redir *new;
+
+	
 }
 
 void	create_command_list(t_data *data)
@@ -103,43 +153,36 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 	int		arg_i;
 	char	quote;
 	char	*temp;
+	char	*arg;
 
 	new_s = ft_split(s, ' ');
 	i = 0;
 	arg_i = 0;
 	quote = 0;
-	new_cmd->args = (char **)calloc(254, sizeof(char *)); // safer than malloc
-	if (!new_cmd->args)
-		return (NULL);
-
+	new_cmd->args = (char **)calloc(254, sizeof(char *));
 	while (new_s[i])
 	{
 		if (starts_with_quote(new_s[i]))
 		{
 			quote = new_s[i][0];
-			char *arg = ft_strdup(new_s[i] + 1); // skip the opening quote
+			arg = ft_strdup(new_s[i] + 1); // skip the opening quote
 			i++;
-
 			while (new_s[i] && !ends_with_quote(new_s[i], quote))
 			{
 				temp = ft_strjoin(arg, " ");
 				free(arg);
 				arg = temp;
-
 				temp = ft_strjoin(arg, new_s[i]);
 				free(arg);
 				arg = temp;
 				i++;
 			}
-
 			if (new_s[i] && ends_with_quote(new_s[i], quote))
 			{
-				new_s[i][ft_strlen(new_s[i]) - 1] = '\0'; // strip closing quote
-
+				new_s[i][ft_strlen(new_s[i]) - 1] = '\0';
 				temp = ft_strjoin(arg, " ");
 				free(arg);
 				arg = temp;
-
 				temp = ft_strjoin(arg, new_s[i]);
 				free(arg);
 				arg = temp;
@@ -147,13 +190,11 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 			new_cmd->args[arg_i++] = arg;
 		}
 		else
-		{
 			new_cmd->args[arg_i++] = ft_strdup(new_s[i]);
-		}
 		i++;
 	}
 	new_cmd->args[arg_i] = NULL;
-	free_2d_array(new_s); // assuming this safely frees your split array
+	free_2d_array(new_s);
 	return (new_cmd);
 }
 

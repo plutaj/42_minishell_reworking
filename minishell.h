@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/06 18:43:21 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/07 15:57:23 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ char	    **copy_envp(char **envp);
 void	    free_2d_array(char **arr);
 
 /* --- minishell.c --- */
+t_redir	    *add_redir_node(char *token, char *file_or_delimiter);
+int         check_for_redir(char *arg);
+void	    create_redir_list(t_data *data);
+void	    print_linked_list(t_command *cmd_list); // for printing purposes
 void	    create_command_list(t_data *data);
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
 int         get_index_of_quotes(char *s, t_data *data);
