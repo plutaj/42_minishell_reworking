@@ -6,43 +6,37 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/09 14:24:01 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/09 16:49:15 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* printing purposes */
-void	print_linked_list(t_command *cmd_list)
+void	print_linked_list(t_command *commands)
 {	
-	int	i;
-	int node;
+	int		i;
+	t_redir *redir;
 
 	i = 0;
-	node = 0;
-	while (cmd_list)
+	if (commands->args[i])
 	{
-		if (cmd_list->args[i])
-				printf("NODE %d \nArray of commands:", node);
-		while (cmd_list->args[i])
-		{
-			printf("\n%s", cmd_list->args[i]);
-			i++;
-		}
-		printf("\n");
-		if (cmd_list->redir != NULL)
-			printf("\nList of redirections:");
-		while (cmd_list->redir)
-		{
-			printf("\nTYPE %u\nFILE OR DELIMITER: %s", cmd_list->redir->type, cmd_list->redir->file_or_limiter);
-			cmd_list->redir = cmd_list->redir->next;
-		}
-		printf("\n");
-		printf("\n");
-		i = 0;
-		node++;
-		cmd_list = cmd_list->next;
+		printf("\nArray of commands:");
+		while (commands->args[i])
+			printf("\n%s", commands->args[i++]);
 	}
+	printf("\n");
+	if (commands->redir != NULL)
+		printf("\nList of redirections:");
+	redir = commands->redir;
+	while (redir)
+	{
+		printf("\nTYPE %u\nFILE OR DELIMITER: %s", redir->type, redir->file_or_limiter);
+		redir = redir->next;
+	}
+	printf("\n");
+	printf("\n");
+	i = 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -66,30 +60,8 @@ int main(int argc, char **argv, char **envp)
 		}
 		create_command_list(&data);
 		create_redir_list(&data);
-		print_linked_list(data.cmd_list);
+		print_linked_list(data.commands);
 		set_data_to_default(&data);
 	}
     return (0);
 }
-
-// int	get_index_of_quotes(char *s, t_data *data)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		if (s[i] == '\'')
-// 		{
-// 			data->is_single = 1;
-// 			return (i);
-// 		}
-// 		else if (s[i] == '\"')
-// 		{
-// 			data->is_double = 1;
-// 			return (i);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }

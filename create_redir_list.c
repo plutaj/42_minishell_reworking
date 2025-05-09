@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/09 14:07:14 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/09 16:45:31 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,58 @@ int	check_for_redir(char *arg)
 	return (0);
 }
 
-
 void	create_redir_list(t_data *data)
 {
-	t_command	*cmd_list;
-	int			i;
-	int			x;
-	
-	cmd_list = data->cmd_list;
+	t_command	*commands = data->commands;
+	int			i, j;
+
 	i = 0;
-	while (cmd_list)
-	{
-		while (cmd_list->args && cmd_list->args[i])
+		while (commands->args && commands->args[i])
 		{
-			if (check_for_redir(cmd_list->args[i]))
+			if (check_for_redir(commands->args[i]))
 			{
-				add_redir_node(&(cmd_list->args[i]), cmd_list);
-				x = i;
-				while (cmd_list->args[x])
-					free(cmd_list->args[x++]);
-				cmd_list->args[i] = NULL;
+				add_redir_node(&(commands->args[i]), commands);
+				free(commands->args[i]);
+				if (commands->args[i + 1])
+					free(commands->args[i + 1]);
+				j = i;
+				while (commands->args[j + 2])
+				{
+					commands->args[j] = commands->args[j + 2];
+					j++;
+				}
+				commands->args[j] = NULL;
+				commands->args[j + 1] = NULL;
 				continue ;
 			}
 			i++;
 		}
-		i = 0;
-		cmd_list = cmd_list->next;
-	}
 }
 
-void	add_redir_node(char **args, t_command *cmd_list)
+// void	create_redir_list(t_data *data)
+// {
+// 	t_command	*commands;
+// 	int			i;
+// 	int			x;
+	
+// 	commands = data->commands;
+// 	i = 0;
+// 	while (commands->args && commands->args[i])
+// 	{
+// 		if (check_for_redir(commands->args[i]))
+// 		{
+// 			add_redir_node(&(commands->args[i]), commands);
+// 			x = i;
+// 			while (commands->args[x])
+// 				free(commands->args[x++]);
+// 			commands->args[i] = NULL;
+// 			continue ;
+// 		}
+// 		i++;
+// 	}
+// }
+
+void	add_redir_node(char **args, t_command *commands)
 {
 	t_redir *new_redir;
 	t_redir *temp_redir;
@@ -73,14 +95,13 @@ void	add_redir_node(char **args, t_command *cmd_list)
 	else
 		new_redir->file_or_limiter = NULL;
 	new_redir->next = NULL;
-	if (!cmd_list->redir)
-		cmd_list->redir = new_redir;
+	if (!commands->redir)
+		commands->redir = new_redir;
 	else
 	{
-		temp_redir = cmd_list->redir;
-		while (temp_redir)
+		temp_redir = commands->redir;
+		while (temp_redir->next)
 			temp_redir = temp_redir->next;
-		temp_redir = new_redir;
-		temp_redir->next = NULL;
+		temp_redir->next = new_redir;
 	}
 }
