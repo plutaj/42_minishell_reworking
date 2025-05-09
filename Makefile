@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
+#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/05/03 12:12:49 by jozefpluta       ###   ########.fr        #
+#    Updated: 2025/05/09 14:22:36 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ env_var.c \
 free_functions.c \
 minishell.c \
 quotes_check.c \
+create_command_list.c \
+create_redir_list.c \
 
 OBJ = $(SRC:.c=.o)
 
