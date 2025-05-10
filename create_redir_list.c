@@ -3,103 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   create_redir_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/09 16:45:31 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/10 10:53:56 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_for_redir(char *arg)
+char	*check_for_redir(char *arg)
 {
-	if (ft_strcmp(arg, "<") == 0)
-		return (1);
-	else if (ft_strcmp(arg, ">") == 0)
-		return (1);
-	else if (ft_strcmp(arg, "<<") == 0)
-		return (1);
-	else if (ft_strcmp(arg, ">>") == 0)
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '<' && arg[i + 1] == '<')
+			return (&arg[i]);
+		else if (arg[i] == '>' && arg[i + 1] == '>')
+			return (&arg[i]);
+		else if (arg[i] == '<')
+			return (&arg[i]);
+		else if (arg[i] == '>')
+			return (&arg[i]);
+		i++;
+	}
+	return (NULL);
 }
 
 void	create_redir_list(t_data *data)
 {
-	t_command	*commands = data->commands;
-	int			i, j;
+	int		i;
+	char	*p_to_redir;
+	char	*temp;
 
 	i = 0;
-		while (commands->args && commands->args[i])
+	while (data->commands->args[i])
+	{
+		if ((p_to_redir = check_for_redir(data->commands->args[i])) != NULL)
 		{
-			if (check_for_redir(commands->args[i]))
-			{
-				add_redir_node(&(commands->args[i]), commands);
-				free(commands->args[i]);
-				if (commands->args[i + 1])
-					free(commands->args[i + 1]);
-				j = i;
-				while (commands->args[j + 2])
-				{
-					commands->args[j] = commands->args[j + 2];
-					j++;
-				}
-				commands->args[j] = NULL;
-				commands->args[j + 1] = NULL;
-				continue ;
-			}
-			i++;
+			add_redir_node(p_to_redir, data);
+			*p_to_redir = '\0';
+			temp = ft_strdup(data->commands->args[i]);
+			free(data->commands->args[i]);
+			data->commands->args[i] = temp;
+			continue ;
 		}
+		i++;
+	}
 }
 
-// void	create_redir_list(t_data *data)
-// {
-// 	t_command	*commands;
-// 	int			i;
-// 	int			x;
-	
-// 	commands = data->commands;
-// 	i = 0;
-// 	while (commands->args && commands->args[i])
-// 	{
-// 		if (check_for_redir(commands->args[i]))
-// 		{
-// 			add_redir_node(&(commands->args[i]), commands);
-// 			x = i;
-// 			while (commands->args[x])
-// 				free(commands->args[x++]);
-// 			commands->args[i] = NULL;
-// 			continue ;
-// 		}
-// 		i++;
-// 	}
-// }
-
-void	add_redir_node(char **args, t_command *commands)
+void	add_redir_node(char *p_to_redir, t_data *data)
 {
 	t_redir *new_redir;
 	t_redir *temp_redir;
+	int		i;
 
+	i = 0;
 	new_redir = (t_redir *)malloc(sizeof(t_redir));
-	if (ft_strcmp(args[0], "<") == 0)
-		new_redir->type = REDIR_INPUT;
-	else if (ft_strcmp(args[0], ">") == 0)
-		new_redir->type = REDIR_OUTPUT;
-	else if (ft_strcmp(args[0], ">>") == 0)
-		new_redir->type = REDIR_APPEND;
-	else if (ft_strcmp(args[0], "<<") == 0)
+	if (p_to_redir[i] == '<' && p_to_redir[i + 1] == '<')
 		new_redir->type = REDIR_HEREDOC;
-	if (args[1])
-		new_redir->file_or_limiter = ft_strdup(args[1]);
+	else if (p_to_redir[i] == '>' && p_to_redir[i + 1] == '>')
+		new_redir->type = REDIR_APPEND;
+	else if (p_to_redir[i] == '<')
+		new_redir->type = REDIR_INPUT;
+	else if (p_to_redir[i] == '>')
+		new_redir->type = REDIR_OUTPUT;
+	if (new_redir->type == 2 || new_redir->type == 3)
+		i += 2;
+	else
+		i += 1;
+	while (*p_to_redir && p_to_redir[i] == ' ')
+		i++;
+	if (p_to_redir[i])
+		new_redir->file_or_limiter = ft_strdup(&p_to_redir[i]);
 	else
 		new_redir->file_or_limiter = NULL;
 	new_redir->next = NULL;
-	if (!commands->redir)
-		commands->redir = new_redir;
+	if (!data->commands->redir)
+		data->commands->redir = new_redir;
 	else
 	{
-		temp_redir = commands->redir;
+		temp_redir = data->commands->redir;
 		while (temp_redir->next)
 			temp_redir = temp_redir->next;
 		temp_redir->next = new_redir;

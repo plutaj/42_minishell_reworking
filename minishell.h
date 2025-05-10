@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/09 16:42:21 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/10 10:28:09 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ void	    print_linked_list(t_command *commands); // for printing purposes
 int		    check_for_quotes(t_data *data);
 
 /* create_redir_list.c */
-int         check_for_redir(char *arg);
+char        *check_for_redir(char *arg);
 void	    create_redir_list(t_data *data);
-void		add_redir_node(char **args, t_command *commands);
+void	    add_redir_node(char *p_to_redir, t_data *data);
+
 
 /* create_command_list.c */
 void	    create_command_list(t_data *data);
