@@ -6,11 +6,11 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:46:18 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/09 14:21:55 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/11 15:11:43 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_for_quotes(t_data *data)
 {

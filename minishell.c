@@ -6,37 +6,43 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/09 16:49:15 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/11 15:06:44 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* printing purposes */
-void	print_linked_list(t_command *commands)
+void	print_linked_list(t_command *cmd_list)
 {	
-	int		i;
-	t_redir *redir;
+	int	i;
+	int node;
 
 	i = 0;
-	if (commands->args[i])
+	node = 0;
+	while (cmd_list)
 	{
-		printf("\nArray of commands:");
-		while (commands->args[i])
-			printf("\n%s", commands->args[i++]);
+		if (cmd_list->args[i])
+				printf("NODE %d \nArray of commands:", node);
+		while (cmd_list->args[i])
+		{
+			printf("\n|%s|", cmd_list->args[i]);
+			i++;
+		}
+		printf("\n");
+		if (cmd_list->redir != NULL)
+			printf("\nList of redirections:");
+		while (cmd_list->redir)
+		{
+			printf("\nTYPE %u\n%s", cmd_list->redir->type, cmd_list->redir->file_or_limiter);
+			cmd_list->redir = cmd_list->redir->next;
+		}
+		printf("\n");
+		printf("\n");
+		i = 0;
+		node++;
+		cmd_list = cmd_list->next;
 	}
-	printf("\n");
-	if (commands->redir != NULL)
-		printf("\nList of redirections:");
-	redir = commands->redir;
-	while (redir)
-	{
-		printf("\nTYPE %u\nFILE OR DELIMITER: %s", redir->type, redir->file_or_limiter);
-		redir = redir->next;
-	}
-	printf("\n");
-	printf("\n");
-	i = 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -60,7 +66,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		create_command_list(&data);
 		create_redir_list(&data);
-		print_linked_list(data.commands);
+		print_linked_list(data.cmd_list);
 		set_data_to_default(&data);
 	}
     return (0);

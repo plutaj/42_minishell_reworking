@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/10 10:28:09 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/11 15:07:15 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_command
     char				**args;
     int                 arg_i;
     t_redir				*redir;
+    struct s_command	*next;
 }				t_command;
 
 /* This structure holds all general data about a shell */
@@ -56,7 +57,7 @@ typedef struct s_data
 	char			**env;
 	char			*input;
 	char			*current_path;
-	t_command		*commands;
+	t_command		*cmd_list;
 	int				is_single;
 	int				is_double;
 }				t_data;
@@ -72,24 +73,21 @@ char	    **copy_envp(char **envp);
 /* free_functions.c */
 void	    free_2d_array(char **arr);
 
-/* --- minishell.c --- */
-void	    print_linked_list(t_command *commands); // for printing purposes
-// int         get_index_of_quotes(char *s, t_data *data);
+/* minishell.c */
+void	    print_linked_list(t_command *cmd_list); // for printing purposes
 
 /* quotes_check.c */
 int		    check_for_quotes(t_data *data);
 
 /* create_redir_list.c */
-char        *check_for_redir(char *arg);
+int         check_for_redir(char *arg);
 void	    create_redir_list(t_data *data);
-void	    add_redir_node(char *p_to_redir, t_data *data);
-
+void		add_redir_node(char **args, t_command *cmd_list);
 
 /* create_command_list.c */
 void	    create_command_list(t_data *data);
-void		cut_spaces(char **s);
-// t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
-// int         starts_with_quote(const char *s);
-// int         ends_with_quote(const char *s, char quote);
+t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
+int         starts_with_quote(const char *s);
+int         ends_with_quote(const char *s, char quote);
 
 
