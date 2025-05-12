@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/11 15:07:15 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/12 18:26:07 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ typedef struct s_data			t_data;
 typedef struct s_command		t_command;
 typedef struct s_redir      	t_redir;
 typedef enum e_redir_type		t_redir_type;
-
 
 /* --- tokens --- */
 typedef enum e_redir_type
@@ -76,6 +75,7 @@ void	    free_2d_array(char **arr);
 /* minishell.c */
 void	    print_linked_list(t_command *cmd_list); // for printing purposes
 
+/* PARSING ____________________________________________________*/
 /* quotes_check.c */
 int		    check_for_quotes(t_data *data);
 
@@ -89,5 +89,16 @@ void	    create_command_list(t_data *data);
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
 int         starts_with_quote(const char *s);
 int         ends_with_quote(const char *s, char quote);
+/* _____________________________________________________________*/
+
+/* EXECUTION ___________________________________________________*/
+/* execution.c */
+void        execution(t_data *data);
+int         is_builtin(t_command *cmd_list);
+// int         is_external(t_command *cmd_list);
+
+/* _____________________________________________________________*/
+
+
 
 
