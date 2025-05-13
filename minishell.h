@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/12 18:26:07 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/13 16:31:09 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft/libft.h"
@@ -95,8 +96,10 @@ int         ends_with_quote(const char *s, char quote);
 /* execution.c */
 void        execution(t_data *data);
 int         is_builtin(t_command *cmd_list);
-// int         is_external(t_command *cmd_list);
-
+void         is_external(t_data *data, t_command *cmd_list);
+char		*find_command_in_path(char	*cmd);
+char		*concatenate_paths(char *dir, char *cmd);
+int			execute_command(char *full_path, char **args, char **env);
 /* _____________________________________________________________*/
 
 

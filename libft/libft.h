@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:18:04 by jpluta            #+#    #+#             */
-/*   Updated: 2025/04/26 12:42:43 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:35:34 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char		*ft_strrchr(const char *s, int c);
 char		*ft_strtrim(char const *s1, char const *set);
 char		*ft_substr(char const *s, size_t start, size_t len);
 int			ft_strcmp(const char *str1, const char *str2);
+char		*ft_strcat(char *dest, const char *src);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
 
