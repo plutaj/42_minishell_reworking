@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/04/29 18:14:44 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/17 15:08:43 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,43 @@ char **copy_envp(char **envp)
     }
     env[i] = NULL; // NULL-terminate the array
     return env;
+}
+
+// Function to extract the value of an environment variable from the input
+char	*is_env_var(char *input, char **envp)
+{
+    char env_var[256];
+    int i;
+    char *result;
+
+    i = 0;
+    result = NULL;
+    input++; // skip '$' sign
+    strncpy_until_char(env_var, input, '=');
+    while (envp[i])
+	{
+        if (ft_strncmp(env_var, envp[i], ft_strlen(env_var)) == 0)
+		{
+            result = ft_strchr(envp[i], '=');
+            if (result)
+			{
+                result++; // skip '=' sign
+                return (result);
+            }
+        }
+        i++;
+    }
+    return (NULL);
+}
+
+// Function to copy characters until a specific character is found
+void strncpy_until_char(char *dest, const char *src, char stop_char)
+{
+    while (*src != '\0' && *src != stop_char)
+	{
+        *dest = *src;
+        dest++; 
+        src++;
+    }
+    *dest = '\0';
 }

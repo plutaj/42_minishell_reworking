@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
+#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/05/12 18:19:24 by jozefpluta       ###   ########.fr        #
+#    Updated: 2025/05/17 15:22:34 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ parsing/quotes_check.c \
 parsing/create_command_list.c \
 parsing/create_redir_list.c \
 execution/execution.c \
+builtins/echo.c \
+builtins/builtins.c \
 
 OBJ = $(SRC:.c=.o)
 

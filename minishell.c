@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/12 17:45:05 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/17 12:53:19 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		create_command_list(&data);
 		create_redir_list(&data);
-		print_linked_list(data.cmd_list);
+		// print_linked_list(data.cmd_list);
 		execution(&data);
 		set_data_to_default(&data);
 	}

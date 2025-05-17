@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/13 16:31:09 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:19:40 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_command
     char				**args;
     int                 arg_i;
     t_redir				*redir;
+	t_data				*data;
     struct s_command	*next;
 }				t_command;
 
@@ -69,6 +70,8 @@ void	    set_data_to_default(t_data *data);
 
 /* env_var.c */
 char	    **copy_envp(char **envp);
+char		*is_env_var(char *input, char **envp);
+void		strncpy_until_char(char *dest, const char *src, char stop_char);
 
 /* free_functions.c */
 void	    free_2d_array(char **arr);
@@ -90,7 +93,6 @@ void	    create_command_list(t_data *data);
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
 int         starts_with_quote(const char *s);
 int         ends_with_quote(const char *s, char quote);
-/* _____________________________________________________________*/
 
 /* EXECUTION ___________________________________________________*/
 /* execution.c */
@@ -100,8 +102,16 @@ void         is_external(t_data *data, t_command *cmd_list);
 char		*find_command_in_path(char	*cmd);
 char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
-/* _____________________________________________________________*/
 
+/* BUILTINS ___________________________________________________*/
+/* echo.c */
+void	cmd_echo(t_command *cmd_list);
+void	cmd_echo_exec(t_command *cmd_list, int is_newline);
+char	*convert_to_string(t_command *cmd_list, int is_newline);
+void	put_variable(int i, t_command *cmd_list, char **orig_str);
+int		dollar_sign(char *str);
 
+/* builtins.c */
+int		builtin(t_command *cmd_list);
 
 

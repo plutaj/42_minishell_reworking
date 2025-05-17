@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/13 16:33:09 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:21:47 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,21 @@ void    execution(t_data *data)
     if (!data->cmd_list->next)
     {
         if (is_builtin(data->cmd_list))
-        {
-            printf("is builtin\n");
-        }
-		is_external(data, data->cmd_list);
-        // {
-            
-        // }
-        // else
-            //case of invalid command  
+			builtin(data->cmd_list);
+		else
+			is_external(data, data->cmd_list); 
     }
-    
+	// More command case (with pipes)
+	// else
+	// {
+		
+	// }
 }
 
 int is_builtin(t_command *cmd_list)
 {
     if (ft_strcmp("echo", cmd_list->args[0]) == 0)
-        return (1);
+		return (1);
     else if (ft_strcmp("cd", cmd_list->args[0]) == 0)
         return (1);
     else if (ft_strcmp("pwd", cmd_list->args[0]) == 0)
@@ -72,7 +70,7 @@ void is_external(t_data *data, t_command *cmd_list)
 	}
     else
 	{
-		printf("minishell$: %s: command not found", cmd_list->args[0]);
+		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
 		exit(1);
 	}
 }
@@ -149,8 +147,8 @@ int	execute_command(char *full_path, char **args, char **env)
 	{  // Parent process
         int status;
         waitpid(pid, &status, 0);  // Wait for the child process to finish
-        if (WIFEXITED(status)) 
-            printf("Child process exited with status %d\n", WEXITSTATUS(status));
+        // if (WIFEXITED(status)) 
+        //     printf("Child process exited with status %d\n", WEXITSTATUS(status));
     }
 
     return 0;

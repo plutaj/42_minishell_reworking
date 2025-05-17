@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/11 15:11:32 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/17 13:57:15 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	create_command_list(t_data *data)
 		new_cmd = (t_command *)malloc(sizeof(t_command));
 		new_cmd->args = NULL;
 		new_cmd->redir = NULL;
+		new_cmd->data = data;
 		new_cmd->next = NULL;
 		new_cmd = split_args_and_redirs(new_cmd, s[i]);
 		if (!data->cmd_list)
