@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/17 15:29:23 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/17 19:02:05 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	cmd_echo(t_command *cmd_list)
 {
     if (ft_strcmp(cmd_list->args[1], "-n") == 0)
         cmd_echo_exec(cmd_list, 0);
-    else if (cmd_list)
+    else
         cmd_echo_exec(cmd_list, 1);
 }
 
@@ -41,9 +41,9 @@ char	*convert_to_string(t_command *cmd_list, int is_newline)
 	orig_str = NULL;
 	temp = NULL;
 	if (is_newline)
-		i = 2;
-	else
 		i = 1;
+	else
+		i = 2;
 	while (cmd_list->args[i])
 	{
 		if (dollar_sign(cmd_list->args[i]))
