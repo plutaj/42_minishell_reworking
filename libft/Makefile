@@ -38,6 +38,7 @@ SOURCES = \
 	ft_itoa.c \
 	ft_memccpy.c \
 	ft_memset.c \
+	ft_strjoin3.c \
 	ft_strcat.c \
 	get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \

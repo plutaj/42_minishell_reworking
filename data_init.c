@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/03 13:09:44 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/18 16:57:25 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	get_path(t_data *data)
 		perror("getcwd() error");
 		exit(1);
 	}
+	// if (data->current_path)
+	// 	free(data->current_path);
 	data->current_path = ft_strdup(cwd);
+	update_env_var(data->env, "PWD", cwd);
 }
 
 void	set_data_to_default(t_data *data)

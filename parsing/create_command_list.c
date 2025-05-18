@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/17 20:05:22 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/18 17:00:52 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,72 +38,6 @@ void	create_command_list(t_data *data)
 	}
 	free_2d_array(s);
 }
-
-// t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
-// {
-// 	char	**new_s;
-// 	int		i;
-// 	int		arg_i;
-// 	char	quote;
-// 	char	*temp;
-// 	char	*arg;
-
-// 	new_s = ft_split(s, ' ');
-// 	i = 0;
-// 	arg_i = 0;
-// 	quote = 0;
-// 	new_cmd->args = (char **)calloc(254, sizeof(char *));
-// 	while (new_s[i])
-// 	{
-// 		if (starts_with_quote(new_s[i]))
-// 		{
-// 			quote = new_s[i][0];
-// 			// added
-// 			if (ends_with_quote(new_s[i], quote) && ft_strlen(new_s[i]) > 1)
-// 			{
-// 				// Quote starts and ends in same token — remove both quotes
-// 				char *trimmed = ft_substr(new_s[i], 1, ft_strlen(new_s[i]) - 2);
-// 				new_cmd->args[arg_i++] = trimmed;
-// 				i++;
-// 				continue ;
-// 			}
-// 			// added
-// 			arg = ft_strdup(new_s[i] + 1); // skip the opening quote
-// 			i++;
-// 			while (new_s[i] && !ends_with_quote(new_s[i], quote))
-// 			{
-// 				temp = ft_strjoin(arg, " ");
-// 				free(arg);
-// 				arg = temp;
-// 				temp = ft_strjoin(arg, new_s[i]);
-// 				free(arg);
-// 				arg = temp;
-// 				i++;
-// 			}
-// 			if (new_s[i] && ends_with_quote(new_s[i], quote))
-// 			{
-// 				new_s[i][ft_strlen(new_s[i]) - 1] = '\0';
-// 				temp = ft_strjoin(arg, " ");
-// 				free(arg);
-// 				arg = temp;
-// 				temp = ft_strjoin(arg, new_s[i]);
-// 				free(arg);
-// 				arg = temp;
-// 				i++;
-// 			}
-// 			new_cmd->args[arg_i++] = arg;
-// 		}
-// 		else
-// 		{
-// 			new_cmd->args[arg_i++] = ft_strdup(new_s[i]);
-// 			i++; // added this 
-// 		}
-// 		// i++; // commented this
-// 	}
-// 	new_cmd->args[arg_i] = NULL;
-// 	free_2d_array(new_s);
-// 	return (new_cmd);
-// }
 
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 {
@@ -138,7 +72,6 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 				arg = temp;
 				i++;
 			}
-
 			if (new_s[i] && ends_with_quote(new_s[i], quote))
 			{
 				temp = ft_strjoin(arg, " ");

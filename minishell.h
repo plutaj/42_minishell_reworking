@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/17 15:19:40 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/18 17:08:40 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	    set_data_to_default(t_data *data);
 /* env_var.c */
 char	    **copy_envp(char **envp);
 char		*is_env_var(char *input, char **envp);
+void	    update_env_var(char **envp, const char *key, const char *value);
 void		strncpy_until_char(char *dest, const char *src, char stop_char);
+void        print_env(char **env);
 
 /* free_functions.c */
 void	    free_2d_array(char **arr);
@@ -98,20 +100,30 @@ int         ends_with_quote(const char *s, char quote);
 /* execution.c */
 void        execution(t_data *data);
 int         is_builtin(t_command *cmd_list);
-void         is_external(t_data *data, t_command *cmd_list);
+void        is_external(t_data *data, t_command *cmd_list);
 char		*find_command_in_path(char	*cmd);
 char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
 
 /* BUILTINS ___________________________________________________*/
 /* echo.c */
-void	cmd_echo(t_command *cmd_list);
-void	cmd_echo_exec(t_command *cmd_list, int is_newline);
-char	*convert_to_string(t_command *cmd_list, int is_newline);
-void	put_variable(int i, t_command *cmd_list, char **orig_str);
-int		dollar_sign(char *str);
+void	    cmd_echo(t_command *cmd_list);
+void	    cmd_echo_exec(t_command *cmd_list, int is_newline);
+char	    *convert_to_string(t_command *cmd_list, int is_newline);
+void	    put_variable(int i, t_command *cmd_list, char **orig_str);
+int		    dollar_sign(char *str);
 
 /* builtins.c */
-int		builtin(t_command *cmd_list);
+int		    builtin(t_command *cmd_list);
+int         builtin2(t_command *cmd_list);
 
+/* pwd.c */
+void        cmd_pwd(t_data *data);
+
+/* cd.c */
+void        cmd_cd(t_data *data);
+char        *append_char_to_str(char *str, char c);
+int         list_directory_contents(char *str, const char *path);
+int         count_slash(char *str);
+void	    cmd_cd_dir(t_data *data);
 

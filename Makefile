@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
+#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/05/17 15:22:34 by jpluta           ###   ########.fr        #
+#    Updated: 2025/05/18 16:09:43 by jozefpluta       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ parsing/create_redir_list.c \
 execution/execution.c \
 builtins/echo.c \
 builtins/builtins.c \
+builtins/pwd.c \
+builtins/cd.c \
 
 OBJ = $(SRC:.c=.o)
 
