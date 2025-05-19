@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/18 17:08:40 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/19 20:49:45 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,21 @@ int			execute_command(char *full_path, char **args, char **env);
 
 /* BUILTINS ___________________________________________________*/
 /* echo.c */
+char	    *expand_variables(char *str, char **envp);
+char	    *process_arg(char *arg, t_command *cmd_list);
+char	    *convert_to_string(t_command *cmd_list, int start);
+void	    cmd_echo_exec(t_command *cmd_list, int start, int is_newline);
+int	        all_n_flag(char *arg);
 void	    cmd_echo(t_command *cmd_list);
-void	    cmd_echo_exec(t_command *cmd_list, int is_newline);
-char	    *convert_to_string(t_command *cmd_list, int is_newline);
-void	    put_variable(int i, t_command *cmd_list, char **orig_str);
-int		    dollar_sign(char *str);
+char        *get_env_value(char *key, char **envp);
+char	    *append_char(char *res, char c);
+char	    *expand_var(char *arg, int *i, char *res, t_command *cmd_list);
+
+// void	    cmd_echo(t_command *cmd_list);
+// void	    cmd_echo_exec(t_command *cmd_list, int is_newline);
+// char	    *convert_to_string(t_command *cmd_list, int is_newline);
+// void	    put_variable(int i, t_command *cmd_list, char **orig_str);
+// int		    dollar_sign(char *str);
 
 /* builtins.c */
 int		    builtin(t_command *cmd_list);

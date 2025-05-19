@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/17 15:21:47 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/19 20:04:11 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void is_external(t_data *data, t_command *cmd_list)
 		free(result);
 	}
     else
-	{
 		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
-		exit(1);
-	}
 }
 
 char	*find_command_in_path(char	*cmd)
