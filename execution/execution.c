@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/19 20:04:11 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/20 17:36:54 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void    execution(t_data *data)
 
 int is_builtin(t_command *cmd_list)
 {
+	if (cmd_list->args == NULL || !cmd_list->args)
+	{
+		printf("exec!!!!!!!!!!!!!!");
+		return (0);
+	}
     if (ft_strcmp("echo", cmd_list->args[0]) == 0)
 		return (1);
     else if (ft_strcmp("cd", cmd_list->args[0]) == 0)
@@ -53,16 +58,16 @@ void is_external(t_data *data, t_command *cmd_list)
 	char	*result;
 
 	result = NULL;
-    if (ft_strchr(cmd_list->args[0], '/'))
+    if (ft_strchr(cmd_list->args[0], '/') != NULL)
     {
         if (access(cmd_list->args[0], X_OK) == 0)
-            printf("found in path /"); // fork and exec
+		{
+			execute_command(cmd_list->args[0], cmd_list->args, data->env);
+			return ;
+		}
     } 
     else
-    {
-        // search cmd in each $PATH entry:
 		result = find_command_in_path(cmd_list->args[0]);
-    }
     if (result)
 	{
 		execute_command(result, cmd_list->args, data->env);
@@ -147,6 +152,5 @@ int	execute_command(char *full_path, char **args, char **env)
         // if (WIFEXITED(status)) 
         //     printf("Child process exited with status %d\n", WEXITSTATUS(status));
     }
-
     return 0;
 }

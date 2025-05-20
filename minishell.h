@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/19 20:49:45 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/20 17:46:00 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	    free_2d_array(char **arr);
 
 /* minishell.c */
 void	    print_linked_list(t_command *cmd_list); // for printing purposes
+int			only_spaces(const char *s);
 
 /* PARSING ____________________________________________________*/
 /* quotes_check.c */

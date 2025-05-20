@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/19 20:51:21 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/20 17:46:26 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		data.input = readline("\033[32mminishell$ \033[0m");
-		if (data.input)
+		if (*data.input == '\0' || only_spaces(data.input))
+			continue ;
+		else if (data.input)
 			add_history(data.input);
 		if (!(check_for_quotes(&data)))
 		{
@@ -71,4 +73,19 @@ int main(int argc, char **argv, char **envp)
 		set_data_to_default(&data);
 	}
     return (0);
+}
+
+int	only_spaces(const char *s)
+{
+	char	*str;
+
+	str = (char *)s;
+	while (*str)
+	{
+		if (*str == ' ')
+			str++;
+		else
+			return(0);
+	}
+	return (1);
 }
