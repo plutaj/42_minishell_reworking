@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
+#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/05/18 16:09:43 by jozefpluta       ###   ########.fr        #
+#    Updated: 2025/05/19 12:53:53 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ builtins/echo.c \
 builtins/builtins.c \
 builtins/pwd.c \
 builtins/cd.c \
+pipes/piping.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/20 17:46:00 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/22 11:59:16 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	    free_2d_array(char **arr);
 
 /* minishell.c */
 void	    print_linked_list(t_command *cmd_list); // for printing purposes
-int			only_spaces(const char *s);
 
 /* PARSING ____________________________________________________*/
 /* quotes_check.c */
@@ -105,24 +104,17 @@ void        is_external(t_data *data, t_command *cmd_list);
 char		*find_command_in_path(char	*cmd);
 char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
+void	    executepipecmds(t_data *data);
+void	    execute_child_process(t_data *data, t_command *cmd);
+int	    setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
 
 /* BUILTINS ___________________________________________________*/
 /* echo.c */
-char	    *expand_variables(char *str, char **envp);
-char	    *process_arg(char *arg, t_command *cmd_list);
-char	    *convert_to_string(t_command *cmd_list, int start);
-void	    cmd_echo_exec(t_command *cmd_list, int start, int is_newline);
-int	        all_n_flag(char *arg);
 void	    cmd_echo(t_command *cmd_list);
-char        *get_env_value(char *key, char **envp);
-char	    *append_char(char *res, char c);
-char	    *expand_var(char *arg, int *i, char *res, t_command *cmd_list);
-
-// void	    cmd_echo(t_command *cmd_list);
-// void	    cmd_echo_exec(t_command *cmd_list, int is_newline);
-// char	    *convert_to_string(t_command *cmd_list, int is_newline);
-// void	    put_variable(int i, t_command *cmd_list, char **orig_str);
-// int		    dollar_sign(char *str);
+void	    cmd_echo_exec(t_command *cmd_list, int is_newline);
+char	    *convert_to_string(t_command *cmd_list, int is_newline);
+void	    put_variable(int i, t_command *cmd_list, char **orig_str);
+int		    dollar_sign(char *str);
 
 /* builtins.c */
 int		    builtin(t_command *cmd_list);

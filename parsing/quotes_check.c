@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:46:18 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/11 15:11:43 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/22 10:29:45 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	check_for_quotes(t_data *data)
 	i = 0;
 	in_single = 0;
 	in_double = 0;
+	if (data == NULL || data->input == NULL) return (1); // edited
 	while (data->input[i])
 	{
 		if (data->input[i] == '\'' && !in_single && !in_double)

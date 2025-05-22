@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/20 17:46:26 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/05/22 10:19:55 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,10 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data, envp);
 	while (1)
 	{
-		data.input = readline("\033[32mminishell$ \033[0m");
-		if (*data.input == '\0' || only_spaces(data.input))
-			continue ;
-		else if (data.input)
-			add_history(data.input);
+		data.input = readline("minishell$ ");
+		if (!data.input) // edited
+			return (0); // edited
+		add_history(data.input); //edited
 		if (!(check_for_quotes(&data)))
 		{
 			printf("Wrong number of quotes\n");
@@ -73,19 +72,4 @@ int main(int argc, char **argv, char **envp)
 		set_data_to_default(&data);
 	}
     return (0);
-}
-
-int	only_spaces(const char *s)
-{
-	char	*str;
-
-	str = (char *)s;
-	while (*str)
-	{
-		if (*str == ' ')
-			str++;
-		else
-			return(0);
-	}
-	return (1);
 }
