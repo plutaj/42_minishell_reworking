@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/22 11:59:16 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:54:46 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	    print_linked_list(t_command *cmd_list); // for printing purposes
 /* PARSING ____________________________________________________*/
 /* quotes_check.c */
 int		    check_for_quotes(t_data *data);
+int			only_spaces(const char *s);
 
 /* create_redir_list.c */
 int         check_for_redir(char *arg);

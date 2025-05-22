@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/22 12:14:01 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:50:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void    execution(t_data *data)
 
 int is_builtin(t_command *cmd_list)
 {
-    if (cmd_list == NULL) return (0);
-    if (cmd_list->args == NULL) return 0;
-    if (cmd_list->args[0] == NULL) return (0);
+    if (cmd_list == NULL || cmd_list->args == NULL 
+                || cmd_list->args[0] == NULL) return (0);
     if (ft_strcmp("echo", cmd_list->args[0]) == 0)
 		return (1);
     else if (ft_strcmp("cd", cmd_list->args[0]) == 0)
@@ -57,23 +56,20 @@ void is_external(t_data *data, t_command *cmd_list)
     if (ft_strchr(cmd_list->args[0], '/'))
     {
         if (access(cmd_list->args[0], X_OK) == 0)
-            printf("found in path /"); // fork and exec
+        {
+            execute_command(cmd_list->args[0], cmd_list->args, data->env);
+            return ;
+        }
     } 
     else
-    {
-        // search cmd in each $PATH entry:
 		result = find_command_in_path(cmd_list->args[0]);
-    }
     if (result)
 	{
 		execute_command(result, cmd_list->args, data->env);
 		free(result);
 	}
     else
-	{
 		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
-		exit(1);
-	}
 }
 
 char	*find_command_in_path(char	*cmd)
