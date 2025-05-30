@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/05/22 12:12:38 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:26:04 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void	executepipecmds(t_data *data)
 		{
 			if (prev_pipe_read != STDIN_FILENO)
 			{
-				if (dup2(prev_pipe_read, STDIN_FILENO))
+				if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
                     printf("dup2");
 				close(prev_pipe_read);
 			}
@@ -220,19 +220,22 @@ void	executepipecmds(t_data *data)
 			cmd = cmd->next;
 			continue ;
 		}
-        if (cmd == NULL) cmd = cmd->next;
+        // if (cmd == NULL) cmd = cmd->next;
 		if (cmd->next && !is_builtin(cmd->next))
 			if (pipe(pipefd) == -1)
-				return (perror("pipe"), (void)0);
+				return (perror("pipe"));
 		pid = fork();
         // printf("this should print twice\n");
 		if (pid == -1)
-			return (perror("fork"), (void)0);
+			return (perror("fork"));
 		if (pid == 0)
 		{
 			if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
 				exit(1);
+            if (prev_pipe_read != STDIN_FILENO)
+                close(prev_pipe_read);
 			execute_child_process(data, cmd);
+            exit(0);
 		}
 		close(prev_pipe_read);
 		if (cmd->next && !is_builtin(cmd->next))
@@ -259,9 +262,9 @@ int setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 	{
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			return (perror("dup2"), -1);
-		close(pipefd[1]);
-		close(pipefd[0]);
-	}
+    }
+	close(pipefd[1]);
+	close(pipefd[0]);
     return (0);
 }
 

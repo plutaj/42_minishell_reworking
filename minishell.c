@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/22 18:55:24 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:28:41 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,13 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		data.input = readline("\033[32mminishell$ \033[0m");
+		if (data.input == NULL) {
+			printf("error here\n");
+			exit(0);
+		}
 		if (!*data.input || only_spaces(data.input)) // edited
 			continue ; // edited
-		else if (*data.input)
+		if (*data.input )
 			add_history(data.input); //edited
 		if (!(check_for_quotes(&data)))
 		{

@@ -6,7 +6,7 @@
 #    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/05/19 12:53:53 by huahmad          ###   ########.fr        #
+#    Updated: 2025/05/30 14:11:00 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(EXEC): $(OBJ)
 
 # Compile .c files into .o files
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c -g $< -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
