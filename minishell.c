@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:27 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/30 16:28:41 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:32:24 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int main(int argc, char **argv, char **envp)
 			printf("error here\n");
 			exit(0);
 		}
-		if (!*data.input || only_spaces(data.input)) // edited
-			continue ; // edited
+		if (!*data.input || only_spaces(data.input)) 
+			continue ; 
 		if (*data.input )
-			add_history(data.input); //edited
+			add_history(data.input); 
 		if (!(check_for_quotes(&data)))
 		{
 			printf("Wrong number of quotes\n");
