@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/30 14:11:02 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/05/31 14:27:51 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,14 @@ char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
 void	    executepipecmds(t_data *data);
 void	    execute_child_process(t_data *data, t_command *cmd);
-int	    setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
+int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
 
 /* BUILTINS ___________________________________________________*/
 /* echo.c */
 void	    cmd_echo(t_command *cmd_list);
 void	    cmd_echo_exec(t_command *cmd_list, int is_newline);
 char	    *convert_to_string(t_command *cmd_list, int is_newline);
-void	    put_variable(int i, t_command *cmd_list, char **orig_str);
+void		put_variable(int i, t_command *cmd_list, char **orig_str);
 int		    dollar_sign(char *str);
 
 /* builtins.c */

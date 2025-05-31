@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/17 19:02:05 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/05/31 14:40:44 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ char	*convert_to_string(t_command *cmd_list, int is_newline)
 {
 	char	*orig_str;
 	char	*temp;
+	char	*with_space;
 	int		i;
 
 	orig_str = NULL;
 	temp = NULL;
+	with_space = NULL;
 	if (is_newline)
 		i = 1;
 	else
@@ -52,10 +54,11 @@ char	*convert_to_string(t_command *cmd_list, int is_newline)
 			orig_str = ft_strdup(cmd_list->args[i]);
 		else
 		{
-			temp = ft_strjoin(orig_str, " ");
+			with_space = ft_strjoin(orig_str, " ");
 			free(orig_str);
-			orig_str = ft_strjoin(orig_str, cmd_list->args[i]);
-			free(temp);
+			temp = ft_strjoin(with_space, cmd_list->args[i]);
+			free(with_space);
+			orig_str = temp;
 		}
 		i++;
 	}
@@ -66,19 +69,22 @@ void	put_variable(int i, t_command *cmd_list, char **orig_str)
 {
 	char	*temp;
 	char	*str;
+	char	*with_space;
 
 	temp = NULL;
 	str = NULL;
+	with_space = NULL;
 	if ((str = is_env_var(cmd_list->args[i], cmd_list->data->env)) != NULL) // ! add to compare not only agains a env vars but also agains own variables
 	{
 		if (!*orig_str)
 			*orig_str = ft_strdup(str);
 		else
 		{
-			temp = ft_strjoin(*orig_str, " ");
+			with_space = ft_strjoin(*orig_str, " ");
 			free(*orig_str);
-			*orig_str = ft_strjoin(temp, str);
-			free(temp);
+			temp = ft_strjoin(with_space, str);
+			free(with_space);
+			*orig_str = temp;
 		}
 	}
 	// else if ()
@@ -91,7 +97,15 @@ void	put_variable(int i, t_command *cmd_list, char **orig_str)
 
 int	dollar_sign(char *str)
 {
-	if (*str == '$')
-		return (1);
+	int i = 0;
+
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '$')
+			return (1);
+		i++;
+	}
 	return (0);
 }
