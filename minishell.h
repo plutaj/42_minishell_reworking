@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/30 14:11:02 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:54:29 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
 int         starts_with_quote(const char *s);
 int         ends_with_quote(const char *s, char quote);
 
+/* create_command_list_utils.c */
+void		find_variables(t_command *new_cmd);
+void		expand_variables(char **str, t_data *data);
+char		*extract_var(char *str);
+
 /* EXECUTION ___________________________________________________*/
 /* execution.c */
 void        execution(t_data *data);
@@ -107,7 +112,7 @@ char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
 void	    executepipecmds(t_data *data);
 void	    execute_child_process(t_data *data, t_command *cmd);
-int	    setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
+int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
 
 /* BUILTINS ___________________________________________________*/
 /* echo.c */

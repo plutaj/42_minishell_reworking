@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/30 21:44:49 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:59:43 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	create_command_list(t_data *data)
 	t_command	*new_cmd;
 	t_command	*temp_cmd;
 
-	s = ft_split_quote_aware(data->input, '|'); // SAM IS GOD 
-	// s = ft_split(data->input, '|');
+	s = ft_split_quote_aware(data->input, '|');
 	i = 0;
 	while (s[i])
 	{
@@ -30,6 +29,7 @@ void	create_command_list(t_data *data)
 		new_cmd->data = data;
 		new_cmd->next = NULL;
 		new_cmd = split_args_and_redirs(new_cmd, s[i]);
+		find_variables(new_cmd);
 		if (!data->cmd_list)
 			data->cmd_list = new_cmd;
 		else

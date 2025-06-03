@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/29 18:35:33 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:52:13 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-////////////
 
 void	init_data(t_data *data, char **envp)
 {
