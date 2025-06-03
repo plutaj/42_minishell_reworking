@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/01 17:35:43 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/03 20:04:29 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,45 @@ void	find_variables(t_command *new_cmd)
 
 void	expand_variables(char **str, t_data *data)
 {
-	char	*ptr;
+	char	*ptr_to_env;
 	char	*var;
-	char	*new_str;
+	char	*start;
 	char	*temp;
 	int		i;
+	int		is_single_q;
 
 	i = 0;
-	while ((*str)[i])
+	is_single_q = 0;
+	while ((*str)[i] != '\0')
 	{
-		if ((*str)[i] == '$')
+		if ((*str)[i] == '\'')
 		{
-			new_str = ft_substr(*str, 0, i);
+			if (!is_single_q)
+				is_single_q = 1;
+			else
+				is_single_q = 0;
+		}
+		// if ((*str)[i] == '$') // "test $HOME test2"
+		if ((*str)[i] == '$' && !is_single_q) // "test $HOME test2"
+		{
+			start = ft_substr(*str, 0, i);
 			var = extract_var(&(*str)[i]);
-			ptr = is_env_var(var, data->env);
-			if (!ptr)
-				ptr = "";
-			temp = ft_strjoin(new_str, ptr);
-			free(new_str);
-			new_str = temp;
-			temp = ft_strjoin(new_str, ptr);
-			free(new_str);
-			new_str = temp;
+			ptr_to_env = is_env_var(var, data->env); // "/home/jozefpluta"
+			if (!ptr_to_env)
+				ptr_to_env = "";
+			temp = ft_strjoin(start, ptr_to_env); // "test /home/jozefpluta"
+			free(start);
+			if ((*str)[i + (ft_strlen(var))] != '\0')
+				start = ft_strdup(&(*str)[i + ft_strlen(var)]);
+			else
+				start = ft_strdup("");
 			free(*str);
-			*str = new_str;
-			i += ft_strlen(var);
+			*str = ft_strjoin(temp, start);
+			i = 0;
 			free(var);
+			if (start)
+				free(start);
+			free(temp);
 			continue ;
 		}
 		i++;
@@ -61,13 +74,17 @@ void	expand_variables(char **str, t_data *data)
 char	*extract_var(char *str)
 {
 	int		i;
+	char	*new_str;
 
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
 		if (str[i] == ' ' || str[i] == '$' || str[i] == '\'' || str[i] == '"' || str[i] == '\0')
 			break;
 		i++;
 	}
-	return ft_substr(str, 0, i);
+	new_str = ft_substr(str, 0, i);
+	printf("from extract var |%s|", new_str);
+	// return ft_substr(str, 0, i);
+	return (new_str);
 }
