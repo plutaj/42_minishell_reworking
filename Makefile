@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
+#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/01 16:40:57 by jpluta           ###   ########.fr        #
+#    Updated: 2025/06/03 13:07:13 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ builtins/builtins.c \
 builtins/pwd.c \
 builtins/cd.c \
 pipes/piping.c \
+pipes/redirections.c \
+execution/exbuil.c \
 
 OBJ = $(SRC:.c=.o)
 
