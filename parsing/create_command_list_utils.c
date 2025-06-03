@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/03 19:55:42 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/03 20:04:29 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,21 @@ void	expand_variables(char **str, t_data *data)
 	char	*start;
 	char	*temp;
 	int		i;
+	int		is_single_q;
 
 	i = 0;
+	is_single_q = 0;
 	while ((*str)[i] != '\0')
 	{
-		if ((*str)[i] == '$') // "test $HOME test2"
+		if ((*str)[i] == '\'')
+		{
+			if (!is_single_q)
+				is_single_q = 1;
+			else
+				is_single_q = 0;
+		}
+		// if ((*str)[i] == '$') // "test $HOME test2"
+		if ((*str)[i] == '$' && !is_single_q) // "test $HOME test2"
 		{
 			start = ft_substr(*str, 0, i);
 			var = extract_var(&(*str)[i]);
