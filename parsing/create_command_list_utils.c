@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/03 20:04:29 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/03 20:14:07 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,5 @@ char	*extract_var(char *str)
 		i++;
 	}
 	new_str = ft_substr(str, 0, i);
-	printf("from extract var |%s|", new_str);
-	// return ft_substr(str, 0, i);
 	return (new_str);
 }
