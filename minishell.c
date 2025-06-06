@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/03 20:13:33 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/06 19:12:07 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		create_command_list(&data);
 		create_redir_list(&data);
-		// print_linked_list(data.cmd_list);
+		print_linked_list(data.cmd_list);
 		execution(&data);
 		set_data_to_default(&data);
 	}
