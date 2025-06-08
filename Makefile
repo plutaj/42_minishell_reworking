@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
+#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/03 13:07:13 by huahmad          ###   ########.fr        #
+#    Updated: 2025/06/08 12:33:53 by jozefpluta       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ builtins/echo.c \
 builtins/builtins.c \
 builtins/pwd.c \
 builtins/cd.c \
+builtins/export.c \
+builtins/unset.c \
 pipes/piping.c \
 pipes/redirections.c \
 execution/exbuil.c \

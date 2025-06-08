@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/03 13:54:42 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/08 13:34:24 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	    set_data_to_default(t_data *data);
 /* env_var.c */
 char	    **copy_envp(char **envp);
 char		*is_env_var(char *input, char **envp);
-void	    update_env_var(char **envp, const char *key, const char *value);
+int 	    update_env_var(char **envp, const char *key, const char *value);
 void		strncpy_until_char(char *dest, const char *src, char stop_char);
 void        print_env(char **env);
 
@@ -122,6 +122,12 @@ char	    *convert_to_string(t_command *cmd_list, int is_newline);
 void	    put_variable(int i, t_command *cmd_list, char **orig_str);
 int		    dollar_sign(char *str);
 
+/* export.c */
+void        cmd_export(t_data *data);
+void        create_env_var(t_data *data, char *var);
+char	    *extract_var_value(char *str);
+int         is_valid_syntax(char *str);
+
 /* builtins.c */
 int		    builtin(t_command *cmd_list);
 int         builtin2(t_command *cmd_list);
@@ -136,3 +142,6 @@ int         list_directory_contents(char *str, const char *path);
 int         count_slash(char *str);
 void	    cmd_cd_dir(t_data *data);
 
+/* unset.c */
+
+void        cmd_unset(t_data *data);
