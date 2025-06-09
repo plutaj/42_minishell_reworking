@@ -1,5 +1,8 @@
-apple banana
-orange
-grapefruit 
-figs
-lemons and limes 
+Apple
+Banana
+Mango
+Orange
+Pineapple
+Strawberry
+Kiwi
+ 

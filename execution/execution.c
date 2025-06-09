@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/03 13:13:35 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/09 15:57:45 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 void    execution(t_data *data)
 {
-    int         orig_stdin;
+    int         from;
+    int         to;
     
     // One command case (0 pipes)
+    from = redirectinp(data);
+    to = redirectout(data);
+    if (from == -1) exit(0);
     if (!data->cmd_list->next)
     {
         if (is_builtin(data->cmd_list))
@@ -24,15 +28,14 @@ void    execution(t_data *data)
 		else
 			is_external(data, data->cmd_list); 
     }
-	// More command case (with pipes)
 	else
-    {
-        orig_stdin = dup(STDIN_FILENO);
-        if (orig_stdin == -1) exit(EXIT_FAILURE);
         executepipecmds(data);
-        if (dup2(orig_stdin, STDIN_FILENO) == -1) exit(EXIT_FAILURE);
-        close(orig_stdin);
-    }
+    if (dup2(from, STDIN_FILENO) == -1)
+        perror("restore stdin");
+    close(from);
+    if (dup2(to, STDOUT_FILENO) == -1)
+        perror("restore stdout");
+    close(to);
 }
 
 char	*find_command_in_path(char	*cmd)
