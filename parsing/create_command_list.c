@@ -3,10 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/07 15:44:58 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +96,6 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 		// Add character to buffer
 		buffer[buf_i++] = s[i++];
 	}
-
-	// If anything remains in buffer, save it as the last argument
 	if (buf_i > 0)
 	{
 		buffer[buf_i] = '\0';

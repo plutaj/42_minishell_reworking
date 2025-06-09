@@ -3,10 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/08 10:35:41 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +31,17 @@ void	print_linked_list(t_command *cmd_list)
 		printf("\n");
 		if (cmd_list->redir != NULL)
 			printf("\nList of redirections:");
+		if (!cmd_list->redir)
+    	{
+        	fprintf(stderr, "data->cmd_list->redir is NULL\n");
+        	// return -1;
+    	}
 		while (cmd_list->redir)
 		{
 			printf("\nTYPE %u\n%s", cmd_list->redir->type, cmd_list->redir->file_or_limiter);
 			cmd_list->redir = cmd_list->redir->next;
 		}
+		
 		printf("\n");
 		printf("\n");
 		i = 0;
@@ -58,7 +63,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		data.input = readline("\033[32mminishell$ \033[0m");
 		if (data.input == NULL) {
-			printf("error here\n");
+			printf("error input\n");
 			exit(0);
 		}
 		if (!*data.input || only_spaces(data.input)) 
@@ -93,3 +98,5 @@ int	only_spaces(const char *s)
 	}
 	return (1);
 }
+
+// sort < fruits.txt

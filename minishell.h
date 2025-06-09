@@ -6,7 +6,6 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/08 13:34:24 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +18,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft/libft.h"
+#include <fcntl.h>
+
 
 typedef struct s_data			t_data;
 typedef struct s_command		t_command;
@@ -90,6 +91,8 @@ int			only_spaces(const char *s);
 int         check_for_redir(char *arg);
 void	    create_redir_list(t_data *data);
 void		add_redir_node(char **args, t_command *cmd_list);
+int         redirectinp(t_data *data);
+int         redirectout(t_data *data);
 
 /* create_command_list.c */
 void	    create_command_list(t_data *data);
