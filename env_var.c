@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/18 16:54:58 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/08 11:04:39 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char **copy_envp(char **envp)
     return env;
 }
 
-void	update_env_var(char **envp, const char *key, const char *value)
+int	update_env_var(char **envp, const char *key, const char *value)
 {
 	int     i;
 	int     key_len;
@@ -63,10 +63,11 @@ void	update_env_var(char **envp, const char *key, const char *value)
 			free(envp[i]); // free old "KEY=VALUE"
 			new_entry = ft_strjoin3(key, "=", value); // custom function to join 3 strings
 			envp[i] = new_entry;
-			return;
+			return (1);
 		}
 		i++;
 	}
+    return (0);
 }
 
 // Function to extract the value of an environment variable from the input

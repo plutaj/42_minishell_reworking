@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/03 13:07:58 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:48:12 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	is_builtin(t_command *cmd_list)
 	else if (ft_strcmp("env", cmd_list->args[0]) == 0)
 		return (1);
 	else if (ft_strcmp("exit", cmd_list->args[0]) == 0)
+		return (1);
+	else if (ft_strcmp("export", cmd_list->args[0]) == 0)
 		return (1);
 	return (0);
 }
