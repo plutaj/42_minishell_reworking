@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
+/*   Updated: 2025/06/13 18:44:11 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +29,7 @@ void	create_command_list(t_data *data)
 		new_cmd->data = data;
 		new_cmd->next = NULL;
 		new_cmd = split_args_and_redirs(new_cmd, s[i]);
-		print_linked_list(data->cmd_list); // there
+		// print_linked_list(data->cmd_list); // there
 		find_variables(new_cmd);
 		if (!data->cmd_list)
 			data->cmd_list = new_cmd;
