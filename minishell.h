@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
+/*   Updated: 2025/06/13 18:10:47 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <dirent.h>
@@ -81,6 +82,8 @@ void	    free_2d_array(char **arr);
 
 /* minishell.c */
 void	    print_linked_list(t_command *cmd_list); // for printing purposes
+void		sigint_handler(int signo);
+int			only_spaces(const char *s);
 
 /* PARSING ____________________________________________________*/
 /* quotes_check.c */

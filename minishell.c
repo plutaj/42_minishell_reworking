@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
+/*   Updated: 2025/06/13 18:20:06 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int g_last_exit_status;
 /* printing purposes */
 void	print_linked_list(t_command *cmd_list)
 {	
@@ -56,14 +58,18 @@ int main(int argc, char **argv, char **envp)
 	
 	(void)argc;
 	(void)argv;
+	g_last_exit_status = 0;
 	if (argc != 1)
 		return (printf("Error: Unexpected input.\n"));
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
 	init_data(&data, envp);
 	while (1)
 	{
 		data.input = readline("\033[32mminishell$ \033[0m");
 		if (data.input == NULL) {
-			printf("error input\n");
+			printf("exit\n");
+			set_data_to_default(&data);
 			exit(0);
 		}
 		if (!*data.input || only_spaces(data.input)) 
@@ -82,6 +88,17 @@ int main(int argc, char **argv, char **envp)
 		set_data_to_default(&data);
 	}
     return (0);
+}
+
+void sigint_handler(int signo)
+{
+    // Write newline and redisplay prompt
+    // This prevents readline from breaking the shell
+	(void)signo;
+    write(1, "\n", 1);
+    rl_on_new_line();  // Tell readline a new line is starting
+    rl_replace_line("", 0);  // Clear the current input line
+    rl_redisplay();  // Redisplay prompt
 }
 
 int	only_spaces(const char *s)
