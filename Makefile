@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
+#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/08 12:33:53 by jozefpluta       ###   ########.fr        #
+#    Updated: 2025/06/13 18:39:30 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ data_init.c \
 env_var.c \
 free_functions.c \
 minishell.c \
+minishell_utils.c \
 parsing/quotes_check.c \
 parsing/create_redir_list.c \
 parsing/create_command_list.c \
