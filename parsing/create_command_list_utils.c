@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/07 15:52:46 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/14 15:40:33 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	expand_variables(char **str, t_data *data)
 			else
 				is_single_q = 0;
 		}
-		// if ((*str)[i] == '$') // "test $HOME test2"
-		if ((*str)[i] == '$' && !is_single_q) // "test $HOME test2"
+		if ((*str)[i] == '$' && !is_single_q)
 		{
+			// printf("%s\n", str[i]);
 			start = ft_substr(*str, 0, i);
 			var = extract_var(&(*str)[i]);
 			if (var[1] == '\0')
@@ -58,17 +58,22 @@ void	expand_variables(char **str, t_data *data)
 				i++;
 				continue ;
 			}
-			ptr_to_env = is_env_var(var, data->env); // "/home/jozefpluta"
-			// if (!ptr_to_env)      // original code 
-			// 	ptr_to_env = "";     // original code
-			if (!ptr_to_env)
-				ptr_to_env = var;
-			temp = ft_strjoin(start, ptr_to_env); // "test /home/jozefpluta"
+			if (var[1] == '?')
+				ptr_to_env = ft_strdup(ft_itoa(g_exit_status));
+			else
+			{
+				ptr_to_env = is_env_var(var, data->env);
+				if (!ptr_to_env)
+					ptr_to_env = var;
+			}
+			temp = ft_strjoin(start, ptr_to_env);
 			free(start);
 			if ((*str)[i + (ft_strlen(var))] != '\0')
 				start = ft_strdup(&(*str)[i + ft_strlen(var)]);
 			else
 				start = ft_strdup("");
+			if (var[1] == '?')
+				free(ptr_to_env);
 			free(*str);
 			*str = ft_strjoin(temp, start);
 			i = 0;
@@ -88,6 +93,11 @@ char	*extract_var(char *str)
 	char	*new_str;
 
 	i = 1;
+	if (str[i] == '?')
+	{
+		new_str = ft_substr(str, 0, 2);
+		return (new_str);
+	}
 	while (str[i])
 	{
 		if (str[i] == ' ' || str[i] == '$' || str[i] == '\'' || str[i] == '"' || str[i] == '\0')

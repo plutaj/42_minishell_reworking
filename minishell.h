@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/13 18:42:38 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:41:45 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_command		t_command;
 typedef struct s_redir      	t_redir;
 typedef enum e_redir_type		t_redir_type;
 
+int		g_exit_status;
 /* --- tokens --- */
 typedef enum e_redir_type
 {
@@ -81,7 +82,7 @@ void        print_env(char **env);
 void	    free_2d_array(char **arr);
 
 /* minishell_utils.c */
-// void	    print_linked_list(t_command *cmd_list); // for printing purposes
+void	    print_linked_list(t_command *cmd_list); // for printing purposes
 void		sigint_handler(int signo);
 int			only_spaces(const char *s);
 
