@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/09 15:57:45 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:08:37 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void    execution(t_data *data)
     int         from;
     int         to;
     
-    // One command case (0 pipes)
     from = redirectinp(data);
     to = redirectout(data);
-    if (from == -1) exit(0);
+    if (from == -1) 
+        exit(0);
     if (!data->cmd_list->next)
     {
         if (is_builtin(data->cmd_list))
@@ -88,7 +88,9 @@ char	*concatenate_paths(char *dir, char *cmd)
 int	execute_command(char *full_path, char **args, char **env)
 {
     pid_t	pid;
-	
+	int		status;
+    int     sig;
+
 	pid = fork();  // Create a new process
     if (pid == -1)
 	{
@@ -103,16 +105,54 @@ int	execute_command(char *full_path, char **args, char **env)
         if (execve(full_path, args, env) == -1)
 		{
             perror("execve");
-            exit(1);  // If execve fails, exit child process
+            exit(127);  // If execve fails, exit child process
         }
     } 
 	else
-	{  // Parent process
-        int status;
-        waitpid(pid, &status, 0);  // Wait for the child process to finish
-        // if (WIFEXITED(status)) 
-        //     printf("Child process exited with status %d\n", WEXITSTATUS(status));
+	{
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            g_exit_status = WEXITSTATUS(status);  // Normal exit
+        else if (WIFSIGNALED(status))
+        {
+            sig = WTERMSIG(status);
+            if (sig == SIGQUIT)
+                write(2, "Quit (core dumped)\n", 20);
+            else if (sig == SIGINT)
+                write(1, "\n", 1);
+            g_exit_status = 128 + sig;  // Exit code from signal
+        }
     }
-
     return 0;
 }
+
+// int	execute_command(char *full_path, char **args, char **env)
+// {
+//     pid_t	pid;
+	
+// 	pid = fork();  // Create a new process
+//     if (pid == -1)
+// 	{
+//         // If fork fails, handle error
+//         perror("fork");
+//         return -1;
+//     }
+
+//     if (pid == 0)
+// 	{  // Child process
+//         // In the child process, execute the command
+//         if (execve(full_path, args, env) == -1)
+// 		{
+//             perror("execve");
+//             exit(127);  // If execve fails, exit child process
+//         }
+//     } 
+// 	else
+// 	{  // Parent process
+//         int status;
+//         waitpid(pid, &status, 0);  // Wait for the child process to finish
+//         // if (WIFEXITED(status)) 
+//         //     printf("Child process exited with status %d\n", WEXITSTATUS(status));
+//     }
+//     return 0;
+// }
