@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/14 16:08:37 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/16 18:52:00 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	execute_command(char *full_path, char **args, char **env)
 	{
         waitpid(pid, &status, 0);
         if (WIFEXITED(status))
-            g_exit_status = WEXITSTATUS(status);  // Normal exit
+            g_last_exit_status = WEXITSTATUS(status);  // Normal exit
         else if (WIFSIGNALED(status))
         {
             sig = WTERMSIG(status);
@@ -120,7 +120,7 @@ int	execute_command(char *full_path, char **args, char **env)
                 write(2, "Quit (core dumped)\n", 20);
             else if (sig == SIGINT)
                 write(1, "\n", 1);
-            g_exit_status = 128 + sig;  // Exit code from signal
+            g_last_exit_status = 128 + sig;  // Exit code from signal
         }
     }
     return 0;
