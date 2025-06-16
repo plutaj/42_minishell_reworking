@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/14 15:40:33 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/16 19:14:05 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	expand_variables(char **str, t_data *data)
 				continue ;
 			}
 			if (var[1] == '?')
-				ptr_to_env = ft_strdup(ft_itoa(g_exit_status));
+				ptr_to_env = ft_strdup(ft_itoa(g_last_exit_status));
 			else
 			{
 				ptr_to_env = is_env_var(var, data->env);

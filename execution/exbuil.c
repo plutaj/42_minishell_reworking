@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/14 16:14:27 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/16 18:52:08 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	is_external(t_data *data, t_command *cmd_list)
 	else
 	{
 		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
-		g_exit_status = 127;
+		g_last_exit_status = 127;
 	}
 }

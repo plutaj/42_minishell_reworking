@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/14 15:41:45 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/16 18:49:42 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_command		t_command;
 typedef struct s_redir      	t_redir;
 typedef enum e_redir_type		t_redir_type;
 
-int		g_exit_status;
+extern int		g_last_exit_status;
 /* --- tokens --- */
 typedef enum e_redir_type
 {
@@ -138,6 +138,7 @@ int         is_valid_syntax(char *str);
 /* builtins/builtins.c */
 int		    builtin(t_command *cmd_list);
 int         builtin2(t_command *cmd_list);
+void		exit_f(t_command *cmd_list);
 
 /* builtins/pwd.c */
 void        cmd_pwd(t_data *data);
