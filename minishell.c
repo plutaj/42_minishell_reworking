@@ -6,13 +6,13 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/13 18:39:14 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/16 16:19:52 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_last_exit_status;
+int		g_last_exit_status = 0;
 
 // void	print_linked_list(t_command *cmd_list)
 // {

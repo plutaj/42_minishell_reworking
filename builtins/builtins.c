@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:18:19 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/08 13:11:28 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/16 16:43:56 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int builtin(t_command *cmd_list)
 {
     if (ft_strcmp("echo", cmd_list->args[0]) == 0)
 	{
+		if (cmd_list->args[1] == NULL)
+		{
+			printf("\n");
+			return (1);
+		}
 		cmd_echo(cmd_list);
 		return (1);
 	}
@@ -54,9 +59,83 @@ int builtin2(t_command *cmd_list)
     }
     else if (ft_strcmp("exit", cmd_list->args[0]) == 0)
     {
-        free_2d_array(cmd_list->data->env);
-        set_data_to_default(cmd_list->data);
-        exit(0);
+        exit_f(cmd_list);
     }
     return (0);
 }
+
+void	exit_f(t_command *cmd_list)
+{
+	int		i = 0;
+	char	*arg = cmd_list->args[1];
+
+	if (cmd_list->args[2])
+	{
+		printf("minishell$: exit: too many arguments\n");
+		g_last_exit_status = 1;
+		free_2d_array(cmd_list->data->env);
+    	set_data_to_default(cmd_list->data);
+		return;
+	}
+	else if (arg)
+	{
+		if ((arg[0] == '-' || arg[0] == '+') && arg[1] != '\0')
+			i = 1;
+		while (arg[i])
+		{
+			if (!ft_isdigit(arg[i]))
+			{
+				printf("minishell: exit: %s: numeric argument required\n", arg);
+				g_last_exit_status = 2;
+				free_2d_array(cmd_list->data->env);
+				set_data_to_default(cmd_list->data);
+				exit(g_last_exit_status);
+			}
+			i++;
+		}
+		g_last_exit_status = atoi(arg);
+	}
+	else
+		g_last_exit_status = 0;
+
+	free_2d_array(cmd_list->data->env);
+	set_data_to_default(cmd_list->data);
+	exit(g_last_exit_status);
+}
+
+// void	exit_f(t_command *cmd_list)
+// {
+// 	int		i;
+// 	char	*arg;
+
+// 	arg = cmd_list->args[1];
+// 	if (cmd_list->args[2])
+// 	{
+// 		printf("minishell$: exit: too many arguments\n");
+// 		g_last_exit_status = 1;
+// 		free_2d_array(cmd_list->data->env);
+//     	set_data_to_default(cmd_list->data);
+// 		return ;
+// 	}
+// 	else if(cmd_list->args[1])
+//     {
+//         i = 0;
+//         while (cmd_list->args[1][i])
+//         {
+//             if (!ft_isdigit(cmd_list->args[1][i]) && !(i == 0 && cmd_list->args[1][i] == '-'))
+//             {
+//                 printf("minishell: exit: %s: numeric argument required\n", cmd_list->args[1]);
+//                 g_last_exit_status = 255;
+//                 break;
+//             }
+//             i++;
+//         }
+//         if (g_last_exit_status != 255)
+//             g_last_exit_status = atoi(cmd_list->args[1]);
+//     }
+//     else
+//         g_last_exit_status = 0;
+//     free_2d_array(cmd_list->data->env);
+//     set_data_to_default(cmd_list->data);
+//     exit(g_last_exit_status);
+// }
