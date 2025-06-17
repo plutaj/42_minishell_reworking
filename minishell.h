@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/16 18:49:42 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/17 18:09:26 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void        cmd_export(t_data *data);
 void        create_env_var(t_data *data, char *var);
 char	    *extract_var_value(char *str);
 int         is_valid_syntax(char *str);
+void		print_exported_env(char **env);
 
 /* builtins/builtins.c */
 int		    builtin(t_command *cmd_list);

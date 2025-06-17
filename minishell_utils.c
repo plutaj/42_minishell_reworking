@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/16 19:15:12 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/17 16:35:29 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	sigint_handler(int signo)
 {
 	(void)signo;
 	write(1, "\n", 1);
+	g_last_exit_status = 130;
 	rl_on_new_line();
-	// rl_replace_line("", 0);    // couldnt compile on mac, uncomment before eval
+	rl_replace_line("", 0);    // couldnt compile on mac, uncomment before eval
 	rl_redisplay();
 }
 

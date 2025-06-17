@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:18:19 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/16 18:48:05 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/17 17:22:42 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,17 @@ int builtin2(t_command *cmd_list)
     }
     else if (ft_strcmp("env", cmd_list->args[0]) == 0)
     {
-        print_env(cmd_list->data->env);
-        return (1);
+		if (cmd_list->args[1] != NULL)
+		{
+			printf("minishell: env: Arguments and options aren't supported\n");
+			g_last_exit_status = 127;
+			return (1);
+		}
+		else
+		{
+			print_env(cmd_list->data->env);
+			return (1);
+		}
     }
     else if (ft_strcmp("exit", cmd_list->args[0]) == 0)
         exit_f(cmd_list);
