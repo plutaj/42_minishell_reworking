@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/16 18:52:00 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/17 17:41:46 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	execute_command(char *full_path, char **args, char **env)
     if (pid == 0)
 	{  // Child process
         // In the child process, execute the command
+		signal(SIGINT, SIG_DFL); // added this 5
+        signal(SIGQUIT, SIG_DFL); //added this 5
         if (execve(full_path, args, env) == -1)
 		{
             perror("execve");
@@ -110,7 +112,9 @@ int	execute_command(char *full_path, char **args, char **env)
     } 
 	else
 	{
+		signal(SIGINT, SIG_IGN); // added this 5
         waitpid(pid, &status, 0);
+		signal(SIGINT, sigint_handler); // added this 5
         if (WIFEXITED(status))
             g_last_exit_status = WEXITSTATUS(status);  // Normal exit
         else if (WIFSIGNALED(status))

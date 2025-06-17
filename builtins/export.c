@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/08 12:22:16 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/17 18:19:41 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ void    cmd_export(t_data *data)
 
     var_name = data->cmd_list->args[1];
     var_value = extract_var_value(data->cmd_list->args[1]);
-    if (update_env_var(data->env, var_name, var_value)) // case that is already exist in env var
+	if (!var_name) // case export without param (should print all exported env vars)
+	{	
+		print_exported_env(data->env);
+		return ;
+	}
+    else if (update_env_var(data->env, var_name, var_value)) // case that is already exist in env var
         return ;
     else
     {
@@ -84,6 +89,8 @@ char	*extract_var_value(char *str)
 	char	*new_str;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '=' || str[i] == '\0')
@@ -95,4 +102,29 @@ char	*extract_var_value(char *str)
     i++;
 	new_str = ft_substr(str, i, ft_strlen(str) - i);
 	return (new_str);
+}
+
+void	print_exported_env(char **env)
+{
+    int i = 0;
+    char *eq_pos;
+
+    while (env[i])
+    {
+        eq_pos = ft_strchr(env[i], '=');
+        if (eq_pos)
+        {
+            // Print as: declare -x VAR="value"
+            printf("declare -x %.*s=\"%s\"\n",
+                   (int)(eq_pos - env[i]),  // length of variable name
+                   env[i],                  // start of string
+                   eq_pos + 1);             // value part (after '=')
+        }
+        else
+        {
+            // Variable without '=' (no value)
+            printf("declare -x %s\n", env[i]);
+        }
+        i++;
+    }
 }
