@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/08 11:04:39 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/19 16:02:49 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,58 @@ char **copy_envp(char **envp)
 
 int	update_env_var(char **envp, const char *key, const char *value)
 {
-	int     i;
-	int     key_len;
-	char    *new_entry;
+	int		i;
+	int		key_len;
+	int		current_key_len;
+	char	*equal_sign;
+	char	*new_entry;
 
 	i = 0;
 	key_len = ft_strlen(key);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
+		equal_sign = ft_strchr(envp[i], '=');
+		if (equal_sign)
 		{
-			free(envp[i]); // free old "KEY=VALUE"
-			new_entry = ft_strjoin3(key, "=", value); // custom function to join 3 strings
-			envp[i] = new_entry;
-			return (1);
+			current_key_len = equal_sign - envp[i];
+			if (current_key_len == key_len
+				&& ft_strncmp(envp[i], key, key_len) == 0)
+			{
+				free(envp[i]);
+				new_entry = ft_strjoin3(key, "=", value);
+				if (!new_entry)
+					return (0);
+				envp[i] = new_entry;
+				return (1);
+			}
 		}
 		i++;
 	}
-    return (0);
+	return (0);
 }
+
+// int	update_env_var(char **envp, const char *key, const char *value)
+// {
+// 	int     i;
+// 	int     key_len;
+// 	char    *new_entry;
+
+// 	i = 0;
+// 	key_len = ft_strlen(key);
+// 	printf("EXECUTED___________________________________");
+// 	while (envp[i])
+// 	{
+// 		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
+// 		{
+// 			free(envp[i]); // free old "KEY=VALUE"
+// 			new_entry = ft_strjoin3(key, "=", value); // custom function to join 3 strings
+// 			envp[i] = new_entry;
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+//     return (0);
+// }
 
 // Function to extract the value of an environment variable from the input
 char *is_env_var(char *arg, char **envp)

@@ -24,6 +24,7 @@ SOURCES = \
 	ft_atoi.c \
 	ft_calloc.c \
 	ft_strdup.c \
+	ft_index_of_pointer.c \
 	ft_putchar_fd.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \

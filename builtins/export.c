@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/17 18:19:41 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/19 16:41:43 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,34 @@ void    cmd_export(t_data *data)
 {
     char    *var_name;
     char    *var_value;
+	char	*equal_sign;
 
-    var_name = data->cmd_list->args[1];
+    equal_sign = ft_strchr(data->cmd_list->args[1], '=');
+	if (equal_sign)
+		var_name = ft_substr(data->cmd_list->args[1], 0,
+				ft_index_of_pointer(data->cmd_list->args[1], equal_sign));
+	else
+		var_name = ft_strdup(data->cmd_list->args[1]);
     var_value = extract_var_value(data->cmd_list->args[1]);
 	if (!var_name) // case export without param (should print all exported env vars)
-	{	
+	{
 		print_exported_env(data->env);
-		return ;
+		g_last_exit_status = 0;
 	}
     else if (update_env_var(data->env, var_name, var_value)) // case that is already exist in env var
-        return ;
+    	g_last_exit_status = 0;
     else
     {
         if (is_valid_syntax(data->cmd_list->args[1]))
+		{
             create_env_var(data, data->cmd_list->args[1]);
+			g_last_exit_status = 0;
+		}
         else
-            printf("export: '%s': not a valid identifier", data->cmd_list->args[1]);
+		{
+            printf("minishell: export: '%s': not a valid identifier", data->cmd_list->args[1]);
+			g_last_exit_status = 1;
+		}
     }
     free(var_value);
 }

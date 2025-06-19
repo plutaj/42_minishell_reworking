@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:33:37 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/08 13:39:36 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/19 16:32:55 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	cmd_unset(t_data *data)
 	char	**new_env;
 	char	*key;
 
+	if (data->cmd_list->args[2])
+		return (unset_invalid_num_args());
 	if (!data || !data->env || !data->cmd_list
 		|| !data->cmd_list->args || !data->cmd_list->args[1])
 		return ;
@@ -44,9 +46,15 @@ void	cmd_unset(t_data *data)
 	}
 	new_env[j] = NULL;
 	free_2d_array(data->env);
+	g_last_exit_status = 0;
 	data->env = new_env;
 }
 
+void	unset_invalid_num_args()
+{
+	printf("minishell: unset: options aren't supported\n");
+	g_last_exit_status = 1;
+}
 
 // void    cmd_unset(t_data *data)
 // {
