@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/14 16:13:09 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/19 17:02:07 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ void	get_path(t_data *data)
     if (cwd == NULL)
 	{
 		perror("getcwd() error");
+		g_last_exit_status = 1;
 		exit(1);
 	}
 	// if (data->current_path)
 	// 	free(data->current_path);
 	data->current_path = ft_strdup(cwd);
 	update_env_var(data->env, "PWD", cwd);
+	g_last_exit_status = 0;
 }
 
 void	set_data_to_default(t_data *data)

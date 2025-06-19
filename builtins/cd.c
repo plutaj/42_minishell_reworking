@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/05/19 21:03:25 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/19 16:44:57 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void cmd_cd(t_data *data)
 	char *new_path;
 	
 	// case "cd"
-	if (!data->cmd_list->args[1])
+	if (data->cmd_list->args[2])
+	{
+		printf("minishell: cd: too many arguments\n");
+		g_last_exit_status = 1;
+	}
+	else if (!data->cmd_list->args[1])
 	{
 		chdir(is_env_var("$HOME", data->env));
 		free(data->current_path);
@@ -41,6 +46,7 @@ void cmd_cd(t_data *data)
 			else
 			{
 				perror("cd 2");
+				g_last_exit_status = 1;
 				free(new_path);  // Free new_path if chdir fails
 			}
 		}
@@ -84,7 +90,8 @@ void	cmd_cd_dir(t_data *data)
 		}
 		else
 		{
-			printf("minishell$ %s No such file or directory\n", data->cmd_list->args[1]);
+			printf("minishell: cd: %s No such file or directory\n", data->cmd_list->args[1]);
+			g_last_exit_status = 1;
 			return ;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/17 18:09:26 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/19 16:29:18 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,3 +153,4 @@ void	    cmd_cd_dir(t_data *data);
 
 /* builtins/unset.c */
 void        cmd_unset(t_data *data);
+void		unset_invalid_num_args();

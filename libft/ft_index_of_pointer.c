@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_index_of_pointer.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 15:57:01 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/19 17:01:42 by jpluta           ###   ########.fr       */
+/*   Created: 2024/05/25 18:38:01 by jpluta            #+#    #+#             */
+/*   Updated: 2025/06/19 16:14:04 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-void	cmd_pwd(t_data *data)
+size_t	ft_index_of_pointer(const char *str, const char *ptr)
 {
-	get_path(data);
-	printf("%s\n", data->current_path);
+	if (!str || !ptr)
+		return (0);
+	return (size_t)(ptr - str);
 }
