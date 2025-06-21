@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/19 16:02:49 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 14:47:54 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,18 @@ int	update_env_var(char **envp, const char *key, const char *value)
 				envp[i] = new_entry;
 				return (1);
 			}
+		}
+		else if (ft_strcmp(envp[i], key) == 0)
+		{
+			free(envp[i]);
+			if (ft_strlen(value) > 0)
+				new_entry = ft_strjoin3(key, "=", value);
+			else
+				new_entry = ft_strjoin3(key, "", value);
+			if (!new_entry)
+				return (0);
+			envp[i] = new_entry;
+			return (1);
 		}
 		i++;
 	}

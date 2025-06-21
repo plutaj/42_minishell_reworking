@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/19 16:41:43 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:25:48 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    cmd_export(t_data *data)
 		}
         else
 		{
-            printf("minishell: export: '%s': not a valid identifier", data->cmd_list->args[1]);
+            printf("minishell: export: '%s': not a valid identifier\n", data->cmd_list->args[1]);
 			g_last_exit_status = 1;
 		}
     }

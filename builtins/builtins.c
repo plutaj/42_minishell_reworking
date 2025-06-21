@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:18:19 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/17 17:22:42 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 14:58:37 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ int builtin(t_command *cmd_list)
 {
     if (ft_strcmp("echo", cmd_list->args[0]) == 0)
 	{
-        if (cmd_list->args[1] == NULL)
-		{
-			printf("\n");
-			return (1);
-		}
 		cmd_echo(cmd_list);
 		return (1);
 	}
@@ -40,9 +35,9 @@ int builtin(t_command *cmd_list)
         return (1);
     }
     if (builtin2(cmd_list) == 0)
-        return (1); // changed from 0 to 1
+        return (1);
     else
-        return (0); // changed from 1 to 0
+        return (0);
 }
 
 int builtin2(t_command *cmd_list)
@@ -104,7 +99,6 @@ void	exit_f(t_command *cmd_list)
 	}
 	else
 		g_last_exit_status = 0;
-
 	free_2d_array(cmd_list->data->env);
 	set_data_to_default(cmd_list->data);
 	exit(g_last_exit_status);
