@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:18:19 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/21 14:58:37 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 16:45:29 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	exit_f(t_command *cmd_list)
 		g_last_exit_status = 1;
 		free_2d_array(cmd_list->data->env);
     	set_data_to_default(cmd_list->data);
-		return;
+		return ;
 	}
 	else if (arg)
 	{
