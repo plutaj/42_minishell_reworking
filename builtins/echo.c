@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/01 17:35:58 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 12:59:14 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 void	cmd_echo(t_command *cmd_list)
 {
-    if (ft_strcmp(cmd_list->args[1], "-n") == 0)
+	if (cmd_list->args[1] == NULL)
+	{
+		printf("\n");
+		g_last_exit_status = 0;
+	}
+    else if (ft_strcmp(cmd_list->args[1], "-n") == 0)
         cmd_echo_exec(cmd_list, 0);
     else
         cmd_echo_exec(cmd_list, 1);
@@ -25,12 +30,12 @@ void	cmd_echo_exec(t_command *cmd_list, int is_newline)
 	char	*str;
 
 	str = convert_to_string(cmd_list, is_newline);
-	// case with -n
 	if (!is_newline)
 		printf("%s", str);
 	else
 		printf("%s\n", str);
-	free (str); // may cause problem with redirs
+	g_last_exit_status = 0;
+	free (str);
 }
 
 char	*convert_to_string(t_command *cmd_list, int is_newline)

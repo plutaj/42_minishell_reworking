@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/19 16:29:18 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:16:50 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int			only_spaces(const char *s);
 /* PARSING ____________________________________________________*/
 /* quotes_check.c */
 int		    check_for_quotes(t_data *data);
-int			only_spaces(const char *s);
 
 /* create_redir_list.c */
 int         check_for_redir(char *arg);
@@ -153,4 +152,5 @@ void	    cmd_cd_dir(t_data *data);
 
 /* builtins/unset.c */
 void        cmd_unset(t_data *data);
+int			count_rows_of_arr(t_data *data);
 void		unset_invalid_num_args();

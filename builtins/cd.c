@@ -6,15 +6,15 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/19 16:44:57 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 13:01:57 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void cmd_cd(t_data *data)
+void	cmd_cd(t_data *data)
 {
-	char *new_path;
+	char	*new_path;
 	
 	// case "cd"
 	if (data->cmd_list->args[2])
@@ -27,6 +27,7 @@ void cmd_cd(t_data *data)
 		chdir(is_env_var("$HOME", data->env));
 		free(data->current_path);
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
+		g_last_exit_status = 0;
 	}
 	// case "cd .."
 	else if (ft_strcmp(data->cmd_list->args[1], "..") == 0)
@@ -42,6 +43,7 @@ void cmd_cd(t_data *data)
 			{
 				free(data->current_path);  // Free old path
 				data->current_path = new_path;  // Update current path
+				g_last_exit_status = 0;
 			}
 			else
 			{
@@ -78,19 +80,21 @@ void	cmd_cd_dir(t_data *data)
 			{
 				free(original_path);
 				original_path = temp_path;
+				g_last_exit_status = 0;
 			}
 			else
 			{
 				free(original_path);
 				free(temp_path);
 				free_2d_array(temp);
+				g_last_exit_status = 1;
 				perror("cd 3");
 				return ;
 			}
 		}
 		else
 		{
-			printf("minishell: cd: %s No such file or directory\n", data->cmd_list->args[1]);
+			printf("minishell: cd: %s: No such file or directory\n", data->cmd_list->args[1]);
 			g_last_exit_status = 1;
 			return ;
 		}
