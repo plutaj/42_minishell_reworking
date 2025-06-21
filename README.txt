@@ -1,3 +1,5 @@
+valgrind --leak-check=full --suppressions=supress.supp ./minishell 
+
 !!! pred eval minishell_utils odkomentovat riadok ktory iOS nechcel skompilovat (preto nefunguje CONTROL + C)
 
 DEBUG:

@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/19 17:02:07 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:09:29 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	set_data_to_default(t_data *data)
 	temp = data->cmd_list;
 	while (data->cmd_list)
 	{
+		free_2d_array(data->cmd_list->args);
 		temp = data->cmd_list->next;
 		free(data->cmd_list);
 		data->cmd_list = temp;

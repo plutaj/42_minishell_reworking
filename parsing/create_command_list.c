@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/21 15:44:19 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:08:04 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,17 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 
 char *remove_quotes(const char *str)
 {
-	char	*result = malloc(ft_strlen(str) + 1);
-	int		i = 0, j = 0;
-	char	quote = 0;
+	char	*result;
+	int		i;
+	int		j;
+	char	quote;
 
+	result = malloc(ft_strlen(str) + 1);
+	i = 0;
+	j = 0;
+	quote = 0;
 	if (!result)
 		return NULL;
-
 	while (str[i])
 	{
 		if ((str[i] == '\'' || str[i] == '"'))
@@ -159,7 +163,7 @@ char *remove_quotes(const char *str)
 		result[j++] = str[i++];
 	}
 	result[j] = '\0';
-	return result;
+	return (result);
 }
 
 void	remove_quotes_from_args(char **args)
