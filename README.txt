@@ -1,10 +1,8 @@
 !!! pred eval minishell_utils odkomentovat riadok ktory iOS nechcel skompilovat (preto nefunguje CONTROL + C)
 
 DEBUG:
-4. echo ' (variable value) 
 7. echo single quotes something to do with heredoc fix later
 9. handle properly all exit statuses
-
 
 
 
@@ -15,4 +13,6 @@ FIXED:
 6. export without arguments should print all exported variables
 5. if NEW_VAR exist replace the value of NEW_VAR not working (creating new var)
 8. unset" max number of params is ONE MAX
+4. echo ' (variable value) 
+
 

@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/21 13:16:50 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/21 15:37:46 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	    create_command_list(t_data *data);
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s);
 int         starts_with_quote(const char *s);
 int         ends_with_quote(const char *s, char quote);
+char		*remove_quotes(const char *str);
+void		remove_quotes_from_args(char **args);
 
 /* create_command_list_utils.c */
 void		find_variables(t_command *new_cmd);
