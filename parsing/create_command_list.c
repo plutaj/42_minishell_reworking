@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/14 15:45:19 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/21 15:44:19 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	create_command_list(t_data *data)
 		new_cmd = split_args_and_redirs(new_cmd, s[i]);
 		// print_linked_list(data->cmd_list); // there
 		find_variables(new_cmd);
+		remove_quotes_from_args(new_cmd->args);
 		if (!data->cmd_list)
 			data->cmd_list = new_cmd;
 		else
@@ -45,9 +46,9 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 {
 	char **args = calloc(256, sizeof(char *));
 	int i = 0, j = 0;
-	char quote = 0;
 	char buffer[1024];
 	int buf_i = 0;
+	char quote = 0;
 
 	while (s[i])
 	{
@@ -64,39 +65,20 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 			continue;
 		}
 
-		// Handle single quote block — copy everything literally
-		if (s[i] == '\'' && !quote)
-		{
-			quote = '\'';
-			i++; // skip opening quote
-			while (s[i] && s[i] != '\'')
-				buffer[buf_i++] = s[i++];
-			if (s[i] == '\'')
-				i++; // skip closing quote
-			quote = 0;
-			continue;
-		}
-
-		// Handle double quote block
-		if (s[i] == '\"')
+		// Toggle quote state (but still copy quotes)
+		if (s[i] == '\'' || s[i] == '\"')
 		{
 			if (!quote)
-			{
-				quote = '\"';
-				i++;
-				continue;
-			}
-			else if (quote == '\"')
-			{
+				quote = s[i];
+			else if (quote == s[i])
 				quote = 0;
-				i++;
-				continue;
-			}
 		}
 
-		// Add character to buffer
+		// Add character (including quotes) to buffer
 		buffer[buf_i++] = s[i++];
 	}
+
+	// Handle last token
 	if (buf_i > 0)
 	{
 		buffer[buf_i] = '\0';
@@ -108,6 +90,91 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 	return new_cmd;
 }
 
+// char	*remove_quotes(const char *str)
+// {
+// 	char	*result = malloc(ft_strlen(str) + 1);
+// 	int		i = 0, j = 0;
+// 	char	quote = 0;
+
+// 	if (!result)
+// 		return (NULL);
+
+// 	while (str[i])
+// 	{
+// 		if ((str[i] == '\'' || str[i] == '\"'))
+// 		{
+// 			if (!quote)
+// 				quote = str[i];  // enter quote mode
+// 			else if (quote == str[i])
+// 				quote = 0;       // exit quote mode
+// 			i++;
+// 			continue;            // skip quote character
+// 		}
+// 		result[j++] = str[i++];
+// 	}
+// 	result[j] = '\0';
+// 	return (result);
+// }
+
+// void	remove_quotes_from_args(char **args)
+// {
+// 	int		i = 0;
+// 	char	*cleaned;
+
+// 	while (args[i])
+// 	{
+// 		cleaned = remove_quotes(args[i]);
+// 		free(args[i]);
+// 		args[i] = cleaned;
+// 		i++;
+// 	}
+// }
+
+char *remove_quotes(const char *str)
+{
+	char	*result = malloc(ft_strlen(str) + 1);
+	int		i = 0, j = 0;
+	char	quote = 0;
+
+	if (!result)
+		return NULL;
+
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '"'))
+		{
+			if (!quote)
+			{
+				quote = str[i];  // Enter quote context
+				i++;
+				continue;        // Skip opening quote
+			}
+			else if (quote == str[i])
+			{
+				quote = 0;       // Exit quote context
+				i++;
+				continue;        // Skip closing quote
+			}
+		}
+		result[j++] = str[i++];
+	}
+	result[j] = '\0';
+	return result;
+}
+
+void	remove_quotes_from_args(char **args)
+{
+	int		i = 0;
+	char	*cleaned;
+
+	while (args[i])
+	{
+		cleaned = remove_quotes(args[i]);
+		free(args[i]);
+		args[i] = cleaned;
+		i++;
+	}
+}
 
 // t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 // {
@@ -132,23 +199,39 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 // 			continue;
 // 		}
 
-// 		// Start or end a quote block
-// 		if ((s[i] == '\'' || s[i] == '\"'))
+// 		// Handle single quote block — copy everything literally
+// 		if (s[i] == '\'' && !quote)
 // 		{
-// 			if (!quote)
-// 				quote = s[i];
-// 			else if (quote == s[i])
-// 				quote = 0;
-// 			else
-// 				buffer[buf_i++] = s[i]; // mismatched quote, keep it
-// 			i++;
+// 			quote = '\'';
+// 			i++; // skip opening quote
+// 			while (s[i] && s[i] != '\'')
+// 				buffer[buf_i++] = s[i++];
+// 			if (s[i] == '\'')
+// 				i++; // skip closing quote
+// 			quote = 0;
 // 			continue;
 // 		}
 
-// 		// Add char to buffer
+// 		// Handle double quote block
+// 		if (s[i] == '\"')
+// 		{
+// 			if (!quote)
+// 			{
+// 				quote = '\"';
+// 				i++;
+// 				continue;
+// 			}
+// 			else if (quote == '\"')
+// 			{
+// 				quote = 0;
+// 				i++;
+// 				continue;
+// 			}
+// 		}
+
+// 		// Add character to buffer
 // 		buffer[buf_i++] = s[i++];
 // 	}
-
 // 	if (buf_i > 0)
 // 	{
 // 		buffer[buf_i] = '\0';
