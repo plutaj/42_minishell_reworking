@@ -6,11 +6,13 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/21 13:01:57 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/22 16:22:28 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	cd_err_msg();
 
 void	cmd_cd(t_data *data)
 {
@@ -19,8 +21,13 @@ void	cmd_cd(t_data *data)
 	// case "cd"
 	if (data->cmd_list->args[2])
 	{
-		printf("minishell: cd: too many arguments\n");
+		cd_err_msg();
 		g_last_exit_status = 1;
+	}
+	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
+	{
+		write(STDOUT_FILENO, "binary file matches\n", 19);
+		g_last_exit_status = 0;
 	}
 	else if (!data->cmd_list->args[1])
 	{
@@ -94,7 +101,7 @@ void	cmd_cd_dir(t_data *data)
 		}
 		else
 		{
-			printf("minishell: cd: %s: No such file or directory\n", data->cmd_list->args[1]);
+			write(STDERR_FILENO, " No such file or directory\n", 26);
 			g_last_exit_status = 1;
 			return ;
 		}
@@ -162,4 +169,9 @@ char    *append_char_to_str(char *str, char c)
 	new_str[len] = c;
 	new_str[len + 1] = '\0';
 	return (new_str);
+}
+
+void	cd_err_msg()
+{
+	write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
 }
