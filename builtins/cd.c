@@ -6,19 +6,19 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/22 16:22:28 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:31:55 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	cd_err_msg();
+static void	cd_err_msg(void);
 
 void	cmd_cd(t_data *data)
 {
 	char	*new_path;
-	
-	// case "cd"
+	char	*last_slash;
+
 	if (data->cmd_list->args[2])
 	{
 		cd_err_msg();
@@ -36,31 +36,29 @@ void	cmd_cd(t_data *data)
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
 		g_last_exit_status = 0;
 	}
-	// case "cd .."
 	else if (ft_strcmp(data->cmd_list->args[1], "..") == 0)
 	{
-		if (count_slash(data->current_path) > 1 && data->current_path && data->current_path[0] != '\0')
+		if (count_slash(data->current_path) > 1 && data->current_path
+			&& data->current_path[0] != '\0')
 		{
-			// Remove the last directory from current_path
-			char *last_slash = strrchr(data->current_path, '/');
+			last_slash = strrchr(data->current_path, '/');
 			if (last_slash && count_slash(data->current_path) > 1)
-				*last_slash = '\0';  // Null-terminate the path at the last slash
-			new_path = ft_strdup(data->current_path);  // Copy the updated path
+				*last_slash = '\0';
+			new_path = ft_strdup(data->current_path);
 			if (chdir(new_path) == 0)
 			{
-				free(data->current_path);  // Free old path
-				data->current_path = new_path;  // Update current path
+				free(data->current_path);
+				data->current_path = new_path;
 				g_last_exit_status = 0;
 			}
 			else
 			{
 				perror("cd 2");
 				g_last_exit_status = 1;
-				free(new_path);  // Free new_path if chdir fails
+				free(new_path);
 			}
 		}
 	}
-	// case "cd dir"
 	else if (data->cmd_list)
 		cmd_cd_dir(data);
 }
@@ -72,7 +70,7 @@ void	cmd_cd_dir(t_data *data)
 	char	*temp_path;
 	int		i;
 
-	original_path = ft_strdup(data->current_path); // dont forget to free if not used
+	original_path = ft_strdup(data->current_path);
 	temp = ft_split(data->cmd_list->args[1], '/');
 	i = 0;
 	while (temp[i])
@@ -129,7 +127,7 @@ int count_slash(char *str)
 int list_directory_contents(char *str, const char *path)
 {
     struct dirent	*entry;
-    DIR 			*dp;
+    DIR				*dp;
 	
 	dp = opendir(path);
     if (dp == NULL)
@@ -149,21 +147,22 @@ int list_directory_contents(char *str, const char *path)
 	return (0);
 }
 
-char    *append_char_to_str(char *str, char c)
+char	*append_char_to_str(char *str, char c)
 {
-	size_t 	len;
-	char 	*new_str;
+	size_t	len;
+	char	*new_str;
 	
 	if (!str)
 	{
-		char *new_str = malloc(2); // one char + null terminator
-		if (!new_str) return NULL;
+		char *new_str = malloc(2);
+		if (!new_str)
+			return (NULL);
 		new_str[0] = c;
 		new_str[1] = '\0';
 		return new_str;
 	}
 	len = ft_strlen(str);
-	new_str = malloc(len + 2); // existing string + new char + null terminator
+	new_str = malloc(len + 2);
 	if (!new_str) return NULL;
 	ft_strcpy(new_str, str);
 	new_str[len] = c;
@@ -171,7 +170,7 @@ char    *append_char_to_str(char *str, char c)
 	return (new_str);
 }
 
-void	cd_err_msg()
+static void	cd_err_msg(void)
 {
 	write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
 }
