@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/09 10:30:13 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:14:48 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ void	add_redir_node(char **args, t_command *cmd_list)
 		new_redir->file_or_limiter = NULL;
 	new_redir->next = NULL;
 	if (!cmd_list->redir)
-		cmd_list->redir = new_redir;
+    	cmd_list->redir = new_redir;
 	else
 	{
-		temp_redir = cmd_list->redir;
-		// while (temp_redir)
-		// 	temp_redir = temp_redir->next;
-		temp_redir = new_redir;
-		temp_redir->next = NULL;
+	    temp_redir = cmd_list->redir;
+	    while (temp_redir->next)
+	        temp_redir = temp_redir->next;
+	    temp_redir->next = new_redir;
 	}
 }
