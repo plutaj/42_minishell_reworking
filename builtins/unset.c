@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:33:37 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/21 14:34:27 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/22 15:57:06 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void	cmd_unset(t_data *data)
 
 void	unset_invalid_num_args()
 {
-	printf("minishell: unset: options aren't supported\n");
-	g_last_exit_status = 1;
+	// printf("minishell: unset: options aren't supported\n");
+	g_last_exit_status = 0;
 }
 
 int	count_rows_of_arr(t_data *data)

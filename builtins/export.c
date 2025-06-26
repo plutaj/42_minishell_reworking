@@ -6,11 +6,13 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/21 13:25:48 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/22 15:55:07 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	printf_err_msg(char *str);
 
 void    cmd_export(t_data *data)
 {
@@ -41,11 +43,20 @@ void    cmd_export(t_data *data)
 		}
         else
 		{
-            printf("minishell: export: '%s': not a valid identifier\n", data->cmd_list->args[1]);
+			printf_err_msg(data->cmd_list->args[1]);
 			g_last_exit_status = 1;
 		}
     }
     free(var_value);
+}
+
+void	printf_err_msg(char *str)
+{
+	write(STDERR_FILENO, "minishell: export: ", 19);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, ": not a valid identifier\n", 25);
+	
+	// perror("minishell: export: '%s': not a valid identifier\n", data->cmd_list->args[1]);
 }
 
 void    create_env_var(t_data *data, char *var)
