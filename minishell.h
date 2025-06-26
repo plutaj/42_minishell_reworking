@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
 /*   Updated: 2025/06/22 17:07:48 by jpluta           ###   ########.fr       */
@@ -96,6 +96,7 @@ void	    create_redir_list(t_data *data);
 void		add_redir_node(char **args, t_command *cmd_list);
 int         redirectinp(t_data *data);
 int         redirectout(t_data *data);
+int         handle_heredoc(char *limiter);
 
 /* create_command_list.c */
 void	    create_command_list(t_data *data);
@@ -122,6 +123,8 @@ int			execute_command(char *full_path, char **args, char **env);
 void	    executepipecmds(t_data *data);
 // void	    execute_child_process(t_data *data, t_command *cmd);
 int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
+void        heredocvalid(t_data *data);
+
 
 /* builtins/echo.c */
 void	    cmd_echo(t_command *cmd_list);

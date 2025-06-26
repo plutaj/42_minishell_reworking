@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/17 17:41:46 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/25 15:05:44 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,33 +130,4 @@ int	execute_command(char *full_path, char **args, char **env)
     return 0;
 }
 
-// int	execute_command(char *full_path, char **args, char **env)
-// {
-//     pid_t	pid;
-	
-// 	pid = fork();  // Create a new process
-//     if (pid == -1)
-// 	{
-//         // If fork fails, handle error
-//         perror("fork");
-//         return -1;
-//     }
 
-//     if (pid == 0)
-// 	{  // Child process
-//         // In the child process, execute the command
-//         if (execve(full_path, args, env) == -1)
-// 		{
-//             perror("execve");
-//             exit(127);  // If execve fails, exit child process
-//         }
-//     } 
-// 	else
-// 	{  // Parent process
-//         int status;
-//         waitpid(pid, &status, 0);  // Wait for the child process to finish
-//         // if (WIFEXITED(status)) 
-//         //     printf("Child process exited with status %d\n", WEXITSTATUS(status));
-//     }
-//     return 0;
-// }
