@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/22 17:07:48 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/26 17:16:15 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void        is_external(t_data *data, t_command *cmd_list);
 
 /* execuion/execution.c */
 void        execution(t_data *data);
-char		*find_command_in_path(char	*cmd);
+char		*find_command_in_path(char	*cmd, t_data *data);
 char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
 void	    executepipecmds(t_data *data);
@@ -136,7 +136,7 @@ int		    dollar_sign(char *str);
 /* builtins/export.c */
 void        cmd_export(t_data *data);
 void        create_env_var(t_data *data, char *var);
-char	    *extract_var_value(char *str);
+char		*extract_var_value(char *str);
 int         is_valid_syntax(char *str);
 void		print_exported_env(char **env);
 

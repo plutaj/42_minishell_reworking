@@ -5,6 +5,7 @@ valgrind --leak-check=full --suppressions=supress.supp ./minishell
 DEBUG:
 7. echo single quotes something to do with heredoc fix later
 9. handle properly all exit statuses
+10. if "unset HOME" and then "echo $HOME" not working
 
 
 

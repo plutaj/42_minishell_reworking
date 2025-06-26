@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/25 15:05:44 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/26 17:18:54 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    execution(t_data *data)
     close(to);
 }
 
-char	*find_command_in_path(char	*cmd)
+char	*find_command_in_path(char	*cmd, t_data *data)
 {
     char	*path_env;
 	char	*path;
@@ -46,7 +46,9 @@ char	*find_command_in_path(char	*cmd)
 	int		i;
 	
 	i = 0;
-	path_env = getenv("PATH");
+	// path_env = getenv("PATH"); // use own env
+	// path = ft_strdup(path_env);
+	path_env = is_env_var(cmd, data->env);
 	path = ft_strdup(path_env);
 	if (!path)
         return (NULL);

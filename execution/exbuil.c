@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/16 18:52:08 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/06/26 17:32:21 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	is_builtin(t_command *cmd_list)
 void	is_external(t_data *data, t_command *cmd_list)
 {
 	char	*result;
+	char	*path;
 
 	result = NULL;
 	if (ft_strchr(cmd_list->args[0], '/'))
@@ -49,7 +50,11 @@ void	is_external(t_data *data, t_command *cmd_list)
 		}
 	}
 	else
-		result = find_command_in_path(cmd_list->args[0]);
+	{
+		path = is_env_var(cmd_list->args[0], data->env);
+		if (path && *path != '\0')
+			result = find_command_in_path(cmd_list->args[0], data);
+	}
 	if (result)
 	{
 		execute_command(result, cmd_list->args, data->env);
