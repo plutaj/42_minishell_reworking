@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/21 15:32:30 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/27 18:12:44 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	expand_variables(char **str, t_data *data)
 			{
 				ptr_to_env = is_env_var(var, data->env);
 				if (!ptr_to_env)
-					ptr_to_env = var;
+					ptr_to_env = ft_strdup("");
+					// ptr_to_env = var;
 			}
 			temp = ft_strjoin(start, ptr_to_env);
 			free(start);
