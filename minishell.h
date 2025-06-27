@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/27 15:01:49 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/27 17:24:35 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_redir      	t_redir;
 typedef enum e_redir_type		t_redir_type;
 
 extern int		g_last_exit_status;
-
 /* --- tokens --- */
 typedef enum e_redir_type
 {
@@ -87,6 +86,7 @@ void	    print_linked_list(t_command *cmd_list); // for printing purposes
 void		sigint_handler(int signo);
 int			only_spaces(const char *s);
 
+/* PARSING ____________________________________________________*/
 /* quotes_check.c */
 int		    check_for_quotes(t_data *data);
 
@@ -127,6 +127,8 @@ int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
 t_command*  temp(int *fd, t_data *data);
 int         do_input_redir(t_redir *redir);
 
+// t_command*  temp(int *fd, t_data *data);
+// int         do_input_redir(t_redir *redir);
 
 /* builtins/echo.c */
 void	    cmd_echo(t_command *cmd_list);
@@ -138,7 +140,7 @@ int		    dollar_sign(char *str);
 /* builtins/export.c */
 void        cmd_export(t_data *data);
 void        create_env_var(t_data *data, char *var);
-char		*extract_var_value(char *str);
+char	    *extract_var_value(char *str);
 int         is_valid_syntax(char *str);
 void		print_exported_env(char **env);
 
@@ -161,6 +163,3 @@ void	    cmd_cd_dir(t_data *data);
 void        cmd_unset(t_data *data);
 int			count_rows_of_arr(t_data *data);
 void		unset_invalid_num_args();
-
-/* builtins/exit.c */
-void		exit_f(t_command *cmd_list);
