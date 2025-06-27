@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
 /*   Updated: 2025/06/27 17:24:35 by jpluta           ###   ########.fr       */
@@ -124,6 +124,9 @@ void	    executepipecmds(t_data *data);
 // void	    execute_child_process(t_data *data, t_command *cmd);
 int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
 // void        heredocvalid(t_data *data);
+t_command*  temp(int *fd, t_data *data);
+int         do_input_redir(t_redir *redir);
+
 // t_command*  temp(int *fd, t_data *data);
 // int         do_input_redir(t_redir *redir);
 
