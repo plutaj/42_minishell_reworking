@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/25 15:18:12 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:41:32 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ int handle_heredoc(char *limiter)
 
 static void opendup(int fd)
 {
-    if (fd == -1) perror("open error for >");
+    if (fd == -1)
+    {
+        perror("open error for >");
+        exit(1);
+    }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
         perror("dup2 error");
@@ -53,54 +57,38 @@ static void opendup(int fd)
 int redirectinp(t_data *data)
 {
     int inpfrom;
-    int fd;
 
     inpfrom = dup(STDIN_FILENO);
     if (inpfrom == -1) perror("dup");
     if (data->cmd_list->redir)
-    {
-        if (data->cmd_list->redir->type == REDIR_INPUT)
-        {
-            fd = open(data->cmd_list->redir->file_or_limiter, O_RDONLY);
-            if (fd == -1) perror("open error");
-            if (dup2(fd, STDIN_FILENO) == -1) perror("dup2 error");
-            close(fd);
-        }
-        else if (data->cmd_list->redir->type == REDIR_HEREDOC)
-        {
-            fd = handle_heredoc(data->cmd_list->redir->file_or_limiter);
-            if (fd == -1) return (-1);
-            if (dup2(fd, STDIN_FILENO) == -1)
-            {
-                close(fd);
-                return (-1);
-            }
-            close(fd);
-        }
-    }
+        if (do_input_redir(data->cmd_list->redir) == -1)
+            return -1;
     return inpfrom;
 }
-
 
 int redirectout(t_data *data)
 {
     int outto;
-    int fd;
+    int fd; 
+    t_command *cmd_list_copy;
 
-    outto = dup(STDOUT_FILENO); 
-    if (outto == -1) perror("dup");
-    if (data->cmd_list->redir)
-    {
-        if (data->cmd_list->redir->type == 1) // >
+    cmd_list_copy = temp(&outto, data);
+    while (cmd_list_copy)
+    {   
+        if (cmd_list_copy->redir)
         {
-            fd = open(data->cmd_list->redir->file_or_limiter, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            opendup(fd);
+            if (cmd_list_copy->redir->type == 1) // >
+            {
+                fd = open(cmd_list_copy->redir->file_or_limiter, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                opendup(fd);
+            }
+            if (cmd_list_copy->redir->type == 2) // >>
+            {
+                fd = open(cmd_list_copy->redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                opendup(fd);
+            }
         }
-        if (data->cmd_list->redir->type == 2) // >>
-        {
-            fd = open(data->cmd_list->redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            opendup(fd);
-        }
+        cmd_list_copy = cmd_list_copy->next;
     }
     return outto; // Original stdout for later restoration
 }

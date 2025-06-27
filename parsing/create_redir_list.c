@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/25 15:14:48 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:34:21 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	check_for_redir(char *arg)
 		return (1);
 	return (0);
 }
-
 
 void	create_redir_list(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/25 13:57:52 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:42:10 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,9 @@ int			execute_command(char *full_path, char **args, char **env);
 void	    executepipecmds(t_data *data);
 // void	    execute_child_process(t_data *data, t_command *cmd);
 int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
-void        heredocvalid(t_data *data);
-
+// void        heredocvalid(t_data *data);
+t_command*  temp(int *fd, t_data *data);
+int         do_input_redir(t_redir *redir);
 
 /* builtins/echo.c */
 void	    cmd_echo(t_command *cmd_list);

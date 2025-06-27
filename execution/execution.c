@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/25 15:05:44 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/27 12:49:11 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,36 +38,42 @@ void    execution(t_data *data)
     close(to);
 }
 
-char	*find_command_in_path(char	*cmd)
+//seperated the funciton for norminuette or whatever
+static char *search_in_paths(char **splited_path, char *cmd)
 {
-    char	*path_env;
-	char	*path;
-	char	**splited_path;
-	int		i;
-	
-	i = 0;
-	path_env = getenv("PATH");
-	path = ft_strdup(path_env);
-	if (!path)
-        return (NULL);
-	splited_path = ft_split(path, ':');
-	free(path);
-	while (splited_path[i])
-	{
-		path = concatenate_paths(splited_path[i], cmd);
-		if (!path)
-			return (NULL);
-		if (access(path, X_OK) == 0)
-		{
-            // Command found and executable, return full path
-            free_2d_array(splited_path);  // Clean up split path array
+    int i = 0;
+    char *path;
+
+    while (splited_path[i])
+    {
+        path = concatenate_paths(splited_path[i], cmd);
+        if (!path)
+            return (NULL);
+        if (access(path, X_OK) == 0)
+        {
+            free_2d_array(splited_path);
             return (path);
         }
-		free (path);
-		i++;
-	}
-	free_2d_array(splited_path);
-	return (NULL);
+        free(path);
+        i++;
+    }
+    free_2d_array(splited_path);
+    return (NULL);
+}
+
+char *find_command_in_path(char *cmd)
+{
+    char *path_env;
+    char *path;
+    char **splited_path;
+
+    path_env = getenv("PATH");
+    path = ft_strdup(path_env);
+    if (!path)
+        return (NULL);
+    splited_path = ft_split(path, ':');
+    free(path);
+    return search_in_paths(splited_path, cmd);
 }
 
 char	*concatenate_paths(char *dir, char *cmd)
