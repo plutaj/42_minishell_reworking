@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/26 17:32:21 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/27 17:09:10 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	is_external(t_data *data, t_command *cmd_list)
 	}
 	else
 	{
-		path = is_env_var(cmd_list->args[0], data->env);
+		path = is_env_var("$PATH", data->env);
 		if (path && *path != '\0')
 			result = find_command_in_path(cmd_list->args[0], data);
 	}
