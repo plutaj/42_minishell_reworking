@@ -6,7 +6,7 @@
 #    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/22 17:08:02 by jpluta           ###   ########.fr        #
+#    Updated: 2025/06/27 17:31:40 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ builtins/exit.c \
 pipes/piping.c \
 pipes/redirections.c \
 execution/exbuil.c \
+pipes/temp.c \
 
 OBJ = $(SRC:.c=.o)
 
