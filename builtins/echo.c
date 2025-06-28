@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/27 18:04:56 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:55:40 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	cmd_echo(t_command *cmd_list)
 		printf("\n");
 		g_last_exit_status = 0;
 	}
-    else if (ft_strcmp(cmd_list->args[1], "-n") == 0)
-        cmd_echo_exec(cmd_list, 0);
-    else
-        cmd_echo_exec(cmd_list, 1);
+	else if (ft_strcmp(cmd_list->args[1], "-n") == 0)
+		cmd_echo_exec(cmd_list, 0);
+	else
+		cmd_echo_exec(cmd_list, 1);
 }
 
 void	cmd_echo_exec(t_command *cmd_list, int is_newline)

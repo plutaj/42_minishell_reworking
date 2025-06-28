@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/27 17:24:35 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/28 12:16:23 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,4 @@ void	    cmd_cd_dir(t_data *data);
 /* builtins/unset.c */
 void        cmd_unset(t_data *data);
 int			count_rows_of_arr(t_data *data);
-void		unset_invalid_num_args();
+void		unset_invalid_num_args(void);

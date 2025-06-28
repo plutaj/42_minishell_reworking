@@ -6,13 +6,11 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/22 17:31:55 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:53:20 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	cd_err_msg(void);
 
 void	cmd_cd(t_data *data)
 {
@@ -21,7 +19,7 @@ void	cmd_cd(t_data *data)
 
 	if (data->cmd_list->args[2])
 	{
-		cd_err_msg();
+		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
 		g_last_exit_status = 1;
 	}
 	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
@@ -110,7 +108,7 @@ void	cmd_cd_dir(t_data *data)
 	data->current_path = original_path;
 }
 
-int count_slash(char *str)
+int	count_slash(char *str)
 {
 	int	count;
 
@@ -124,26 +122,28 @@ int count_slash(char *str)
 	return (count);
 }
 
-int list_directory_contents(char *str, const char *path)
+int	list_directory_contents(char *str, const char *path)
 {
-    struct dirent	*entry;
-    DIR				*dp;
-	
+	struct dirent	*entry;
+	DIR				*dp;
+
 	dp = opendir(path);
-    if (dp == NULL)
+	if (dp == NULL)
 	{
-        perror("opendir");
-        exit(1);
-    }
-    while ((entry = readdir(dp)) != NULL)
+		perror("opendir");
+		exit(1);
+	}
+	entry = readdir(dp);
+	while (entry != NULL)
 	{
-        if (ft_strcmp(str, entry->d_name) == 0)
+		if (ft_strcmp(str, entry->d_name) == 0)
 		{
 			closedir(dp);
 			return (1);
 		}
-    }
-    closedir(dp);
+		entry = readdir(dp);
+	}
+	closedir(dp);
 	return (0);
 }
 
@@ -151,26 +151,22 @@ char	*append_char_to_str(char *str, char c)
 {
 	size_t	len;
 	char	*new_str;
-	
+
 	if (!str)
 	{
-		char *new_str = malloc(2);
+		new_str = malloc(2);
 		if (!new_str)
 			return (NULL);
 		new_str[0] = c;
 		new_str[1] = '\0';
-		return new_str;
+		return (new_str);
 	}
 	len = ft_strlen(str);
 	new_str = malloc(len + 2);
-	if (!new_str) return NULL;
+	if (!new_str)
+		return (NULL);
 	ft_strcpy(new_str, str);
 	new_str[len] = c;
 	new_str[len + 1] = '\0';
 	return (new_str);
-}
-
-static void	cd_err_msg(void)
-{
-	write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
 }
