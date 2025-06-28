@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/27 17:28:09 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/28 10:24:57 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,50 +113,99 @@ char	*concatenate_paths(char *dir, char *cmd)
     return (full_path);
 }
 
-int	execute_command(char *full_path, char **args, char **env)
-{
-    pid_t	pid;
-	int		status;
-    int     sig;
+// int	execute_command(char *full_path, char **args, char **env)
+// {
+//     pid_t	pid;
+// 	int		status;
+//     int     sig;
 
-	pid = fork();  // Create a new process
+// 	pid = fork();  // Create a new process
+//     if (pid == -1)
+// 	{
+//         // If fork fails, handle error
+//         perror("fork");
+//         return -1;
+//     }
+
+//     if (pid == 0)
+// 	{  // Child process
+//         // In the child process, execute the command
+// 		signal(SIGINT, SIG_DFL); // added this 5
+//         signal(SIGQUIT, SIG_DFL); //added this 5
+//         if (execve(full_path, args, env) == -1)
+// 		{
+//             perror("execve");
+//             exit(127);  // If execve fails, exit child process
+//         }
+//     } 
+// 	else
+// 	{
+// 		signal(SIGINT, SIG_IGN); // added this 5
+//         waitpid(pid, &status, 0);
+// 		signal(SIGINT, sigint_handler); // added this 5
+//         if (WIFEXITED(status))
+//             g_last_exit_status = WEXITSTATUS(status);  // Normal exit
+//         else if (WIFSIGNALED(status))
+//         {
+//             sig = WTERMSIG(status);
+//             if (sig == SIGQUIT)
+//                 write(2, "Quit (core dumped)\n", 20);
+//             else if (sig == SIGINT)
+//                 write(1, "\n", 1);
+//             g_last_exit_status = 128 + sig;  // Exit code from signal
+//         }
+//     }
+//     return 0;
+// }
+
+static void child_process(char *full_path, char **args, char **env)
+{
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+    if (execve(full_path, args, env) == -1)
+    {
+        perror("execve");
+        exit(127);
+    }
+}
+
+static void parent_process(pid_t pid)
+{
+    int status;  
+    int sig;
+
+    signal(SIGINT, SIG_IGN);
+    waitpid(pid, &status, 0);
+    signal(SIGINT, sigint_handler);
+    if (WIFEXITED(status))
+        g_last_exit_status = WEXITSTATUS(status);
+    else if (WIFSIGNALED(status))
+    {
+        sig = WTERMSIG(status);
+        if (sig == SIGQUIT)
+            write(2, "Quit (core dumped)\n", 20);
+        else if (sig == SIGINT)
+            write(1, "\n", 1);
+        g_last_exit_status = 128 + sig;
+    }
+}
+
+int execute_command(char *full_path, char **args, char **env)
+{
+    pid_t pid;
+
+    pid = fork();
     if (pid == -1)
-	{
-        // If fork fails, handle error
+    {
         perror("fork");
         return -1;
     }
-
-    if (pid == 0)
-	{  // Child process
-        // In the child process, execute the command
-		signal(SIGINT, SIG_DFL); // added this 5
-        signal(SIGQUIT, SIG_DFL); //added this 5
-        if (execve(full_path, args, env) == -1)
-		{
-            perror("execve");
-            exit(127);  // If execve fails, exit child process
-        }
-    } 
-	else
-	{
-		signal(SIGINT, SIG_IGN); // added this 5
-        waitpid(pid, &status, 0);
-		signal(SIGINT, sigint_handler); // added this 5
-        if (WIFEXITED(status))
-            g_last_exit_status = WEXITSTATUS(status);  // Normal exit
-        else if (WIFSIGNALED(status))
-        {
-            sig = WTERMSIG(status);
-            if (sig == SIGQUIT)
-                write(2, "Quit (core dumped)\n", 20);
-            else if (sig == SIGINT)
-                write(1, "\n", 1);
-            g_last_exit_status = 128 + sig;  // Exit code from signal
-        }
-    }
+    if (pid == 0) child_process(full_path, args, env);
+    else 
+        parent_process(pid);
     return 0;
 }
+
 
 // void    execution(t_data *data)
 // {

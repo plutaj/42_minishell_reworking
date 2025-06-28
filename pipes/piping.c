@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/09 13:33:19 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/28 11:05:57 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	executepipecmds(t_data *data)
 		pid = fork();
 		if (pid == -1) return (perror("fork"));
 		if (pid == 0) executechild(data, cmd, prev_pipe_read, pipefd);
+		// if (prev_pipe_read != STDIN_FILENO) close(prev_pipe_read);
 		if (cmd->next)
 		{
 			close(pipefd[1]); 	

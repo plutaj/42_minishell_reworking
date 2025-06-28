@@ -6,7 +6,7 @@
 #    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/27 17:31:40 by jpluta           ###   ########.fr        #
+#    Updated: 2025/06/28 09:42:07 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ pipes/piping.c \
 pipes/redirections.c \
 execution/exbuil.c \
 pipes/inpredir.c \
-pipes/temp.c \
 
 OBJ = $(SRC:.c=.o)
 
