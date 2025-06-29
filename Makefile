@@ -6,7 +6,7 @@
 #    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/28 09:34:48 by jpluta           ###   ########.fr        #
+#    Updated: 2025/06/29 14:04:50 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ builtins/echo.c \
 builtins/builtins.c \
 builtins/pwd.c \
 builtins/cd.c \
+builtins/cd_utils.c \
 builtins/export.c \
+builtins/export_utils.c \
 builtins/unset.c \
 builtins/exit.c \
 pipes/piping.c \

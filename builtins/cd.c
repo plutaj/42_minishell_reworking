@@ -6,26 +6,47 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/28 11:53:20 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 14:10:20 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
+static void	err_no_such_file(char **temp);
+
+static void	handle_cd_dotdot(t_data *data)
+{
+	char	*last_slash;
+	char	*new_path;
+
+	if (count_slash(data->current_path) <= 1 || !data->current_path
+		|| !data->current_path[0])
+		return ;
+	last_slash = strrchr(data->current_path, '/');
+	if (last_slash && count_slash(data->current_path) > 1)
+		*last_slash = '\0';
+	new_path = ft_strdup(data->current_path);
+	if (chdir(new_path) == 0)
+	{
+		free(data->current_path);
+		data->current_path = new_path;
+		g_last_exit_status = 0;
+	}
+	else
+	{
+		perror("cd 2");
+		g_last_exit_status = 1;
+		free(new_path);
+	}
+}
+
 void	cmd_cd(t_data *data)
 {
-	char	*new_path;
-	char	*last_slash;
-
 	if (data->cmd_list->args[2])
 	{
 		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
 		g_last_exit_status = 1;
-	}
-	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
-	{
-		write(STDOUT_FILENO, "binary file matches\n", 19);
-		g_last_exit_status = 0;
 	}
 	else if (!data->cmd_list->args[1])
 	{
@@ -34,38 +55,70 @@ void	cmd_cd(t_data *data)
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
 		g_last_exit_status = 0;
 	}
-	else if (ft_strcmp(data->cmd_list->args[1], "..") == 0)
+	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
 	{
-		if (count_slash(data->current_path) > 1 && data->current_path
-			&& data->current_path[0] != '\0')
-		{
-			last_slash = strrchr(data->current_path, '/');
-			if (last_slash && count_slash(data->current_path) > 1)
-				*last_slash = '\0';
-			new_path = ft_strdup(data->current_path);
-			if (chdir(new_path) == 0)
-			{
-				free(data->current_path);
-				data->current_path = new_path;
-				g_last_exit_status = 0;
-			}
-			else
-			{
-				perror("cd 2");
-				g_last_exit_status = 1;
-				free(new_path);
-			}
-		}
+		write(STDOUT_FILENO, "binary file matches\n", 19);
+		g_last_exit_status = 0;
 	}
-	else if (data->cmd_list)
+	else if (ft_strcmp(data->cmd_list->args[1], "..") == 0)
+		handle_cd_dotdot(data);
+	else
 		cmd_cd_dir(data);
 }
+
+// void	cmd_cd(t_data *data)
+// {
+// 	char	*new_path;
+// 	char	*last_slash;
+
+// 	if (data->cmd_list->args[2])
+// 	{
+// 		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
+// 		g_last_exit_status = 1;
+// 	}
+// 	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
+// 	{
+// 		write(STDOUT_FILENO, "binary file matches\n", 19);
+// 		g_last_exit_status = 0;
+// 	}
+// 	else if (!data->cmd_list->args[1]) // case not working
+// 	{
+// 		chdir(is_env_var("$HOME", data->env));
+// 		free(data->current_path);
+// 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
+// 		g_last_exit_status = 0;
+// 	}
+// 	else if (ft_strcmp(data->cmd_list->args[1], "..") == 0)
+// 	{
+// 		if (count_slash(data->current_path) > 1 && data->current_path
+// 			&& data->current_path[0] != '\0')
+// 		{
+// 			last_slash = strrchr(data->current_path, '/');
+// 			if (last_slash && count_slash(data->current_path) > 1)
+// 				*last_slash = '\0';
+// 			new_path = ft_strdup(data->current_path);
+// 			if (chdir(new_path) == 0)
+// 			{
+// 				free(data->current_path);
+// 				data->current_path = new_path;
+// 				g_last_exit_status = 0;
+// 			}
+// 			else
+// 			{
+// 				perror("cd 2");
+// 				g_last_exit_status = 1;
+// 				free(new_path);
+// 			}
+// 		}
+// 	}
+// 	else if (data->cmd_list)
+// 		cmd_cd_dir(data);
+// }
 
 void	cmd_cd_dir(t_data *data)
 {
 	char	*original_path;
 	char	**temp;
-	char	*temp_path;
 	int		i;
 
 	original_path = ft_strdup(data->current_path);
@@ -75,30 +128,13 @@ void	cmd_cd_dir(t_data *data)
 	{
 		if (list_directory_contents(temp[i], original_path))
 		{
-			temp_path = append_char_to_str(original_path, '/');
-			free(original_path);
-			original_path = temp_path;
-			temp_path = ft_strjoin(original_path, temp[i]);
-			if (chdir(temp_path) == 0)
-			{
-				free(original_path);
-				original_path = temp_path;
-				g_last_exit_status = 0;
-			}
-			else
-			{
-				free(original_path);
-				free(temp_path);
-				free_2d_array(temp);
-				g_last_exit_status = 1;
-				perror("cd 3");
+			cmd_cd_dir2(data, temp, &original_path, i);
+			if (g_last_exit_status == 1)
 				return ;
-			}
 		}
 		else
 		{
-			write(STDERR_FILENO, " No such file or directory\n", 26);
-			g_last_exit_status = 1;
+			err_no_such_file(temp);
 			return ;
 		}
 		i++;
@@ -108,65 +144,82 @@ void	cmd_cd_dir(t_data *data)
 	data->current_path = original_path;
 }
 
-int	count_slash(char *str)
+static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 {
-	int	count;
+	char	*temp_path;
 
-	count = 0;
-	while (*str)
+	temp_path = append_char_to_str(*original_path, '/');
+	free(*original_path);
+	*original_path = temp_path;
+	temp_path = ft_strjoin(*original_path, temp[i]);
+	if (chdir(temp_path) == 0)
 	{
-		if (*str == '/')
-			count++;
-		str++;
+		free(*original_path);
+		*original_path = temp_path;
+		g_last_exit_status = 0;
 	}
-	return (count);
+	else
+	{
+		free(*original_path);
+		free(temp_path);
+		free_2d_array(temp);
+		g_last_exit_status = 1;
+		perror("cd 3");
+		return ;
+	}
+	data->current_path = *original_path;
 }
 
-int	list_directory_contents(char *str, const char *path)
+static void	err_no_such_file(char **temp)
 {
-	struct dirent	*entry;
-	DIR				*dp;
-
-	dp = opendir(path);
-	if (dp == NULL)
-	{
-		perror("opendir");
-		exit(1);
-	}
-	entry = readdir(dp);
-	while (entry != NULL)
-	{
-		if (ft_strcmp(str, entry->d_name) == 0)
-		{
-			closedir(dp);
-			return (1);
-		}
-		entry = readdir(dp);
-	}
-	closedir(dp);
-	return (0);
+	write(STDERR_FILENO, " No such file or directory\n", 26);
+	g_last_exit_status = 1;
+	free_2d_array(temp);
 }
 
-char	*append_char_to_str(char *str, char c)
-{
-	size_t	len;
-	char	*new_str;
+// void	cmd_cd_dir(t_data *data)
+// {
+// 	char	*original_path;
+// 	char	**temp;
+// 	char	*temp_path;
+// 	int		i;
 
-	if (!str)
-	{
-		new_str = malloc(2);
-		if (!new_str)
-			return (NULL);
-		new_str[0] = c;
-		new_str[1] = '\0';
-		return (new_str);
-	}
-	len = ft_strlen(str);
-	new_str = malloc(len + 2);
-	if (!new_str)
-		return (NULL);
-	ft_strcpy(new_str, str);
-	new_str[len] = c;
-	new_str[len + 1] = '\0';
-	return (new_str);
-}
+// 	original_path = ft_strdup(data->current_path);
+// 	temp = ft_split(data->cmd_list->args[1], '/');
+// 	i = 0;
+// 	while (temp[i])
+// 	{
+// 		if (list_directory_contents(temp[i], original_path))
+// 		{
+// 			temp_path = append_char_to_str(original_path, '/');
+// 			free(original_path);
+// 			original_path = temp_path;
+// 			temp_path = ft_strjoin(original_path, temp[i]);
+// 			if (chdir(temp_path) == 0)
+// 			{
+// 				free(original_path);
+// 				original_path = temp_path;
+// 				g_last_exit_status = 0;
+// 			}
+// 			else
+// 			{
+// 				free(original_path);
+// 				free(temp_path);
+// 				free_2d_array(temp);
+// 				g_last_exit_status = 1;
+// 				perror("cd 3");
+// 				return ;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			write(STDERR_FILENO, " No such file or directory\n", 26);
+// 			g_last_exit_status = 1;
+// 			return ;
+// 		}
+// 		i++;
+// 	}
+// 	free_2d_array(temp);
+// 	free(data->current_path);
+// 	data->current_path = original_path;
+// }
