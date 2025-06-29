@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 15:31:49 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:38:11 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char		*extract_var(char *str);
 
 /* execuion/exbuil.c */
 int         is_builtin(t_command *cmd_list);
+char		*find_command_in_path(char *cmd);
 void        is_external(t_data *data, t_command *cmd_list);
 char		*search_command_in_path(t_command *cmd_list, t_data *data);
 
