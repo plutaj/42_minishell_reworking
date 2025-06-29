@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
 /*   Updated: 2025/06/29 14:05:19 by jpluta           ###   ########.fr       */
@@ -48,7 +48,7 @@ typedef struct s_redir
 typedef struct s_command
 {
     char				**args;
-    int                 arg_i;
+    int                 arg_i; // how many commands
     t_redir				*redir;
 	t_data				*data;
     struct s_command	*next;

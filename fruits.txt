@@ -1,1 +1,101 @@
--e apple\nbanana\ncherry\napple pie\nbanana bread
+-e 
+apple
+banana
+cherry
+apple pie
+banana bread
+
+African pear	Manilkara obovata
+Almond-leaved pear	Pyrus spinosa
+Altai apple	Malus sieversii
+Amelanchier parviflora	Amelanchier parviflora
+Apple	Malus domestica
+Apricot-leaved pear	Pyrus armeniacifolia
+Asian pear	Pyrus pyrifolia
+Balatá	Manilkara bidentata
+Birchleaf pear	Pyrus betulifolia
+Bronze loquat	Eriobotrya deflexa
+Callery pear	Pyrus calleryana
+Calva crabapple	Malus kansuensis
+Canadian serviceberry	Amelanchier canadensis
+Caqui	Manilkara kauki
+Cerrado pear	Eugenia klotzschiana
+Chicle	Manilkara chicle
+Chinese crab apple	Malus hupehensis
+Chinese flowering apple	Malus spectabilis
+Chinese pearleaf crabapple	Malus asiatica
+Chinese quince	Pseudocydonia sinensis
+Chinese serviceberry	Amelanchier sinica
+Chinese white pear	Pyrus × bretschneideri
+Chokeberry	Aronia melanocarpa
+Coastal serviceberry	Amelanchier obovalis
+Cocky apple	Planchonia careya
+Cow tree fruit	Manilkara elata
+Downy serviceberry	Amelanchier arborea
+Dusky pear	Pyrus phaeocarpa
+Eastern crabapple	Malus orientalis
+Eastern mayhaw	Crataegus aestivalis
+European crab apple	Malus sylvestris
+European wild pear	Pyrus pyraster
+Florentine crabapple	Malus florentina
+Greene's mountain-ash fruit	Sorbus scopulina
+Hall crabapple	Malus halliana
+Hawthorn	Crataegus rhipidophylla
+Indian wild pear	Pyrus pashia
+Intermediate serviceberry	Amelanchier intermedia
+Jagua	Genipa americana
+Japanese crab	Malus floribunda
+Juneberry	Amelanchier lamarckii
+Kaido crab apple	Malus × kaido
+Kazak pear	Pyrus korshinskyi
+Khirni	Manilkara hexandra
+Korean juneberry	Amelanchier asiatica
+Lebanese wild apple	Malus trilobata
+Loquat	Eriobotrya japonica
+Lovi-lovi	Flacourtia inermis
+Low juneberry	Amelanchier spicata
+Low serviceberry	Amelanchier humilis
+Manchurian crab apple	Malus mandshurica
+Massaranduba	Manilkara bella
+Medlar	Mespilus germanica
+Mountain serviceberry	Amelanchier bartramiana
+Nantucket serviceberry	Amelanchier nantucketensis
+Niedzwetzky's apple	Malus niedzwetzkyana
+Nokaidō	Malus spontanea
+Oleaster-leafed pear	Pyrus elaeagrifolia
+Pacific crabapple	Malus fusca
+Pale serviceberry	Amelanchier pallida
+Pear	Pyrus communis
+Pillar apple	Malus tschonoskii
+Plumleaf crab apple	Malus prunifolia
+Plymouth pear	Pyrus cordata
+Prairie crabapple	Malus ioensis
+Pratt's crabapple	Malus prattii
+Pyrus glabra	Pyrus glabra
+Quince	Cydonia oblonga
+Ramontchi	Flacourtia indica
+Red-checked crab apple	Malus toringoides
+Regel pear	Pyrus regelii
+Roundleaf serviceberry	Amelanchier sanguinea
+Rowan	Sorbus aucuparia
+Sapodilla	Manilkara zapota
+Sargent crabapple	Malus sargentii
+Saskatoon	Amelanchier alnifolia
+Scarlet firethorn	Pyracantha coccinea
+Shipova	× Pyraria irregularis
+Shrub apple	Malus brevipes
+Siberian crab apple	Malus baccata
+Sikkim crabapple	Malus sikkimensis
+Small-fruited crab apple	Malus transitoria
+Smooth serviceberry	Amelanchier laevis
+Snow pear	Pyrus nivalis
+Snowy mespilus	Amelanchier ovalis
+Sorb	Sorbus domestica
+Southern crabapple	Malus angustifolia
+Sweet crabapple	Malus coronaria
+Syrian pear	Pyrus syriaca
+Taiwan crabapple	Malus doumeri
+Taiwanese rowan	Sorbus randaiensis
+Toringo crabapple	Malus toringo
+Toyon	Heteromeles arbutifolia
+Ussurian pear	Pyrus ussuriensis
