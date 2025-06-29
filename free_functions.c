@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:08:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/21 14:23:51 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:02:12 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_2d_array(char **arr) // edited the whole function
+void	free_2d_array(char **arr)
 {
 	int	i;
 
