@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 13:36:15 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/29 14:05:19 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <readline/history.h>
 #include "libft/libft.h"
 #include <fcntl.h>
-
 
 typedef struct s_data			t_data;
 typedef struct s_command		t_command;
@@ -140,9 +139,11 @@ int		    dollar_sign(char *str);
 /* builtins/export.c */
 void        cmd_export(t_data *data);
 void        create_env_var(t_data *data, char *var);
-char	    *extract_var_value(char *str);
 int         is_valid_syntax(char *str);
+
+/* builtins/export_utils.c */
 void		print_exported_env(char **env);
+char	    *extract_var_value(char *str);
 
 /* builtins/builtins.c */
 int		    builtin(t_command *cmd_list);
@@ -154,10 +155,12 @@ void        cmd_pwd(t_data *data);
 
 /* builtins/cd.c */
 void        cmd_cd(t_data *data);
+void	    cmd_cd_dir(t_data *data);
+
+/* builtins/cd_utils.c */
 char        *append_char_to_str(char *str, char c);
 int         list_directory_contents(char *str, const char *path);
 int         count_slash(char *str);
-void	    cmd_cd_dir(t_data *data);
 
 /* builtins/unset.c */
 void        cmd_unset(t_data *data);
