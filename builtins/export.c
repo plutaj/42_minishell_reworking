@@ -6,13 +6,14 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 14:04:28 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 14:32:11 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	printf_err_msg(char *str);
+static void	cmd_export_util(t_data *data);
+void		printf_err_msg(char *str);
 
 void	cmd_export(t_data *data)
 {
@@ -35,19 +36,22 @@ void	cmd_export(t_data *data)
 	else if (update_env_var(data->env, var_name, var_value))
 		g_last_exit_status = 0;
 	else
-	{
-		if (is_valid_syntax(data->cmd_list->args[1]))
-		{
-			create_env_var(data, data->cmd_list->args[1]);
-			g_last_exit_status = 0;
-		}
-		else
-		{
-			printf_err_msg(data->cmd_list->args[1]);
-			g_last_exit_status = 1;
-		}
-	}
+		cmd_export_util(data);
 	free(var_value);
+}
+
+static void	cmd_export_util(t_data *data)
+{
+	if (is_valid_syntax(data->cmd_list->args[1]))
+	{
+		create_env_var(data, data->cmd_list->args[1]);
+		g_last_exit_status = 0;
+	}
+	else
+	{
+		printf_err_msg(data->cmd_list->args[1]);
+		g_last_exit_status = 1;
+	}
 }
 
 void	printf_err_msg(char *str)
