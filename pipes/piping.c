@@ -6,23 +6,25 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/29 14:55:54 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:25:40 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void wait_for_children(void)
+static void	wait_for_children(void)
 {
-    while (wait(NULL) > 0)
-        ;
+	while (wait(NULL) > 0)
+		;
 }
 
-static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read, int pipefd[]) 
+static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
+		int pipefd[])
 {
 	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
 		perror("redirection");
-    if (prev_pipe_read != STDIN_FILENO) close(prev_pipe_read);
+	if (prev_pipe_read != STDIN_FILENO)
+		close(prev_pipe_read);
 	if (is_builtin(cmd))
 		builtin(cmd);
 	else
@@ -44,9 +46,9 @@ void	executepipecmds(t_data *data)
 		if (cmd->next && create_pipe(pipefd) == -1)
 			return (perror("pipe"));
 		pid = fork();
-		if (pid == -1) 
+		if (pid == -1)
 			return (perror("fork"));
-		if (pid == 0) 
+		if (pid == 0)
 			executechild(data, cmd, prev_pipe_read, pipefd);
 		update_pipe_fds(&prev_pipe_read, pipefd, cmd->next != NULL);
 		cmd = cmd->next;
@@ -54,7 +56,7 @@ void	executepipecmds(t_data *data)
 	wait_for_children();
 }
 
-int setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
+int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 {
 	if (prev_pipe_read != STDIN_FILENO)
 		if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
