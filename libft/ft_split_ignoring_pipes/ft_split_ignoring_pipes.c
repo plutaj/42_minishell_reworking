@@ -6,12 +6,13 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:53:13 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/29 15:02:37 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:29:53 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
+char		**free_split(char **split, size_t count);
 char		**ft_split_quote_aware(const char *s, char c);
 static int	count_tokens_quote_aware(const char *s, char c);
 static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len);
@@ -101,6 +102,14 @@ static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
 		token[j] = s[j];
 	token[i] = '\0';
 	return (token);
+}
+
+char	**free_split(char **split, size_t count)
+{
+	while (count--)
+		free(split[count]);
+	free(split);
+	return (NULL);
 }
 
 // char		**ft_split_quote_aware(const char *s, char c);
