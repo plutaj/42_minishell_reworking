@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:55:21 by jpluta            #+#    #+#             */
-/*   Updated: 2025/04/19 16:02:08 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 14:57:40 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,17 @@ char	**ft_split(char const *s, char c)
 			return (NULL);
 		}
 		s = s + ft_strlen(result[i]);
-	i++;
+		i++;
 	}
 	result[i] = 0;
 	return (result);
 }
+
 static int	count_str(char const *s, char c)
 {
 	size_t	i;
-	int	count;
+	int		count;
+
 	i = 0;
 	count = 0;
 	while (s[i])
@@ -60,10 +62,12 @@ static int	count_str(char const *s, char c)
 	}
 	return (count);
 }
+
 static char	*alloc_substr_cpy(const char *s, char c)
 {
 	size_t	i;
 	char	*res;
+
 	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
