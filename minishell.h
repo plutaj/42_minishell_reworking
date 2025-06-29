@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 14:05:19 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:01:35 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,15 @@ void        is_external(t_data *data, t_command *cmd_list);
 
 /* execuion/execution.c */
 void        execution(t_data *data);
-char		*find_command_in_path(char	*cmd, t_data *data);
+char		*find_command_in_path(char	*cmd);
 char		*concatenate_paths(char *dir, char *cmd);
 int			execute_command(char *full_path, char **args, char **env);
 void	    executepipecmds(t_data *data);
-// void	    execute_child_process(t_data *data, t_command *cmd);
+void        update_pipe_fds(int *prev_pipe_read, int pipefd[2], int has_next);
+int         create_pipe(int pipefd[2]);
 int	    	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd);
-// void        heredocvalid(t_data *data);
 t_command*  temp(int *fd, t_data *data);
 int         do_input_redir(t_redir *redir);
-
-// t_command*  temp(int *fd, t_data *data);
-// int         do_input_redir(t_redir *redir);
 
 /* builtins/echo.c */
 void	    cmd_echo(t_command *cmd_list);
