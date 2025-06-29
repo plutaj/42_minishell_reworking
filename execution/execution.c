@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 15:02:11 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:23:19 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,131 +14,77 @@
 
 // static char *search_in_paths(char **splited_path, char *cmd);
 
-void    execution(t_data *data)
+void	execution(t_data *data)
 {
-    int         from;
-    int         to;
-    
-    from = redirectinp(data);
-    to = redirectout(data);
-    if (from == -1) 
-        exit(0);
-    if (!data->cmd_list->next)
-    {
-        if (is_builtin(data->cmd_list))
+	int	from;
+	int	to;
+
+	from = redirectinp(data);
+	to = redirectout(data);
+	if (from == -1)
+		exit(0);
+	if (!data->cmd_list->next)
+	{
+		if (is_builtin(data->cmd_list))
 			builtin(data->cmd_list);
 		else
-			is_external(data, data->cmd_list); 
-    }
+			is_external(data, data->cmd_list);
+	}
 	else
-        executepipecmds(data);
-    if (dup2(from, STDIN_FILENO) == -1)
-        perror("restore stdin");
-    close(from);
-    if (dup2(to, STDOUT_FILENO) == -1)
-        perror("restore stdout");
-    close(to);
+		executepipecmds(data);
+	if (dup2(from, STDIN_FILENO) == -1)
+		perror("restore stdin");
+	close(from);
+	if (dup2(to, STDOUT_FILENO) == -1)
+		perror("restore stdout");
+	close(to);
 }
 
-//seperated the funciton for norminuette or whatever
-static char *search_in_paths(char **splited_path, char *cmd)
+static void	child_process(char *full_path, char **args, char **env)
 {
-    int i = 0;
-    char *path;
-
-    while (splited_path[i])
-    {
-        path = concatenate_paths(splited_path[i], cmd);
-        if (!path)
-            return (NULL);
-        if (access(path, X_OK) == 0)
-        {
-            free_2d_array(splited_path);
-            return (path);
-        }
-        free(path);
-        i++;
-    }
-    free_2d_array(splited_path);
-    return (NULL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (execve(full_path, args, env) == -1)
+	{
+		perror("execve");
+		exit(127);
+	}
 }
 
-char *find_command_in_path(char *cmd)
+static void	parent_process(pid_t pid)
 {
-    char *path_env;
-    char *path;
-    char **splited_path;
+	int	status;
+	int	sig;
 
-    path_env = getenv("PATH");
-    path = ft_strdup(path_env);
-    if (!path)
-        return (NULL);
-    splited_path = ft_split(path, ':');
-    free(path);
-    return search_in_paths(splited_path, cmd);
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, sigint_handler);
+	if (WIFEXITED(status))
+		g_last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 20);
+		else if (sig == SIGINT)
+			write(1, "\n", 1);
+		g_last_exit_status = 128 + sig;
+	}
 }
 
-char	*concatenate_paths(char *dir, char *cmd)
+int	execute_command(char *full_path, char **args, char **env)
 {
-    int		len;
-	char	*full_path;
-	
-	len = ft_strlen(dir) + ft_strlen(cmd) + 2;
-    full_path = malloc(len);
-    if (!full_path)
-        return (NULL);
-    ft_strcpy(full_path, dir);
-    ft_strcat(full_path, "/");
-    ft_strcat(full_path, cmd);
-    return (full_path);
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return (-1);
+	}
+	if (pid == 0)
+		child_process(full_path, args, env);
+	else
+		parent_process(pid);
+	return (0);
 }
-
-static void child_process(char *full_path, char **args, char **env)
-{
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
-    if (execve(full_path, args, env) == -1)
-    {
-        perror("execve");
-        exit(127);
-    }
-}
-
-static void parent_process(pid_t pid)
-{
-    int status;  
-    int sig;
-
-    signal(SIGINT, SIG_IGN);
-    waitpid(pid, &status, 0);
-    signal(SIGINT, sigint_handler);
-    if (WIFEXITED(status))
-        g_last_exit_status = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-    {
-        sig = WTERMSIG(status);
-        if (sig == SIGQUIT)
-            write(2, "Quit (core dumped)\n", 20);
-        else if (sig == SIGINT)
-            write(1, "\n", 1);
-        g_last_exit_status = 128 + sig;
-    }
-}
-
-int execute_command(char *full_path, char **args, char **env)
-{
-    pid_t pid;
-
-    pid = fork();
-    if (pid == -1)
-    {
-        perror("fork");
-        return -1;
-    }
-    if (pid == 0) child_process(full_path, args, env);
-    else 
-        parent_process(pid);
-    return 0;
-}
-
-// void executepipecmds(t_data *data)
