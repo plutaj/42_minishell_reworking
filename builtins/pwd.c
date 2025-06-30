@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:57:01 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/28 12:15:25 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/30 16:33:05 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	cmd_pwd(t_data *data)
 {
+	if (data->current_path)
+		free (data->current_path);
 	get_path(data);
 	printf("%s\n", data->current_path);
 	g_last_exit_status = 0;
