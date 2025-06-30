@@ -1,0 +1,8 @@
+Chinese crab apple	Malus hupehensis
+European crab apple	Malus sylvestris
+Kaido crab apple	Malus × kaido
+Manchurian crab apple	Malus mandshurica
+Plumleaf crab apple	Malus prunifolia
+Red-checked crab apple	Malus toringoides
+Siberian crab apple	Malus baccata
+Small-fruited crab apple	Malus transitoria

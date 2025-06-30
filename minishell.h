@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 15:01:35 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/01 00:04:33 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ int			only_spaces(const char *s);
 /* PARSING ____________________________________________________*/
 /* quotes_check.c */
 int		    check_for_quotes(t_data *data);
+int         handle_spaces(char *s, int *i, char **args, int *j, char *buffer, int *buf_i);
+int handle_redirections(char *s, int *i, char **args, int *j, char *buffer, int *buf_i);
+void handle_quotes(char c, char *quote);
+
 
 /* create_redir_list.c */
 int         check_for_redir(char *arg);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
+#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/29 14:04:50 by jpluta           ###   ########.fr        #
+#    Updated: 2025/06/30 20:29:20 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ parsing/quotes_check.c \
 parsing/create_redir_list.c \
 parsing/create_command_list.c \
 parsing/create_command_list_utils.c \
-execution/execution.c \
+parsing/command_lookup.c \
+execution/executor.c \
 builtins/echo.c \
 builtins/builtins.c \
 builtins/pwd.c \
