@@ -6,14 +6,14 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 14:10:20 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:34:40 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-static void	err_no_such_file(char **temp);
+static void	err_no_such_file(void);
 
 static void	handle_cd_dotdot(t_data *data)
 {
@@ -134,8 +134,8 @@ void	cmd_cd_dir(t_data *data)
 		}
 		else
 		{
-			err_no_such_file(temp);
-			return ;
+			err_no_such_file();
+			break ;
 		}
 		i++;
 	}
@@ -170,11 +170,11 @@ static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 	data->current_path = *original_path;
 }
 
-static void	err_no_such_file(char **temp)
+static void	err_no_such_file(void)
 {
-	write(STDERR_FILENO, " No such file or directory\n", 26);
+	write(STDERR_FILENO, "No such file or directory\n", 26);
 	g_last_exit_status = 1;
-	free_2d_array(temp);
+	// free_2d_array(temp);
 }
 
 // void	cmd_cd_dir(t_data *data)

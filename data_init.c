@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 16:02:53 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:31:23 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	get_path(t_data *data)
 		g_last_exit_status = 1;
 		exit(1);
 	}
-	// if (data->current_path)
-	// 	free(data->current_path);
 	data->current_path = ft_strdup(cwd);
 	update_env_var(data->env, "PWD", cwd);
 	g_last_exit_status = 0;
@@ -53,7 +51,15 @@ void	set_data_to_default(t_data *data)
 		free(data->cmd_list);
 		data->cmd_list = temp;
 	}
+	if (data->current_path)
+	{
+		free (data->current_path);
+		data->current_path = NULL;
+	}
 	data->cmd_list = NULL;
-	free (data->input);
-	data->input = NULL;
+	if (data->input)
+	{
+		free (data->input);
+		data->input = NULL;
+	}
 }
