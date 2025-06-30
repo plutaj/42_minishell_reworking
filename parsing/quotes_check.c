@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:46:18 by jpluta            #+#    #+#             */
-/*   Updated: 2025/05/22 10:29:45 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:28:39 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 int	check_for_quotes(t_data *data)
 {
 	int	i;
-	int in_single;
-	int in_double;
-	
+	int	in_single;
+	int	in_double;
+
 	i = 0;
 	in_single = 0;
 	in_double = 0;
-	if (data == NULL || data->input == NULL) return (1); // edited
+	if (data == NULL || data->input == NULL)
+		return (1);
 	while (data->input[i])
 	{
 		if (data->input[i] == '\'' && !in_single && !in_double)

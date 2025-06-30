@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
 /*   Updated: 2025/06/29 16:09:13 by jpluta           ###   ########.fr       */

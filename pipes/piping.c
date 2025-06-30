@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/29 15:25:40 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/29 18:06:02 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 	if (is_builtin(cmd))
 		builtin(cmd);
 	else
-		is_external(data, cmd);
+		is_my_external(data, cmd);
 	exit(1);
 }
 
@@ -68,4 +68,40 @@ int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 	}
 	close(pipefd[0]);
 	return (0);
+}
+
+void	execerror(char *full_path, char **args, char **env)
+{
+	execve(full_path, args, env);
+	perror("execve");
+	exit(127);
+}
+
+void	is_my_external(t_data *data, t_command *cmd_list)
+{
+	char	*result;
+
+	result = NULL;
+	if (ft_strchr(cmd_list->args[0], '/'))
+	{
+		if (access(cmd_list->args[0], X_OK) == 0)
+		{
+			execerror(cmd_list->args[0], cmd_list->args, data->env);
+			return ;
+		}
+	}
+	else
+	{
+		result = search_command_in_path(cmd_list, data);
+	}
+	if (result)
+	{
+		execerror(result, cmd_list->args, data->env);
+		free(result);
+	}
+	else
+	{
+		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
+		g_last_exit_status = 127;
+	}
 }
