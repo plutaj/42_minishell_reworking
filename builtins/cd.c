@@ -51,7 +51,8 @@ void	cmd_cd(t_data *data)
 	else if (!data->cmd_list->args[1])
 	{
 		chdir(is_env_var("$HOME", data->env));
-		free(data->current_path);
+		if (data->current_path && *data->current_path)
+			free(data->current_path);
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
 		g_last_exit_status = 0;
 	}
@@ -66,62 +67,15 @@ void	cmd_cd(t_data *data)
 		cmd_cd_dir(data);
 }
 
-// void	cmd_cd(t_data *data)
-// {
-// 	char	*new_path;
-// 	char	*last_slash;
-
-// 	if (data->cmd_list->args[2])
-// 	{
-// 		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 34);
-// 		g_last_exit_status = 1;
-// 	}
-// 	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
-// 	{
-// 		write(STDOUT_FILENO, "binary file matches\n", 19);
-// 		g_last_exit_status = 0;
-// 	}
-// 	else if (!data->cmd_list->args[1]) // case not working
-// 	{
-// 		chdir(is_env_var("$HOME", data->env));
-// 		free(data->current_path);
-// 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
-// 		g_last_exit_status = 0;
-// 	}
-// 	else if (ft_strcmp(data->cmd_list->args[1], "..") == 0)
-// 	{
-// 		if (count_slash(data->current_path) > 1 && data->current_path
-// 			&& data->current_path[0] != '\0')
-// 		{
-// 			last_slash = strrchr(data->current_path, '/');
-// 			if (last_slash && count_slash(data->current_path) > 1)
-// 				*last_slash = '\0';
-// 			new_path = ft_strdup(data->current_path);
-// 			if (chdir(new_path) == 0)
-// 			{
-// 				free(data->current_path);
-// 				data->current_path = new_path;
-// 				g_last_exit_status = 0;
-// 			}
-// 			else
-// 			{
-// 				perror("cd 2");
-// 				g_last_exit_status = 1;
-// 				free(new_path);
-// 			}
-// 		}
-// 	}
-// 	else if (data->cmd_list)
-// 		cmd_cd_dir(data);
-// }
-
 void	cmd_cd_dir(t_data *data)
 {
 	char	*original_path;
+	char	*old_path;
 	char	**temp;
 	int		i;
 
 	original_path = ft_strdup(data->current_path);
+	old_path = ft_strdup(data->current_path);
 	temp = ft_split(data->cmd_list->args[1], '/');
 	i = 0;
 	while (temp[i])
@@ -130,7 +84,7 @@ void	cmd_cd_dir(t_data *data)
 		{
 			cmd_cd_dir2(data, temp, &original_path, i);
 			if (g_last_exit_status == 1)
-				return ;
+				break ;
 		}
 		else
 		{
@@ -139,15 +93,29 @@ void	cmd_cd_dir(t_data *data)
 		}
 		i++;
 	}
-	free_2d_array(temp);
-	free(data->current_path);
-	data->current_path = original_path;
+	if (temp[i] == NULL && g_last_exit_status == 0) // correct path
+	{
+		printf("good path\n");
+		data->current_path = original_path;
+		update_env_var(data->env, "$PATH", original_path);
+		free_2d_array(temp);
+		free (old_path);
+	}
+	else
+	{
+		printf("wrong path\n");
+		data->current_path = old_path;
+		free_2d_array(temp);
+		free (original_path);
+	}
+	// printf("data->current_path: %s\n", data->current_path);
 }
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 {
 	char	*temp_path;
 
+	(void)data;
 	temp_path = append_char_to_str(*original_path, '/');
 	free(*original_path);
 	*original_path = temp_path;
@@ -162,64 +130,14 @@ static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 	{
 		free(*original_path);
 		free(temp_path);
-		free_2d_array(temp);
 		g_last_exit_status = 1;
 		perror("cd 3");
 		return ;
 	}
-	data->current_path = *original_path;
 }
 
 static void	err_no_such_file(void)
 {
-	write(STDERR_FILENO, "No such file or directory\n", 26);
+	write(STDERR_FILENO, " No such file or directory\n", 28);
 	g_last_exit_status = 1;
-	// free_2d_array(temp);
 }
-
-// void	cmd_cd_dir(t_data *data)
-// {
-// 	char	*original_path;
-// 	char	**temp;
-// 	char	*temp_path;
-// 	int		i;
-
-// 	original_path = ft_strdup(data->current_path);
-// 	temp = ft_split(data->cmd_list->args[1], '/');
-// 	i = 0;
-// 	while (temp[i])
-// 	{
-// 		if (list_directory_contents(temp[i], original_path))
-// 		{
-// 			temp_path = append_char_to_str(original_path, '/');
-// 			free(original_path);
-// 			original_path = temp_path;
-// 			temp_path = ft_strjoin(original_path, temp[i]);
-// 			if (chdir(temp_path) == 0)
-// 			{
-// 				free(original_path);
-// 				original_path = temp_path;
-// 				g_last_exit_status = 0;
-// 			}
-// 			else
-// 			{
-// 				free(original_path);
-// 				free(temp_path);
-// 				free_2d_array(temp);
-// 				g_last_exit_status = 1;
-// 				perror("cd 3");
-// 				return ;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			write(STDERR_FILENO, " No such file or directory\n", 26);
-// 			g_last_exit_status = 1;
-// 			return ;
-// 		}
-// 		i++;
-// 	}
-// 	free_2d_array(temp);
-// 	free(data->current_path);
-// 	data->current_path = original_path;
-// }
