@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/01 00:04:33 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/01 17:03:30 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,11 @@ void		exit_f(t_command *cmd_list);
 void        cmd_pwd(t_data *data);
 
 /* builtins/cd.c */
+void		handle_cd_dotdot(t_data *data);
 void        cmd_cd(t_data *data);
 void	    cmd_cd_dir(t_data *data);
+void		cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
+void		err_no_such_file(char **temp);
 
 /* builtins/cd_utils.c */
 char        *append_char_to_str(char *str, char c);
