@@ -6,21 +6,29 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/29 14:07:21 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/06/29 18:06:02 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read, int pipefd[]) 
+static void	wait_for_children(void)
+{
+	while (wait(NULL) > 0)
+		;
+}
+
+static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
+		int pipefd[])
 {
 	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
 		perror("redirection");
-    if (prev_pipe_read != STDIN_FILENO) close(prev_pipe_read);
+	if (prev_pipe_read != STDIN_FILENO)
+		close(prev_pipe_read);
 	if (is_builtin(cmd))
 		builtin(cmd);
 	else
-		is_external(data, cmd);
+		is_my_external(data, cmd);
 	exit(1);
 }
 
@@ -33,28 +41,22 @@ void	executepipecmds(t_data *data)
 
 	cmd = data->cmd_list;
 	prev_pipe_read = STDIN_FILENO;
-	cmd = data->cmd_list;
 	while (cmd)
 	{
-		if (cmd->next)
-			if (pipe(pipefd) == -1) return (perror("pipe"));
+		if (cmd->next && create_pipe(pipefd) == -1)
+			return (perror("pipe"));
 		pid = fork();
-		if (pid == -1) return (perror("fork"));
-		if (pid == 0) executechild(data, cmd, prev_pipe_read, pipefd);
-		if (cmd->next)
-		{
-			close(pipefd[1]);
-			// if (prev_pipe_read != STDIN_FILENO) close(prev_pipe_read);
-			prev_pipe_read = pipefd[0];
-		}
-		else
-			close(pipefd[0]);
+		if (pid == -1)
+			return (perror("fork"));
+		if (pid == 0)
+			executechild(data, cmd, prev_pipe_read, pipefd);
+		update_pipe_fds(&prev_pipe_read, pipefd, cmd->next != NULL);
 		cmd = cmd->next;
 	}
-	while (wait(NULL) > 0);
+	wait_for_children();
 }
 
-int setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
+int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 {
 	if (prev_pipe_read != STDIN_FILENO)
 		if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
@@ -66,4 +68,40 @@ int setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 	}
 	close(pipefd[0]);
 	return (0);
+}
+
+void	execerror(char *full_path, char **args, char **env)
+{
+	execve(full_path, args, env);
+	perror("execve");
+	exit(127);
+}
+
+void	is_my_external(t_data *data, t_command *cmd_list)
+{
+	char	*result;
+
+	result = NULL;
+	if (ft_strchr(cmd_list->args[0], '/'))
+	{
+		if (access(cmd_list->args[0], X_OK) == 0)
+		{
+			execerror(cmd_list->args[0], cmd_list->args, data->env);
+			return ;
+		}
+	}
+	else
+	{
+		result = search_command_in_path(cmd_list, data);
+	}
+	if (result)
+	{
+		execerror(result, cmd_list->args, data->env);
+		free(result);
+	}
+	else
+	{
+		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
+		g_last_exit_status = 127;
+	}
 }

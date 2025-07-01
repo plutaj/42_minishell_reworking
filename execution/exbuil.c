@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/27 17:09:10 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:24:03 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,19 @@ int	is_builtin(t_command *cmd_list)
 	return (0);
 }
 
+char	*search_command_in_path(t_command *cmd_list, t_data *data)
+{
+	char	*path;
+
+	path = is_env_var("$PATH", data->env);
+	if (path && *path != '\0')
+		return (find_command_in_path(cmd_list->args[0]));
+	return (NULL);
+}
+
 void	is_external(t_data *data, t_command *cmd_list)
 {
 	char	*result;
-	char	*path;
 
 	result = NULL;
 	if (ft_strchr(cmd_list->args[0], '/'))
@@ -51,9 +60,7 @@ void	is_external(t_data *data, t_command *cmd_list)
 	}
 	else
 	{
-		path = is_env_var("$PATH", data->env);
-		if (path && *path != '\0')
-			result = find_command_in_path(cmd_list->args[0], data);
+		result = search_command_in_path(cmd_list, data);
 	}
 	if (result)
 	{
@@ -65,4 +72,25 @@ void	is_external(t_data *data, t_command *cmd_list)
 		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
 		g_last_exit_status = 127;
 	}
+}
+
+void	update_pipe_fds(int *prev_pipe_read, int pipefd[2], int has_next)
+{
+	if (has_next)
+	{
+		close(pipefd[1]);
+		*prev_pipe_read = pipefd[0];
+	}
+	else
+		close(pipefd[0]);
+}
+
+int	create_pipe(int pipefd[2])
+{
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe");
+		return (-1);
+	}
+	return (0);
 }

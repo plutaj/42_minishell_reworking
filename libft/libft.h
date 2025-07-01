@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:18:04 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/19 16:19:33 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 14:54:17 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_strrchr(const char *s, int c);
 char		*ft_strtrim(char const *s1, char const *set);
 char		*ft_substr(char const *s, size_t start, size_t len);
-char        *ft_strjoin3(const char *s1, const char *s2, const char *s3);
+char		*ft_strjoin3(const char *s1, const char *s2, const char *s3);
 size_t		ft_index_of_pointer(const char *str, const char *ptr);
 int			ft_strcmp(const char *str1, const char *str2);
 char		*ft_strcat(char *dest, const char *src);

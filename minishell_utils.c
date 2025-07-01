@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/17 16:35:29 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/06/29 14:48:47 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	sigint_handler(int signo)
 	write(1, "\n", 1);
 	g_last_exit_status = 130;
 	rl_on_new_line();
-	rl_replace_line("", 0);    // couldnt compile on mac, uncomment before eval
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
