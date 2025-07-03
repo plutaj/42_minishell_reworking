@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redir_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/29 15:34:26 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 16:05:54 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	add_redir_node(char **args, t_command *cmd_list)
 		new_redir->type = REDIR_APPEND;
 	else if (ft_strcmp(args[0], "<<") == 0)
 		new_redir->type = REDIR_HEREDOC;
+	printf("%s\n", args[0]);
+	printf("%s\n", args[1]);
 	if (args[1])
 		new_redir->file_or_limiter = ft_strdup(args[1]);
 	else

@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 15:24:23 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:26:26 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	cmd_cd(t_data *data)
 	else if (!data->cmd_list->args[1])
 	{
 		chdir(is_env_var("$HOME", data->env));
-		if (data->current_path != NULL && *data->current_path)
+		if (data->current_path)
 			free(data->current_path);
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
 		update_env_var(data->env, "PWD", data->current_path);
@@ -72,12 +72,10 @@ void	cmd_cd(t_data *data)
 void	cmd_cd_dir(t_data *data)
 {
 	char	*original_path;
-	// char	*old_path;
 	char	**temp;
 	int		i;
 
 	original_path = ft_strdup(data->current_path);
-	// old_path = ft_strdup(data->current_path);
 	temp = ft_split(data->cmd_list->args[1], '/');
 	i = 0;
 	while (temp[i])
@@ -95,20 +93,19 @@ void	cmd_cd_dir(t_data *data)
 		}
 		i++;
 	}
-	if (temp[i] == NULL && g_last_exit_status == 0) // correct path
+	if (temp[i] == NULL && g_last_exit_status == 0)
 	{
+		if (data->current_path)
+			free(data->current_path);
 		data->current_path = original_path;
 		update_env_var(data->env, "PWD", original_path);
 		free_2d_array(temp);
-		// free (old_path);
 	}
 	else
 	{
-		// data->current_path = old_path;
 		free_2d_array(temp);
 		free (original_path);
 	}
-	// printf("data->current_path: %s\n", data->current_path);
 }
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
