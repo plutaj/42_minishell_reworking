@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 13:13:06 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:52:30 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,54 +41,6 @@ void	create_command_list(t_data *data)
 	free_2d_array(s);
 }
 
-// t_command *split_args_and_redirs(t_command *new_cmd, char *s)
-// {
-// 	char **args = calloc(256, sizeof(char *));
-// 	int i = 0, j = 0;
-// 	char buffer[1024];
-// 	int buf_i = 0;
-// 	char quote = 0;
-
-// 	while (s[i])
-// 	{
-// 		// Skip spaces outside quotes
-// 		if (!quote && s[i] == ' ')
-// 		{
-// 			if (buf_i > 0)
-// 			{
-// 				buffer[buf_i] = '\0';
-// 				args[j++] = ft_strdup(buffer);
-// 				buf_i = 0;
-// 			}
-// 			i++;
-// 			continue;
-// 		}
-
-// 		// Toggle quote state (but still copy quotes)
-// 		if (s[i] == '\'' || s[i] == '\"')
-// 		{
-// 			if (!quote)
-// 				quote = s[i];
-// 			else if (quote == s[i])
-// 				quote = 0;
-// 		}
-
-// 		// Add character (including quotes) to buffer
-// 		buffer[buf_i++] = s[i++];
-// 	}
-
-// 	// Handle last token
-// 	if (buf_i > 0)
-// 	{
-// 		buffer[buf_i] = '\0';
-// 		args[j++] = ft_strdup(buffer);
-// 	}
-
-// 	args[j] = NULL;
-// 	new_cmd->args = args;
-// 	return new_cmd;
-// }
-
 int	handle_spaces(char *s, int *i, char **args, int *j, char *buffer, int *buf_i)
 {
 	if (s[*i] == ' ')
@@ -116,7 +68,7 @@ int	handle_redirections(char *s, int *i, char **args, int *j, char *buffer, int 
 			buffer[1] = s[*i + 1];
 			buffer[2] = '\0';
 			args[(*j)++] = ft_strdup(buffer);
-			(*i)++;
+			(*i) += 2;
 		}
 		else
 		{
@@ -169,6 +121,17 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 		handle_quotes(s[i], &quote);
 		if (!quote && handle_redirections(s, &i, args, &j, buffer, &buf_i))
 			continue;
+		// if(!quote && (s[i] == '<' || s[i] == '>'))
+		// {
+		// 	// flush_buffer(buffer, args, &j, &buf_i);
+		// 	if (buf_i > 0)
+		// 	{
+		// 		buffer[buf_i] = '\0';
+		// 		args[(j)++] = ft_strdup(buffer);
+		// 	}
+		// 	if (handle_redirections(s, &i, args, &j, buffer, &buf_i))
+		// 		continue;
+		// }
 		if (!quote && handle_spaces(s, &i, args, &j, buffer, &buf_i))
 			continue;
 		buffer[buf_i++] = s[i++];

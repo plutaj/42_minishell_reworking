@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 16:58:34 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:28:11 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	child_process(char *full_path, char **args, char **env)
 	if (execve(full_path, args, env) == -1)
 	{
 		perror("execve");
-		exit(127);
+		exit(126);
 	}
 }
 
