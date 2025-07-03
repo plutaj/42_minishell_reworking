@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 13:52:30 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 15:56:19 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,17 +121,6 @@ t_command *split_args_and_redirs(t_command *new_cmd, char *s)
 		handle_quotes(s[i], &quote);
 		if (!quote && handle_redirections(s, &i, args, &j, buffer, &buf_i))
 			continue;
-		// if(!quote && (s[i] == '<' || s[i] == '>'))
-		// {
-		// 	// flush_buffer(buffer, args, &j, &buf_i);
-		// 	if (buf_i > 0)
-		// 	{
-		// 		buffer[buf_i] = '\0';
-		// 		args[(j)++] = ft_strdup(buffer);
-		// 	}
-		// 	if (handle_redirections(s, &i, args, &j, buffer, &buf_i))
-		// 		continue;
-		// }
 		if (!quote && handle_spaces(s, &i, args, &j, buffer, &buf_i))
 			continue;
 		buffer[buf_i++] = s[i++];
