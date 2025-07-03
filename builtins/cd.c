@@ -6,14 +6,13 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 16:26:26 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/03 17:28:36 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-static void	err_no_such_file(void);
 
 static void	handle_cd_dotdot(t_data *data)
 {
@@ -94,18 +93,9 @@ void	cmd_cd_dir(t_data *data)
 		i++;
 	}
 	if (temp[i] == NULL && g_last_exit_status == 0)
-	{
-		if (data->current_path)
-			free(data->current_path);
-		data->current_path = original_path;
-		update_env_var(data->env, "PWD", original_path);
-		free_2d_array(temp);
-	}
+		update_path(data, original_path, temp);
 	else
-	{
-		free_2d_array(temp);
-		free (original_path);
-	}
+		update_path_failed(temp, original_path);
 }
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
@@ -133,8 +123,27 @@ static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 	}
 }
 
-static void	err_no_such_file(void)
+int	list_directory_contents(char *str, const char *path)
 {
-	write(STDERR_FILENO, " No such file or directory\n", 28);
-	g_last_exit_status = 1;
+	struct dirent	*entry;
+	DIR				*dp;
+
+	dp = opendir(path);
+	if (dp == NULL)
+	{
+		perror("opendir");
+		exit(1);
+	}
+	entry = readdir(dp);
+	while (entry != NULL)
+	{
+		if (ft_strcmp(str, entry->d_name) == 0)
+		{
+			closedir(dp);
+			return (1);
+		}
+		entry = readdir(dp);
+	}
+	closedir(dp);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 12:58:05 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 17:28:22 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,14 @@ void						cmd_pwd(t_data *data);
 /* builtins/cd.c */
 void						cmd_cd(t_data *data);
 void						cmd_cd_dir(t_data *data);
+int							list_directory_contents(char *str, const char *path);
+
 
 /* builtins/cd_utils.c */
+void						update_path(t_data *data, char *original_path, char **temp);
+void						update_path_failed(char **temp, char *original_path);
 char						*append_char_to_str(char *str, char c);
-int							list_directory_contents(char *str,
-								const char *path);
+void						err_no_such_file(void);
 int							count_slash(char *str);
 
 /* builtins/unset.c */
