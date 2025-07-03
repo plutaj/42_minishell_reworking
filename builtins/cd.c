@@ -13,7 +13,7 @@
 #include "../minishell.h"
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-static void	err_no_such_file(char **temp);
+static void	err_no_such_file(void);
 
 static void	handle_cd_dotdot(t_data *data)
 {
@@ -51,7 +51,8 @@ void	cmd_cd(t_data *data)
 	else if (!data->cmd_list->args[1])
 	{
 		chdir(is_env_var("$HOME", data->env));
-		free(data->current_path);
+		if (data->current_path && *data->current_path)
+			free(data->current_path);
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
 		g_last_exit_status = 0;
 	}
@@ -69,10 +70,12 @@ void	cmd_cd(t_data *data)
 void	cmd_cd_dir(t_data *data)
 {
 	char	*original_path;
+	char	*old_path;
 	char	**temp;
 	int		i;
 
 	original_path = ft_strdup(data->current_path);
+	old_path = ft_strdup(data->current_path);
 	temp = ft_split(data->cmd_list->args[1], '/');
 	i = 0;
 	while (temp[i])
@@ -81,24 +84,38 @@ void	cmd_cd_dir(t_data *data)
 		{
 			cmd_cd_dir2(data, temp, &original_path, i);
 			if (g_last_exit_status == 1)
-				return ;
+				break ;
 		}
 		else
 		{
-			err_no_such_file(temp);
-			return ;
+			err_no_such_file();
+			break ;
 		}
 		i++;
 	}
-	free_2d_array(temp);
-	free(data->current_path);
-	data->current_path = original_path;
+	if (temp[i] == NULL && g_last_exit_status == 0) // correct path
+	{
+		printf("good path\n");
+		data->current_path = original_path;
+		update_env_var(data->env, "$PATH", original_path);
+		free_2d_array(temp);
+		free (old_path);
+	}
+	else
+	{
+		printf("wrong path\n");
+		data->current_path = old_path;
+		free_2d_array(temp);
+		free (original_path);
+	}
+	// printf("data->current_path: %s\n", data->current_path);
 }
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 {
 	char	*temp_path;
 
+	(void)data;
 	temp_path = append_char_to_str(*original_path, '/');
 	free(*original_path);
 	*original_path = temp_path;
@@ -113,17 +130,14 @@ static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 	{
 		free(*original_path);
 		free(temp_path);
-		free_2d_array(temp);
 		g_last_exit_status = 1;
 		perror("cd 3");
 		return ;
 	}
-	data->current_path = *original_path;
 }
 
-static void	err_no_such_file(char **temp)
+static void	err_no_such_file(void)
 {
 	write(STDERR_FILENO, "No such file or directory\n", 26);
 	g_last_exit_status = 1;
-	free_2d_array(temp);
 }
