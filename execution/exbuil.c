@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/03 13:25:53 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 17:13:30 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*search_command_in_path(t_command *cmd_list, t_data *data)
 {
 	char	*path;
 
-	path = is_env_var("$PATH", data->env);
+	path = is_env_var("$PATH", data->env); // this 
 	if (path && *path != '\0')
 		return (find_command_in_path(cmd_list->args[0]));
 	return (NULL);
@@ -67,7 +67,9 @@ void	is_external(t_data *data, t_command *cmd_list)
 	}
 	else
 	{
-		perror(" command not found");
+		write(1, "command not found: ", 19);
+		write(1, cmd_list->args[0], ft_strlen(cmd_list->args[0]));
+		write(1, "\n", 2);
 		g_last_exit_status = 127;
 	}
 }
