@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 16:34:40 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/03 11:35:06 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,6 @@ static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 
 static void	err_no_such_file(void)
 {
-	write(STDERR_FILENO, " No such file or directory\n", 28);
+	write(STDERR_FILENO, "No such file or directory\n", 26);
 	g_last_exit_status = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 15:38:11 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/03 12:58:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,13 @@ int							starts_with_quote(const char *s);
 int							ends_with_quote(const char *s, char quote);
 char						*remove_quotes(const char *str);
 void						remove_quotes_from_args(char **args);
+int							handle_redirections(char *s, int *i, char **args,
+								int *j, char *buffer, int *buf_i);
+void						handle_quotes(char c, char *quote);
+int							handle_spaces(char *s, int *i, char **args, int *j,
+								char *buffer, int *buf_i);
+void						flush_buffer(char *buffer, char **args, int *j,
+								int *buf_i);
 
 /* create_command_list_utils.c */
 void						find_variables(t_command *new_cmd);

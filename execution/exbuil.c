@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/29 15:24:03 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:25:53 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ void	is_external(t_data *data, t_command *cmd_list)
 		}
 	}
 	else
-	{
 		result = search_command_in_path(cmd_list, data);
-	}
 	if (result)
 	{
 		execute_command(result, cmd_list->args, data->env);
@@ -69,7 +67,7 @@ void	is_external(t_data *data, t_command *cmd_list)
 	}
 	else
 	{
-		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
+		perror(" command not found");
 		g_last_exit_status = 127;
 	}
 }
