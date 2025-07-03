@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/30 16:31:23 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:26:23 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ void	set_data_to_default(t_data *data)
 		temp = data->cmd_list->next;
 		free(data->cmd_list);
 		data->cmd_list = temp;
-	}
-	if (data->current_path)
-	{
-		free (data->current_path);
-		data->current_path = NULL;
 	}
 	data->cmd_list = NULL;
 	if (data->input)

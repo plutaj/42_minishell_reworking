@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 11:35:06 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/03 15:24:23 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	handle_cd_dotdot(t_data *data)
 	{
 		free(data->current_path);
 		data->current_path = new_path;
+		update_env_var(data->env, "PWD", new_path);
 		g_last_exit_status = 0;
 	}
 	else
@@ -51,9 +52,10 @@ void	cmd_cd(t_data *data)
 	else if (!data->cmd_list->args[1])
 	{
 		chdir(is_env_var("$HOME", data->env));
-		if (data->current_path && *data->current_path)
+		if (data->current_path != NULL && *data->current_path)
 			free(data->current_path);
 		data->current_path = ft_strdup(is_env_var("$HOME", data->env));
+		update_env_var(data->env, "PWD", data->current_path);
 		g_last_exit_status = 0;
 	}
 	else if (ft_strcmp(data->current_path, data->cmd_list->args[1]) == 0)
@@ -70,12 +72,12 @@ void	cmd_cd(t_data *data)
 void	cmd_cd_dir(t_data *data)
 {
 	char	*original_path;
-	char	*old_path;
+	// char	*old_path;
 	char	**temp;
 	int		i;
 
 	original_path = ft_strdup(data->current_path);
-	old_path = ft_strdup(data->current_path);
+	// old_path = ft_strdup(data->current_path);
 	temp = ft_split(data->cmd_list->args[1], '/');
 	i = 0;
 	while (temp[i])
@@ -95,16 +97,14 @@ void	cmd_cd_dir(t_data *data)
 	}
 	if (temp[i] == NULL && g_last_exit_status == 0) // correct path
 	{
-		printf("good path\n");
 		data->current_path = original_path;
-		update_env_var(data->env, "$PATH", original_path);
+		update_env_var(data->env, "PWD", original_path);
 		free_2d_array(temp);
-		free (old_path);
+		// free (old_path);
 	}
 	else
 	{
-		printf("wrong path\n");
-		data->current_path = old_path;
+		// data->current_path = old_path;
 		free_2d_array(temp);
 		free (original_path);
 	}
@@ -114,11 +114,12 @@ void	cmd_cd_dir(t_data *data)
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 {
 	char	*temp_path;
+	char	*tmp;
 
 	(void)data;
-	temp_path = append_char_to_str(*original_path, '/');
+	tmp = append_char_to_str(*original_path, '/');
 	free(*original_path);
-	*original_path = temp_path;
+	*original_path = tmp;
 	temp_path = ft_strjoin(*original_path, temp[i]);
 	if (chdir(temp_path) == 0)
 	{
@@ -132,12 +133,11 @@ static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)
 		free(temp_path);
 		g_last_exit_status = 1;
 		perror("cd 3");
-		return ;
 	}
 }
 
 static void	err_no_such_file(void)
 {
-	write(STDERR_FILENO, "No such file or directory\n", 26);
+	write(STDERR_FILENO, " No such file or directory\n", 28);
 	g_last_exit_status = 1;
 }
