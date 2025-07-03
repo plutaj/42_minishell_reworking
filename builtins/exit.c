@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:02:27 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/28 11:56:29 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:24:51 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	exit_err_msg2(t_command *cmd_list)
 static void	ft_clean_n_exit(t_command *cmd_list)
 {
 	free_2d_array(cmd_list->data->env);
+	free(cmd_list->data->current_path);
 	set_data_to_default(cmd_list->data);
 	exit(g_last_exit_status);
 }
