@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/03 17:13:30 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/05 10:34:45 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	is_external(t_data *data, t_command *cmd_list)
 	}
 	else
 	{
-		write(1, "command not found: ", 19);
 		write(1, cmd_list->args[0], ft_strlen(cmd_list->args[0]));
+		write(1, ": command not found", 19);
 		write(1, "\n", 2);
 		g_last_exit_status = 127;
 	}
