@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 17:28:22 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/07 15:28:39 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void						create_redir_list(t_data *data);
 void						add_redir_node(char **args, t_command *cmd_list);
 int							redirectinp(t_data *data);
 int							redirectout(t_data *data);
+int							apply_output_redir(t_redir *redir, int saved_out);
 int							handle_heredoc(char *limiter);
 
 /* create_command_list.c */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redir_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 16:05:54 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/07 14:37:49 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	create_redir_list(t_data *data)
 {
 	t_command	*cmd_list;
 	int			i;
-	int			x;
+	// int			x;
 
 	cmd_list = data->cmd_list;
 	i = 0;
@@ -40,11 +40,23 @@ void	create_redir_list(t_data *data)
 			if (check_for_redir(cmd_list->args[i]))
 			{
 				add_redir_node(&(cmd_list->args[i]), cmd_list);
-				x = i;
-				while (cmd_list->args[x])
-					free(cmd_list->args[x++]);
-				cmd_list->args[i] = NULL;
-				continue ;
+				// x = i;
+				// while (cmd_list->args[x])
+				// 	free(cmd_list->args[x++]);
+				// cmd_list->args[i] = NULL;
+				// continue ;
+				free(cmd_list->args[i]);
+				if (cmd_list->args[i + 1])
+				    free(cmd_list->args[i + 1]);
+				int j = i;
+				while (cmd_list->args[j + 2])
+				{
+				    cmd_list->args[j] = cmd_list->args[j + 2];
+				    j++;
+				}
+				cmd_list->args[j] = NULL;        // terminate the shifted array
+				cmd_list->args[j + 1] = NULL; 
+				continue;
 			}
 			i++;
 		}
@@ -67,8 +79,8 @@ void	add_redir_node(char **args, t_command *cmd_list)
 		new_redir->type = REDIR_APPEND;
 	else if (ft_strcmp(args[0], "<<") == 0)
 		new_redir->type = REDIR_HEREDOC;
-	printf("%s\n", args[0]);
-	printf("%s\n", args[1]);
+	// printf("%s\n", args[0]);
+	// printf("%s\n", args[1]);
 	if (args[1])
 		new_redir->file_or_limiter = ft_strdup(args[1]);
 	else

@@ -6,92 +6,162 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/29 15:25:43 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/07 15:32:01 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_heredoc(char *limiter)
+int apply_regular_input(t_redir *redir, int saved_in)
 {
-	int		pipefd[2];
-	char	*line;
-
-	if (pipe(pipefd) == -1 || !limiter)
-	{
-		perror("syntax error near unexpected token `newline'");
-		exit(-1);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, limiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(pipefd[1], line, ft_strlen(line));
-		write(pipefd[1], "\n", 1);
-		free(line);
-	}
-	close(pipefd[1]);
-	return (pipefd[0]);
+    int fd;
+	
+	fd = open(redir->file_or_limiter, O_RDONLY);
+    if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+    {
+        perror("open or dup2 error");
+        if (fd != -1) 
+			close(fd);
+        dup2(saved_in, STDIN_FILENO);
+        close(saved_in);
+        return (-1);
+    }
+    close(fd);
+    return (0);
+}
+int apply_heredoc_input(t_redir *redir, int saved_in)
+{
+    int fd;
+	
+	fd = handle_heredoc(redir->file_or_limiter);
+    if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+    {
+        perror("heredoc error");
+        if (fd != -1) close(fd);
+        dup2(saved_in, STDIN_FILENO);
+        close(saved_in);
+        return (-1);
+    }
+    close(fd);
+    return (0);
 }
 
-static void	opendup(int fd)
+int apply_input_redir(t_redir *redir, int saved_in)
 {
-	if (fd == -1)
-	{
-		perror("open error for >");
-		exit(1);
-	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("dup2 error");
-		close(fd);
-		exit(1);
-	}
-	close(fd);
+    if (redir->type == REDIR_INPUT)
+        return apply_regular_input(redir, saved_in);
+    else if (redir->type == REDIR_HEREDOC)
+        return apply_heredoc_input(redir, saved_in);
+    return (0);
 }
 
-int	redirectinp(t_data *data)
+int redirectinp(t_data *data)
 {
-	int	inpfrom;
+    int saved_in;
+    t_redir *redir;
 
-	inpfrom = dup(STDIN_FILENO);
-	if (inpfrom == -1)
-		perror("dup");
-	if (data->cmd_list->redir)
-		if (do_input_redir(data->cmd_list->redir) == -1)
-			return (-1);
-	return (inpfrom);
+	saved_in = dup(STDIN_FILENO);
+	redir = data->cmd_list->redir;
+    if (saved_in == -1)
+    {
+        perror("dup");
+        return (-1);
+    }
+    while (redir)
+    {
+        if (redir->type == REDIR_INPUT || redir->type == REDIR_HEREDOC)
+        {
+            if (apply_input_redir(redir, saved_in) == -1)
+                return (-1);
+        }
+        redir = redir->next;
+    }
+    return saved_in;
 }
 
-int	redirectout(t_data *data)
+int apply_output_redir(t_redir *redir, int saved_out)
 {
-	int			outto;
-	int			fd;
-	t_command	*cmd_list_copy;
+    int fd;
+	
+	if (redir->type == REDIR_HEREDOC)
+		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND);
+	else if (redir->type == REDIR_OUTPUT)
+		fd = open(redir->file_or_limiter, O_WRONLY| O_CREAT | O_TRUNC);
+    if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
+    {
+        perror("open or dup2 error");
+        if (fd != -1) 
+			close(fd);
+        dup2(saved_out, STDOUT_FILENO);
+        close(saved_out);
+        return (-1);
+    }
+    close(fd);
+    return (0);
+}
 
-	cmd_list_copy = temp(&outto, data);
-	while (cmd_list_copy)
-	{
-		if (cmd_list_copy->redir)
-		{
-			if (cmd_list_copy->redir->type == 1)
-			{
-				fd = open(cmd_list_copy->redir->file_or_limiter,
-						O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				opendup(fd);
-			}
-			if (cmd_list_copy->redir->type == 2)
-			{
-				fd = open(cmd_list_copy->redir->file_or_limiter,
-						O_WRONLY | O_CREAT | O_APPEND, 0644);
-				opendup(fd);
-			}
-		}
-		cmd_list_copy = cmd_list_copy->next;
-	}
-	return (outto);
+int redirectout(t_data *data)
+{
+    int saved_out = dup(STDOUT_FILENO);
+    t_redir *redir = data->cmd_list->redir;
+
+    if (saved_out == -1)
+    {
+        perror("dup");
+        return (-1);
+    }
+    while (redir)
+    {
+        if (redir->type == REDIR_OUTPUT || redir->type == REDIR_APPEND)
+        {
+            if (apply_output_redir(redir, saved_out) == -1)
+                return (-1);
+        }
+        redir = redir->next;
+    }
+    return saved_out;
+}
+
+
+int heredoc_loop(int write_fd, char *limiter)
+{
+    char *line;
+
+    while (1)
+    {
+        line = readline("> ");
+        if (!line || ft_strcmp(line, limiter) == 0)
+        {
+            free(line);
+            break;
+        }
+        if (write(write_fd, line, ft_strlen(line)) == -1 ||
+            write(write_fd, "\n", 1) == -1)
+        {
+            perror("write error");
+            free(line);
+            close(write_fd);
+            return (-1);
+        }
+        free(line);
+    }
+    return (0);
+}
+
+int handle_heredoc(char *limiter)
+{
+    int pipefd[2];
+
+    if (pipe(pipefd) == -1 || !limiter)
+    {
+        perror("syntax error near unexpected token `newline'");
+        return (-1);
+    }
+    if (heredoc_loop(pipefd[1], limiter) == -1)
+    {
+        close(pipefd[0]);
+        return (-1);
+    }
+    close(pipefd[1]);
+    return pipefd[0];
 }
