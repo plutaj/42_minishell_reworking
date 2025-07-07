@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/07 15:32:01 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/07 17:58:46 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int apply_output_redir(t_redir *redir, int saved_out)
 {
     int fd;
 	
+    fd = 0; // added this
 	if (redir->type == REDIR_HEREDOC)
 		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND);
 	else if (redir->type == REDIR_OUTPUT)
