@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/06/29 18:06:02 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:22:36 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,6 @@ int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 	}
 	close(pipefd[0]);
 	return (0);
-}
-
-void	execerror(char *full_path, char **args, char **env)
-{
-	execve(full_path, args, env);
-	perror("execve");
-	exit(127);
 }
 
 void	is_my_external(t_data *data, t_command *cmd_list)

@@ -6,19 +6,24 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:06:06 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 17:28:04 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/08 17:34:05 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	update_path(t_data *data, char *original_path, char **temp)
+void	update_path(t_data *data, char *original_path, char **temp, int i)
 {
-	if (data->current_path)
-		free(data->current_path);
-	data->current_path = original_path;
-	update_env_var(data->env, "PWD", original_path);
-	free_2d_array(temp);
+	if (temp[i] == NULL && g_last_exit_status == 0)
+	{
+		if (data->current_path)
+			free(data->current_path);
+		data->current_path = original_path;
+		update_env_var(data->env, "PWD", original_path);
+		free_2d_array(temp);
+	}
+	else
+		update_path_failed(temp, original_path);
 }
 
 void	update_path_failed(char **temp, char *original_path)

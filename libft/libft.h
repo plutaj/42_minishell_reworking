@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 18:18:04 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/29 14:54:17 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:01:11 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int			ft_strcmp(const char *str1, const char *str2);
 char		*ft_strcat(char *dest, const char *src);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
+void		copy_token(char *dst, const char *src, int len);
 
 #endif

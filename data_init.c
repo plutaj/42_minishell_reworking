@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 15:26:23 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:27:04 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void	init_data(t_data *data, char **envp)
 {
-	data->env = copy_envp(envp); // set a env var 2d array
+	data->env = copy_envp(envp);
 	data->input = NULL;
-	get_path(data); // set a current path in data struct
+	get_path(data);
 	data->cmd_list = NULL;
 	data->is_single = 0;
 	data->is_double = 0;
 }
-	
+
 void	get_path(t_data *data)
 {
 	char	*cwd;
-    char	buffer[1024];
+	char	buffer[1024];
 
-    cwd = getcwd(buffer, sizeof(buffer));
-    if (cwd == NULL)
+	cwd = getcwd(buffer, sizeof(buffer));
+	if (cwd == NULL)
 	{
 		perror("getcwd() error");
 		g_last_exit_status = 1;

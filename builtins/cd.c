@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 17:28:36 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/08 17:33:08 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ void	cmd_cd_dir(t_data *data)
 		}
 		i++;
 	}
-	if (temp[i] == NULL && g_last_exit_status == 0)
-		update_path(data, original_path, temp);
-	else
-		update_path_failed(temp, original_path);
+	update_path(data, original_path, temp, i);
 }
 
 static void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i)

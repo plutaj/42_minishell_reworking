@@ -6,13 +6,14 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:53:13 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/29 15:29:53 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:01:53 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
 char		**free_split(char **split, size_t count);
+void		set_quote(char *quote, const char *s, int i);
 char		**ft_split_quote_aware(const char *s, char c);
 static int	count_tokens_quote_aware(const char *s, char c);
 static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len);
@@ -61,9 +62,8 @@ static int	count_tokens_quote_aware(const char *s, char c)
 		count++;
 		while (s[i])
 		{
-			if (quote && s[i] == quote)
-				quote = 0;
-			else if (!quote && (s[i] == '\'' || s[i] == '"'))
+			set_quote(&quote, s, i);
+			if (!quote && (s[i] == '\'' || s[i] == '"'))
 				quote = s[i];
 			else if (!quote && s[i] == c)
 				break ;
@@ -73,10 +73,15 @@ static int	count_tokens_quote_aware(const char *s, char c)
 	return (count);
 }
 
+void	set_quote(char *quote, const char *s, int i)
+{
+	if (*quote && s[i] == *quote)
+		*quote = 0;
+}
+
 static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
 {
 	int		i;
-	int		j;
 	char	quote;
 	char	*token;
 
@@ -97,10 +102,7 @@ static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
 	token = malloc(i + 1);
 	if (!token)
 		return (NULL);
-	j = -1;
-	while (++j < i)
-		token[j] = s[j];
-	token[i] = '\0';
+	copy_token(token, s, i);
 	return (token);
 }
 
@@ -114,7 +116,8 @@ char	**free_split(char **split, size_t count)
 
 // char		**ft_split_quote_aware(const char *s, char c);
 // static int	count_tokens_quote_aware(const char *s, char c);
-// static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len);
+// static char	*alloc_token_quote_aware(const char *s,
+// char c, int *consumed_len);
 
 // char	**ft_split_quote_aware(const char *s, char c)
 // {
@@ -183,7 +186,8 @@ char	**free_split(char **split, size_t count)
 // 	return (count);
 // }
 
-// static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
+// static char	*alloc_token_quote_aware(const char *s,
+// char c, int *consumed_len)
 // {
 // 	int		i;
 // 	char	quote;

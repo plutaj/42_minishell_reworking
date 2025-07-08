@@ -1,0 +1,87 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
+/*   Updated: 2025/07/08 18:21:05 by jpluta           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+int	heredoc_loop(int write_fd, char *limiter)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || ft_strcmp(line, limiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		if (write(write_fd, line, ft_strlen(line)) == -1 || write(write_fd,
+				"\n", 1) == -1)
+		{
+			perror("write error");
+			free(line);
+			close(write_fd);
+			return (-1);
+		}
+		free(line);
+	}
+	return (0);
+}
+
+int	handle_heredoc(char *limiter)
+{
+	int	pipefd[2];
+
+	if (pipe(pipefd) == -1 || !limiter)
+	{
+		perror("syntax error near unexpected token `newline'");
+		return (-1);
+	}
+	if (heredoc_loop(pipefd[1], limiter) == -1)
+	{
+		close(pipefd[0]);
+		return (-1);
+	}
+	close(pipefd[1]);
+	return (pipefd[0]);
+}
+
+int	redirectinp(t_data *data)
+{
+	int		saved_in;
+	t_redir	*redir;
+
+	saved_in = dup(STDIN_FILENO);
+	redir = data->cmd_list->redir;
+	if (saved_in == -1)
+	{
+		perror("dup");
+		return (-1);
+	}
+	while (redir)
+	{
+		if (redir->type == REDIR_INPUT || redir->type == REDIR_HEREDOC)
+		{
+			if (apply_input_redir(redir, saved_in) == -1)
+				return (-1);
+		}
+		redir = redir->next;
+	}
+	return (saved_in);
+}
+
+void	execerror(char *full_path, char **args, char **env)
+{
+	execve(full_path, args, env);
+	perror("execve");
+	exit(127);
+}

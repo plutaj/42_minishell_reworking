@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/05 11:17:00 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/08 18:28:51 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (printf("Error: Unexpected input.\n"));
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_handler); // uncomment row inside of sigin_handler (cuz of mac)
+	signal(SIGINT, sigint_handler);
 	init_data(&data, envp);
 	while (1)
 	{

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
+#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/06/29 15:39:11 by jpluta           ###   ########.fr        #
+#    Updated: 2025/07/08 18:23:49 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ pipes/redirections.c \
 execution/exbuil.c \
 execution/exec.c \
 pipes/inpredir.c \
+pipes/heredoc.c \
 
 OBJ = $(SRC:.c=.o)
 

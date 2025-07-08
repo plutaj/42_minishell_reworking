@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/07 18:51:20 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/08 18:04:28 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*extract_var(char *str)
 	while (str[i])
 	{
 		if (str[i] == ' ' || str[i] == '$' || str[i] == '\'' || str[i] == '"' || str[i] == '\0')
-			break;
+			break ;
 		i++;
 	}
 	new_str = ft_substr(str, 0, i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/05 10:34:45 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/08 17:34:55 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*search_command_in_path(t_command *cmd_list, t_data *data)
 {
 	char	*path;
 
-	path = is_env_var("$PATH", data->env); // this 
+	path = is_env_var("$PATH", data->env);
 	if (path && *path != '\0')
 		return (find_command_in_path(cmd_list->args[0]));
 	return (NULL);

@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*   ft_split_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/08 18:28:43 by jpluta           ###   ########.fr       */
+/*   Created: 2025/07/08 18:00:09 by jpluta            #+#    #+#             */
+/*   Updated: 2025/07/08 18:03:19 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../libft.h"
 
-void	sigint_handler(int signo)
+void	copy_token(char *dst, const char *src, int len)
 {
-	(void)signo;
-	write(1, "\n", 1);
-	g_last_exit_status = 130;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	int	i;
 
-int	only_spaces(const char *s)
-{
-	char	*str;
-
-	str = (char *)s;
-	while (*str)
+	i = 0;
+	while (i < len)
 	{
-		if (*str == ' ')
-			str++;
-		else
-			return (0);
+		dst[i] = src[i];
+		i++;
 	}
-	return (1);
+	dst[i] = '\0';
 }

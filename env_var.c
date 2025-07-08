@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/03 13:25:26 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:28:10 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,20 @@ char	**copy_envp(char **envp)
 
 	i = 0;
 	count = 0;
-	// Count how many environment variables there are
 	while (envp[count])
 		count++;
-	// Allocate memory for your own environment array (+1 for NULL terminator)
 	env = malloc(sizeof(char *) * (count + 1));
 	if (!env)
 	{
 		perror("malloc");
 		return (NULL);
 	}
-	// Copy each string
 	while (i < count)
 	{
 		env[i] = ft_strdup(envp[i]);
 		if (!env[i])
 		{
 			perror("strdup");
-			// Free everything if one strdup fails
 			while (--i >= 0)
 				free(env[i]);
 			free(env);
@@ -45,7 +41,7 @@ char	**copy_envp(char **envp)
 		}
 		i++;
 	}
-	env[i] = NULL; // NULL-terminate the array
+	env[i] = NULL;
 	return (env);
 }
 
@@ -138,7 +134,7 @@ char	*is_env_var(char *arg, char **envp)
 		{
 			name_len = equal_sign - env_entry;
 			if (key_len == name_len && ft_strncmp(env_entry, key, key_len) == 0)
-				return (equal_sign + 1); // value part after '='
+				return (equal_sign + 1);
 		}
 		i++;
 	}
