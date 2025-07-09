@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 17:24:08 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/09 18:42:06 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int	apply_output_redir(t_redir *redir, int saved_out)
 	return (0);	
 }
 
-int	redirectout(t_data *data)
+int	redirectout(t_command *cmd_list)
 {
 	int		saved_out;
 	t_redir	*redir;
 
 	saved_out = dup(STDOUT_FILENO);
-	redir = data->cmd_list->redir;
+	redir = cmd_list->redir;
 	if (saved_out == -1)
 	{
 		perror("dup");

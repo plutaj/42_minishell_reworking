@@ -6,53 +6,58 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 17:06:09 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/09 19:29:49 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	wait_for_children(void)
+void fork_and_execute_pipe_cmd(t_data *data, t_command *cmd, int *prev_pipe_read)
 {
-	while (wait(NULL) > 0)
-		;
+	int pipefd[2];
+	pid_t pid;
+	int from;
+	int to;
+
+	if (cmd->next && create_pipe(pipefd) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		from = redirectinp(cmd);
+		to = redirectout(cmd);
+		closeiferror(from, to);
+		executechild(data, cmd, *prev_pipe_read, pipefd);
+	}
+	update_pipe_fds(prev_pipe_read, pipefd, cmd->next != NULL);
 }
 
-static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
-		int pipefd[])
+static void	closeiferror(int from, int to)
 {
-	if (apply_redirections(cmd) == -1)
-		perror("redirection");
-	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
-		perror("pipe dup");
-	if (prev_pipe_read != STDIN_FILENO)
-		close(prev_pipe_read);
-	if (is_builtin(cmd))
-		builtin(cmd);
-	else
-		is_my_external(data, cmd);
-	exit(1);
+	if (from == -1)
+		close(from);
+	if (to == -1)
+		close(to);
 }
 
-void	executepipecmds(t_data *data)
+void executepipecmds(t_data *data)
 {
-	t_command	*cmd;
-	int			pipefd[2];
-	int			prev_pipe_read;
-	pid_t		pid;
+	t_command *cmd;
 
 	cmd = data->cmd_list;
-	prev_pipe_read = STDIN_FILENO;
+	int prev_pipe_read = STDIN_FILENO;
+
 	while (cmd)
 	{
-		if (cmd->next && create_pipe(pipefd) == -1)
-			return (perror("pipe"));
-		pid = fork();
-		if (pid == -1)
-			return (perror("fork"));
-		if (pid == 0)
-			executechild(data, cmd, prev_pipe_read, pipefd);
-		update_pipe_fds(&prev_pipe_read, pipefd, cmd->next != NULL);
+		fork_and_execute_pipe_cmd(data, cmd, &prev_pipe_read);
 		cmd = cmd->next;
 	}
 	wait_for_children();
