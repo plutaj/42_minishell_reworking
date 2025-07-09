@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/09 14:27:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/09 19:29:41 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,12 +153,19 @@ int							execute_command(char *full_path, char **args,
 void						update_pipe_fds(int *prev_pipe_read, int pipefd[2],
 								int has_next);
 int							create_pipe(int pipefd[2]);
+int	apply_redirections(t_command *cmd);
+int	has_output_redirection(t_command *cmd);
+int	has_input_redirection(t_command *cmd);
 
 /* pipes/heredoc.c */
 int							heredoc_loop(int write_fd, char *limiter);
 int							handle_heredoc(char *limiter);
 void						execerror(char *full_path, char **args, char **env);
-int							redirectinp(t_data *data);
+int							redirectinp(t_command *cmd_list);
+void fork_and_execute_pipe_cmd(t_data *data, t_command *cmd, int *prev_pipe_read);
+void	wait_for_children(void);
+void	executechild(t_data *data, t_command *cmd, int prev_pipe_read, int pipefd[]);
+
 
 /* pipes/inpredir.c */
 t_command					*temp(int *fd, t_data *data);
@@ -176,7 +183,7 @@ int							apply_regular_input(t_redir *redir, int saved_in);
 int							apply_heredoc_input(t_redir *redir, int saved_in);
 int							apply_input_redir(t_redir *redir, int saved_in);
 int							apply_output_redir(t_redir *redir, int saved_out);
-int							redirectout(t_data *data);
+int							redirectout(t_command *cmd_list);
 
 /* builtins/echo.c */
 void						cmd_echo(t_command *cmd_list);

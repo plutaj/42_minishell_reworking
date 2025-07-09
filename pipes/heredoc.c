@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/08 18:21:05 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/09 18:41:47 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ int	handle_heredoc(char *limiter)
 	return (pipefd[0]);
 }
 
-int	redirectinp(t_data *data)
+int	redirectinp(t_command *cmd_list)
 {
 	int		saved_in;
 	t_redir	*redir;
 
 	saved_in = dup(STDIN_FILENO);
-	redir = data->cmd_list->redir;
+	redir = cmd_list->redir;
 	if (saved_in == -1)
 	{
 		perror("dup");
