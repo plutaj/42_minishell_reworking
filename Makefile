@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
+#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/09 13:58:38 by huahmad          ###   ########.fr        #
+#    Updated: 2025/07/09 15:52:02 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ pipes/inpredir.c \
 pipes/heredoc.c \
 parsing/expansion.c \
 parsing/handeling.c \
+env_var_utils.c \
 
 OBJ = $(SRC:.c=.o)
 

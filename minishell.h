@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/09 14:27:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:52:56 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,21 @@ typedef struct s_redir
 
 typedef struct s_parser
 {
-	char	**args;
-	char	buffer[1024];
-	int		i;
-	int		j;
-	int		buf_i;
-}	t_parser;
+	char					**args;
+	char					buffer[1024];
+	int						i;
+	int						j;
+	int						buf_i;
+}							t_parser;
 
 typedef struct s_var_replace
 {
-	char	**str;
-	char	*var;
-	char	*start;
-	char	*ptr_to_env;
-	int		*i;
-}	t_var_replace;
-
+	char					**str;
+	char					*var;
+	char					*start;
+	char					*ptr_to_env;
+	int						*i;
+}							t_var_replace;
 
 /* This struct represent node of commands */
 typedef struct s_command
@@ -94,6 +93,8 @@ char						**copy_envp(char **envp);
 char						*is_env_var(char *input, char **envp);
 int							update_env_var(char **envp, const char *key,
 								const char *value);
+
+/* env_var.c */
 void						strncpy_until_char(char *dest, const char *src,
 								char stop_char);
 void						print_env(char **env);
@@ -115,34 +116,36 @@ void						create_redir_list(t_data *data);
 void						add_redir_node(char **args, t_command *cmd_list);
 int							apply_output_redir(t_redir *redir, int saved_out);
 int							handle_heredoc(char *limiter);
-void	process_command_redirs(t_command *cmd);
-t_redir	*create_redir_node(char **args);
+void						process_command_redirs(t_command *cmd);
+t_redir						*create_redir_node(char **args);
 
 /* create_command_list.c */
 void						create_command_list(t_data *data);
 t_command					*split_args_and_redirs(t_command *new_cmd, char *s);
-int							starts_with_quote(const char *s);
-int							ends_with_quote(const char *s, char quote);
+// int							starts_with_quote(const char *s);
+// int							ends_with_quote(const char *s, char quote);
 char						*remove_quotes(const char *str);
 void						remove_quotes_from_args(char **args);
-int handle_redirections(char *s, t_parser *st);
+int							handle_redirections(char *s, t_parser *st);
 void						handle_quotes(char c, char *quote);
-int	handle_spaces(char *s, t_parser *st);
-void	flush_buffer(t_parser *st);
-void	replace_var(t_var_replace *context);
-int		skip_invalid_var(char *start, char *var);
-								
+int							handle_spaces(char *s, t_parser *st);
+void						flush_buffer(t_parser *st);
+void						replace_var(t_var_replace *context);
+int							skip_invalid_var(char *start, char *var);
+
 /* create_command_list_utils.c */
 void						find_variables(t_command *new_cmd);
 void						expand_variables(char **str, t_data *data);
 char						*extract_var(char *str);
-void	handle_variable_expansion(char **str, t_data *data, int *i);
+void						handle_variable_expansion(char **str, t_data *data,
+								int *i);
 
 /* execuion/exbuil.c */
-int        					is_builtin(t_command *cmd_list);
+int							is_builtin(t_command *cmd_list);
 char						*find_command_in_path(char *cmd);
-void        				is_external(t_data *data, t_command *cmd_list);
-char						*search_command_in_path(t_command *cmd_list, t_data *data);
+void						is_external(t_data *data, t_command *cmd_list);
+char						*search_command_in_path(t_command *cmd_list,
+								t_data *data);
 
 /* execuion/execution.c */
 void						execution(t_data *data);
@@ -207,13 +210,14 @@ void						cmd_pwd(t_data *data);
 /* builtins/cd.c */
 void						cmd_cd(t_data *data);
 void						cmd_cd_dir(t_data *data);
-int							list_directory_contents(char *str, const char *path);
-
+int							list_directory_contents(char *str,
+								const char *path);
 
 /* builtins/cd_utils.c */
-void						update_path(t_data *data, char 
-								*original_path, char **temp, int i);
-void						update_path_failed(char **temp, char *original_path);
+void						update_path(t_data *data, char *original_path,
+								char **temp, int i);
+void						update_path_failed(char **temp,
+								char *original_path);
 char						*append_char_to_str(char *str, char c);
 void						err_no_such_file(void);
 int							count_slash(char *str);

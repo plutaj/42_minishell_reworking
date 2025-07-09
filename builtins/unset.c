@@ -6,12 +6,13 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:33:37 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 14:43:38 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/09 17:20:32 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int		is_var(char *key, char **env);
 void	unset_remove_key(t_data *data, char *key);
 
 void	cmd_unset(t_data *data)
@@ -24,7 +25,25 @@ void	cmd_unset(t_data *data)
 		|| !data->cmd_list->args || !data->cmd_list->args[1])
 		return ;
 	key = data->cmd_list->args[1];
+	if (!is_var(key, data->env))
+		return ;
 	unset_remove_key(data, key);
+}
+
+int	is_var(char *key, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		if (ft_strnstr(env[i], key, ft_strlen(key)))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 void	unset_remove_key(t_data *data, char *key)

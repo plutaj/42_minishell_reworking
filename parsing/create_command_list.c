@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/09 14:13:44 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:07:16 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	flush_buffer(t_parser *st)
 
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 {
-	t_parser	st;
+	t_parser		st;
 	char			quote;
 
 	st.args = ft_calloc(256, sizeof(char *));
