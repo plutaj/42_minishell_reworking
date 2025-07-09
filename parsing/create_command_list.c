@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:56:19 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/09 14:13:44 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,93 +41,54 @@ void	create_command_list(t_data *data)
 	free_2d_array(s);
 }
 
-int	handle_spaces(char *s, int *i, char **args, int *j, char *buffer, int *buf_i)
+int	handle_spaces(char *s, t_parser *st)
 {
-	if (s[*i] == ' ')
+	if (s[st->i] == ' ')
 	{
-		if (*buf_i > 0)
+		if (st->buf_i > 0)
 		{
-			buffer[*buf_i] = '\0';
-			args[(*j)++] = ft_strdup(buffer);
-			*buf_i = 0;
+			st->buffer[st->buf_i] = '\0';
+			st->args[st->j++] = ft_strdup(st->buffer);
+			st->buf_i = 0;
 		}
-		(*i)++;
+		st->i++;
 		return (1);
 	}
 	return (0);
 }
 
-int	handle_redirections(char *s, int *i, char **args, int *j, char *buffer, int *buf_i)
+void	flush_buffer(t_parser *st)
 {
-	if (s[*i] == '<' || s[*i] == '>')
+	if (st->buf_i > 0)
 	{
-		flush_buffer(buffer, args, j, buf_i);
-		if ((s[*i] == '<' && s[*i + 1] == '<') || (s[*i] == '>' && s[*i + 1] == '>'))
-		{
-			buffer[0] = s[*i];
-			buffer[1] = s[*i + 1];
-			buffer[2] = '\0';
-			args[(*j)++] = ft_strdup(buffer);
-			(*i) += 2;
-		}
-		else
-		{
-			buffer[0] = s[*i];
-			buffer[1] = '\0';
-			args[(*j)++] = ft_strdup(buffer);
-			(*i)++;
-		}
-		return (1);
-	}
-	return (0);
-}
-
-void	handle_quotes(char c, char *quote)
-{
-	if (c =='\'' || c == '\"')
-	{
-		if (!(*quote))
-			*quote = c;
-		else if (*quote == c)
-			*quote = 0; 
+		st->buffer[st->buf_i] = '\0';
+		st->args[st->j++] = ft_strdup(st->buffer);
 	}
 }
 
-void	flush_buffer(char *buffer, char **args, int *j, int *buf_i)
+t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 {
-	if (*buf_i > 0)
-	{
-		buffer[*buf_i] = '\0';
-		args[(*j)++] = ft_strdup(buffer);
-	}
-}
+	t_parser	st;
+	char			quote;
 
-t_command *split_args_and_redirs(t_command *new_cmd, char *s)
-{
-	char	**args;
-	int		i;
-	int		j;
-	char	buffer[1024];
-	int		buf_i;
-	char	quote;
-
-	args = ft_calloc(256, sizeof(char *));
-	i = 0;
-	j = 0;
-	buf_i = 0;
+	st.args = ft_calloc(256, sizeof(char *));
+	st.i = 0;
+	st.j = 0;
+	st.buf_i = 0;
 	quote = 0;
-	while (s[i])
+
+	while (s[st.i])
 	{
-		handle_quotes(s[i], &quote);
-		if (!quote && handle_redirections(s, &i, args, &j, buffer, &buf_i))
+		handle_quotes(s[st.i], &quote);
+		if (!quote && handle_redirections(s, &st))
 			continue;
-		if (!quote && handle_spaces(s, &i, args, &j, buffer, &buf_i))
+		if (!quote && handle_spaces(s, &st))
 			continue;
-		buffer[buf_i++] = s[i++];
+		st.buffer[st.buf_i++] = s[st.i++];
 	}
-	flush_buffer(buffer, args, &j, &buf_i);
-	args[j] = NULL;
-	new_cmd->args = args;
+	flush_buffer(&st);
+	st.args[st.j] = NULL;
+	new_cmd->args = st.args;
 	return (new_cmd);
 }
 
@@ -143,17 +104,4 @@ void	remove_quotes_from_args(char **args)
 		args[i] = cleaned;
 		i++;
 	}
-}
-
-int starts_with_quote(const char *s)
-{
-	return (s[0] == '\'' || s[0] == '\"');
-}
-
-int ends_with_quote(const char *s, char quote)
-{
-	int len = ft_strlen(s);
-	if (len == 0)
-		return 0;
-	return (s[len - 1] == quote);
 }
