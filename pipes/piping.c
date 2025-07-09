@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/08 18:22:36 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/09 17:06:09 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static void	wait_for_children(void)
 static void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 		int pipefd[])
 {
-	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
+	if (apply_redirections(cmd) == -1)
 		perror("redirection");
+	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
+		perror("pipe dup");
 	if (prev_pipe_read != STDIN_FILENO)
 		close(prev_pipe_read);
 	if (is_builtin(cmd))
@@ -58,15 +60,16 @@ void	executepipecmds(t_data *data)
 
 int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 {
-	if (prev_pipe_read != STDIN_FILENO)
+	if (prev_pipe_read != STDIN_FILENO  && !has_input_redirection(cmd))
 		if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
 			return (perror("dup2"), -1);
-	if (cmd->next)
+	if (cmd->next && !has_output_redirection(cmd))
 	{
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			return (perror("dup2"), -1);
 	}
 	close(pipefd[0]);
+	close(pipefd[1]);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/09 14:13:44 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:45:49 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 	st.j = 0;
 	st.buf_i = 0;
 	quote = 0;
-
 	while (s[st.i])
 	{
 		handle_quotes(s[st.i], &quote);

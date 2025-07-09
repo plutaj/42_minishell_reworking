@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/08 18:17:54 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/09 17:24:08 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	apply_regular_input(t_redir *redir, int saved_in)
 {
 	int	fd;
 
-	fd = open(redir->file_or_limiter, O_RDONLY);
+	fd = open(redir->file_or_limiter, O_RDONLY | O_WRONLY);
 	if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("open or dup2 error");
@@ -62,10 +62,15 @@ int	apply_output_redir(t_redir *redir, int saved_out)
 	int	fd;
 
 	fd = 0;
-	if (redir->type == REDIR_HEREDOC)
-		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND);
+	if (redir->type == REDIR_APPEND)
+		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redir->type == REDIR_OUTPUT)
-		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_TRUNC,  0644);
+	else 
+	{
+		perror("Invalid redirection type\n");
+		return (-1);
+	}
 	if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("open or dup2 error");
@@ -76,7 +81,7 @@ int	apply_output_redir(t_redir *redir, int saved_out)
 		return (-1);
 	}
 	close(fd);
-	return (0);
+	return (0);	
 }
 
 int	redirectout(t_data *data)
