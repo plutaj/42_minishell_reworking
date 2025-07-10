@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 13:08:51 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:20:26 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	execution(t_data *data)
 
 	if (!data->cmd_list->next)
 	{
-		from = redirectinp(data->cmd_list);
-		to = redirectout(data->cmd_list);
 		saved_in = dup(STDIN_FILENO);
 		saved_out = dup(STDOUT_FILENO);
+		from = redirectinp(data->cmd_list);
+		to = redirectout(data->cmd_list);
 		if (is_builtin(data->cmd_list))
 			builtin(data->cmd_list);
 		else
 			is_external(data, data->cmd_list);
-		dup2andclose(saved_in, saved_out);
 		if (from != -1)
 			close(from);
 		if (to != -1)
 			close(to);
+		dup2andclose(saved_in, saved_out);
 	}
 	else
 		executepipecmds(data);
