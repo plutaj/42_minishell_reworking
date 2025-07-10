@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/10 12:55:12 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 18:38:49 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	flush_buffer(t_parser *st)
 	}
 }
 
-t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
+t_command	*split_args_and_redirs(t_command *new_cmd, char *string)
 {
 	t_parser	st;
 	char		quote;
@@ -76,14 +76,14 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 	st.j = 0;
 	st.buf_i = 0;
 	quote = 0;
-	while (s[st.i])
+	while (string[st.i])
 	{
-		handle_quotes(s[st.i], &quote);
-		if (!quote && handle_redirections(s, &st))
+		handle_quotes(string[st.i], &quote);
+		if (!quote && handle_redirections(string, &st))
 			continue ;
-		if (!quote && handle_spaces(s, &st))
+		if (!quote && handle_spaces(string, &st))
 			continue ;
-		st.buffer[st.buf_i++] = s[st.i++];
+		st.buffer[st.buf_i++] = string[st.i++];
 	}
 	flush_buffer(&st);
 	st.args[st.j] = NULL;

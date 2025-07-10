@@ -6,26 +6,27 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 16:45:41 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:33:16 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int							g_last_exit_status = 0;
+int		g_last_exit_status = 0;
 
 bool	valid_input(char *input)
 {
 	int	i;
 
 	i = 0;
-	if ((input[0] == '<' || input[0] == '>') && (!input [i + 1] || input [i + 1] == ' '))
+	if ((input[0] == '<' || input[0] == '>') && (!input[i + 1] || input[i
+				+ 1] == ' '))
 	{
 		write(2, "parse error near `\\n'\n", 22);
 		g_last_exit_status = 1;
 		return (0);
 	}
-	if (input[0] == '|' )
+	if (input[0] == '|')
 	{
 		write(2, "parse error near `|'\n", 22);
 		g_last_exit_status = 1;
@@ -46,7 +47,6 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data, envp);
 	while (1)
 	{
-		// data.input = readline("\033[32mminishell$ \033[0m");
 		data.input = readline(GREEN "minishell$ " RESET);
 		if (data.input == NULL)
 			readline_failure(&data);
@@ -86,4 +86,3 @@ int	quotes_no_pair(t_data *data)
 	}
 	return (1);
 }
-

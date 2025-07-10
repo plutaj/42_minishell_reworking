@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 16:44:19 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:41:12 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,7 @@ t_redir						*create_redir_node(char **args);
 
 /* create_command_list.c */
 void						create_command_list(t_data *data);
-t_command					*split_args_and_redirs(t_command *new_cmd, char *s);
-int							starts_with_quote(const char *s);
-int							ends_with_quote(const char *s, char quote);
+t_command					*split_args_and_redirs(t_command *new_cmd, char *string);
 char						*remove_quotes(const char *str);
 void						remove_quotes_from_args(char **args);
 int							handle_redirections(char *s, t_parser *st);
@@ -204,8 +202,6 @@ void						cmd_echo(t_command *cmd_list);
 void						cmd_echo_exec(t_command *cmd_list, int is_newline);
 char						*convert_to_string(t_command *cmd_list,
 								int is_newline);
-void						put_variable(int i, t_command *cmd_list,
-								char **orig_str);
 int							dollar_sign(char *str);
 
 /* builtins/export.c */
