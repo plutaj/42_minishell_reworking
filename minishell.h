@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 13:39:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:08:46 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 typedef struct s_data		t_data;
 typedef struct s_command	t_command;
@@ -87,6 +88,10 @@ typedef struct s_data
 void						init_data(t_data *data, char **envp);
 void						get_path(t_data *data);
 void						set_data_to_default(t_data *data);
+bool						valid_input(char *input);
+int							quotes_no_pair(t_data *data);
+int							readline_failure(t_data *data);
+
 
 /* env_var.c */
 char						**copy_envp(char **envp);
