@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 18:41:12 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 22:53:17 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void						set_data_to_default(t_data *data);
 bool						valid_input(char *input);
 int							quotes_no_pair(t_data *data);
 int							readline_failure(t_data *data);
-
+void						minishell_loop(t_data *data);
 
 /* env_var.c */
 char						**copy_envp(char **envp);
@@ -131,6 +131,7 @@ t_redir						*create_redir_node(char **args);
 
 /* create_command_list.c */
 void						create_command_list(t_data *data);
+
 t_command					*split_args_and_redirs(t_command *new_cmd, char *string);
 char						*remove_quotes(const char *str);
 void						remove_quotes_from_args(char **args);
@@ -147,6 +148,8 @@ void						expand_variables(char **str, t_data *data);
 char						*extract_var(char *str);
 void						handle_variable_expansion(char **str, t_data *data,
 								int *i);
+int							handle_redir_loop(t_redir *redir, int in, int out);
+
 
 /* execuion/exbuil.c */
 int							is_builtin(t_command *cmd_list);
