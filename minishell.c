@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 18:33:16 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 22:40:57 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,30 @@ int	main(int argc, char **argv, char **envp)
 		return (printf("Error: Unexpected input.\n"));
 	signal(SIGINT, sigint_handler);
 	init_data(&data, envp);
+	minishell_loop(&data);
+	return (0);
+}
+
+void	minishell_loop(t_data *data)
+{
 	while (1)
 	{
-		data.input = readline(GREEN "minishell$ " RESET);
-		if (data.input == NULL)
-			readline_failure(&data);
-		if (!*data.input || only_spaces(data.input))
+		data->input = readline(GREEN "minishell$ " RESET);
+		if (data->input == NULL)
+			readline_failure(data);
+		if (!*data->input || only_spaces(data->input))
 			continue ;
-		if (!valid_input(data.input))
+		if (!valid_input(data->input))
 			continue ;
-		if (*data.input)
-			add_history(data.input);
-		if (!quotes_no_pair(&data))
+		if (*data->input)
+			add_history(data->input);
+		if (!quotes_no_pair(data))
 			continue ;
-		create_command_list(&data);
-		create_redir_list(&data);
-		execution(&data);
-		set_data_to_default(&data);
+		create_command_list(data);
+		create_redir_list(data);
+		execution(data);
+		set_data_to_default(data);
 	}
-	return (0);
 }
 
 int	readline_failure(t_data *data)

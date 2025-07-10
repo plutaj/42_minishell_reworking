@@ -6,19 +6,11 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:03:58 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/10 18:33:01 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 22:41:40 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_command	*temp(int *fd, t_data *data)
-{
-	*fd = dup(STDOUT_FILENO);
-	if (*fd == -1)
-		perror("dup");
-	return (data->cmd_list);
-}
 
 int	do_input_redir(t_redir *redir)
 {
@@ -59,6 +51,15 @@ int	apply_redirections(t_command *cmd)
 	out = dup(STDOUT_FILENO);
 	if (in == -1 || out == -1)
 		return (-1);
+	if (handle_redir_loop(redir, in, out) == -1)
+		return (-1);
+	close(in);
+	close(out);
+	return (0);
+}
+
+int	handle_redir_loop(t_redir *redir, int in, int out)
+{
 	while (redir)
 	{
 		if (redir->type == REDIR_INPUT || redir->type == REDIR_HEREDOC)
@@ -73,8 +74,6 @@ int	apply_redirections(t_command *cmd)
 		}
 		redir = redir->next;
 	}
-	close(in);
-	close(out);
 	return (0);
 }
 

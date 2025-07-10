@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/09 18:41:47 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 22:41:46 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,12 @@ void	execerror(char *full_path, char **args, char **env)
 	execve(full_path, args, env);
 	perror("execve");
 	exit(127);
+}
+
+t_command	*temp(int *fd, t_data *data)
+{
+	*fd = dup(STDOUT_FILENO);
+	if (*fd == -1)
+		perror("dup");
+	return (data->cmd_list);
 }
