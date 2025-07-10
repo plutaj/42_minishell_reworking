@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/09 16:51:31 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:55:16 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	check_for_redir(char *arg)
 
 void	create_redir_list(t_data *data)
 {
-	t_command *cmd_list = data->cmd_list;
+	t_command	*cmd_list;
 
+	cmd_list = data->cmd_list;
 	while (cmd_list)
 	{
 		process_command_redirs(cmd_list);
@@ -39,7 +40,7 @@ void	create_redir_list(t_data *data)
 void	process_command_redirs(t_command *cmd)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (cmd->args && cmd->args[i])
@@ -50,7 +51,6 @@ void	process_command_redirs(t_command *cmd)
 			free(cmd->args[i]);
 			if (cmd->args[i + 1])
 				free(cmd->args[i + 1]);
-			
 			j = i;
 			while (cmd->args[j + 2])
 			{
@@ -59,7 +59,7 @@ void	process_command_redirs(t_command *cmd)
 			}
 			cmd->args[j] = NULL;
 			cmd->args[j + 1] = NULL;
-			continue;
+			continue ;
 		}
 		i++;
 	}
@@ -72,7 +72,6 @@ t_redir	*create_redir_node(char **args)
 	new_redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!new_redir)
 		return (NULL);
-
 	if (ft_strcmp(args[0], "<") == 0)
 		new_redir->type = REDIR_INPUT;
 	else if (ft_strcmp(args[0], ">") == 0)
@@ -97,7 +96,6 @@ void	add_redir_node(char **args, t_command *cmd_list)
 	new_redir = create_redir_node(args);
 	if (!new_redir)
 		return ;
-
 	if (!cmd_list->redir)
 		cmd_list->redir = new_redir;
 	else

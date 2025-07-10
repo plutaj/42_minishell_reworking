@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:46:18 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 13:12:37 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:51:51 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	update_quote(char c, char *quote)
 	return (0);
 }
 
-char *remove_quotes(const char *str)
+char	*remove_quotes(const char *str)
 {
 	char	*result;
 	int		i;
@@ -70,13 +70,13 @@ char *remove_quotes(const char *str)
 	j = 0;
 	quote = 0;
 	if (!result)
-		return NULL;
+		return (NULL);
 	while (str[i])
 	{
 		if (update_quote(str[i], &quote))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		result[j++] = str[i++];
 	}

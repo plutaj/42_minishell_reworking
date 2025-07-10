@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:55:51 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 13:56:48 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:56:29 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char	*extract_var(char *str)
 	}
 	while (str[i])
 	{
-		if (str[i] == ' ' || str[i] == '$' || str[i] == '\'' || str[i] == '"' || str[i] == '\0')
+		if (str[i] == ' ' || str[i] == '$' || str[i] == '\''
+			|| str[i] == '"' || str[i] == '\0')
 			break ;
 		i++;
 	}

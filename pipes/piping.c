@@ -6,18 +6,27 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 19:29:49 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 13:10:42 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void fork_and_execute_pipe_cmd(t_data *data, t_command *cmd, int *prev_pipe_read)
+static void	closeiferror(int from, int to)
 {
-	int pipefd[2];
-	pid_t pid;
-	int from;
-	int to;
+	if (from == -1)
+		close(from);
+	if (to == -1)
+		close(to);
+}
+
+void	fork_and_execute_pipe_cmd(t_data *data, t_command *cmd,
+		int *prev_pipe_read)
+{
+	int		pipefd[2];
+	pid_t	pid;
+	int		from;
+	int		to;
 
 	if (cmd->next && create_pipe(pipefd) == -1)
 	{
@@ -40,21 +49,13 @@ void fork_and_execute_pipe_cmd(t_data *data, t_command *cmd, int *prev_pipe_read
 	update_pipe_fds(prev_pipe_read, pipefd, cmd->next != NULL);
 }
 
-static void	closeiferror(int from, int to)
+void	executepipecmds(t_data *data)
 {
-	if (from == -1)
-		close(from);
-	if (to == -1)
-		close(to);
-}
-
-void executepipecmds(t_data *data)
-{
-	t_command *cmd;
+	t_command	*cmd;
+	int			prev_pipe_read;
 
 	cmd = data->cmd_list;
-	int prev_pipe_read = STDIN_FILENO;
-
+	prev_pipe_read = STDIN_FILENO;
 	while (cmd)
 	{
 		fork_and_execute_pipe_cmd(data, cmd, &prev_pipe_read);
@@ -65,7 +66,7 @@ void executepipecmds(t_data *data)
 
 int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 {
-	if (prev_pipe_read != STDIN_FILENO  && !has_input_redirection(cmd))
+	if (prev_pipe_read != STDIN_FILENO && !has_input_redirection(cmd))
 		if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
 			return (perror("dup2"), -1);
 	if (cmd->next && !has_output_redirection(cmd))

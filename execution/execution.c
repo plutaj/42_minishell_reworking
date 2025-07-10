@@ -6,18 +6,26 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/09 19:06:34 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 13:08:51 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static void	dup2andclose(int savedin, int savedout)
+{
+	dup2(savedin, STDIN_FILENO);
+	dup2(savedout, STDOUT_FILENO);
+	close(savedin);
+	close(savedout);
+}
+
 void	execution(t_data *data)
 {
 	int	from;
 	int	to;
-	int saved_in;
-	int saved_out;
+	int	saved_in;
+	int	saved_out;
 
 	if (!data->cmd_list->next)
 	{
@@ -29,12 +37,11 @@ void	execution(t_data *data)
 			builtin(data->cmd_list);
 		else
 			is_external(data, data->cmd_list);
-		dup2(saved_in, STDIN_FILENO);
-		dup2(saved_out, STDOUT_FILENO);
-		close(saved_in);
-		close(saved_out);
-		if (from != -1) close(from);
-		if (to != -1) close(to);
+		dup2andclose(saved_in, saved_out);
+		if (from != -1)
+			close(from);
+		if (to != -1)
+			close(to);
 	}
 	else
 		executepipecmds(data);

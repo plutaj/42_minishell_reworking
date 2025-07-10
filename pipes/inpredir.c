@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:03:58 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 17:21:55 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:51:29 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ int	do_input_redir(t_redir *redir)
 
 int	apply_redirections(t_command *cmd)
 {
-	t_redir	*redir = cmd->redir;
-	int		in = dup(STDIN_FILENO);
-	int		out = dup(STDOUT_FILENO);
+	t_redir	*redir;
+	int		in;
+	int		out;
 
+	redir = cmd->redir;
+	in = dup(STDIN_FILENO);
+	out = dup(STDOUT_FILENO);
 	if (in == -1 || out == -1)
 		return (-1);
 	while (redir)
@@ -77,8 +80,8 @@ int	apply_redirections(t_command *cmd)
 
 int	has_input_redirection(t_command *cmd)
 {
-	t_redir *r;
-	
+	t_redir	*r;
+
 	r = cmd->redir;
 	while (r)
 	{
@@ -91,8 +94,8 @@ int	has_input_redirection(t_command *cmd)
 
 int	has_output_redirection(t_command *cmd)
 {
-	t_redir *r;
-	
+	t_redir	*r;
+
 	r = cmd->redir;
 	while (r)
 	{
@@ -102,5 +105,3 @@ int	has_output_redirection(t_command *cmd)
 	}
 	return (0);
 }
-
-
