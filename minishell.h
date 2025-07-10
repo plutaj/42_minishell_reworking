@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #define GREEN "\001\033[32m\002"
 #define RESET "\001\033[0m\002"
@@ -90,6 +91,10 @@ typedef struct s_data
 void						init_data(t_data *data, char **envp);
 void						get_path(t_data *data);
 void						set_data_to_default(t_data *data);
+bool						valid_input(char *input);
+int							quotes_no_pair(t_data *data);
+int							readline_failure(t_data *data);
+
 
 /* env_var.c */
 char						**copy_envp(char **envp);
