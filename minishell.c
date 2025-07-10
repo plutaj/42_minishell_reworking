@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/08 18:28:51 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/10 16:45:41 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc != 1)
 		return (printf("Error: Unexpected input.\n"));
-	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	init_data(&data, envp);
 	while (1)
 	{
-		data.input = readline("\033[32mminishell$ \033[0m");
+		// data.input = readline("\033[32mminishell$ \033[0m");
+		data.input = readline(GREEN "minishell$ " RESET);
 		if (data.input == NULL)
 			readline_failure(&data);
 		if (!*data.input || only_spaces(data.input))
@@ -49,6 +49,9 @@ int	main(int argc, char **argv, char **envp)
 int	readline_failure(t_data *data)
 {
 	printf("exit\n");
+	if (*data->current_path)
+		free(data->current_path);
+	free_2d_array(data->env);
 	set_data_to_default(data);
 	exit(0);
 }
