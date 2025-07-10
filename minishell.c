@@ -3,18 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/08 18:28:51 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:19:31 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_last_exit_status = 0;
-int		quotes_no_pair(t_data *data);
-int		readline_failure(t_data *data);
+int							g_last_exit_status = 0;
+
+bool	valid_input(char *input)
+{
+	int	i;
+
+	i = 0;
+	if ((input[0] == '<' || input[0] == '>') && (!input [i + 1] || input [i + 1] == ' '))
+	{
+		write(2, "parse error near `\\n'\n", 22);
+		g_last_exit_status = 1;
+		return (0);
+	}
+	if (input[0] == '|' )
+	{
+		write(2, "parse error near `|'\n", 22);
+		g_last_exit_status = 1;
+		return (0);
+	}
+	return (1);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -34,6 +52,8 @@ int	main(int argc, char **argv, char **envp)
 			readline_failure(&data);
 		if (!*data.input || only_spaces(data.input))
 			continue ;
+		if (!valid_input(data.input))
+			continue ;
 		if (*data.input)
 			add_history(data.input);
 		if (!quotes_no_pair(&data))
@@ -49,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 int	readline_failure(t_data *data)
 {
 	printf("exit\n");
+	free(data->env);
 	set_data_to_default(data);
 	exit(0);
 }
@@ -64,38 +85,3 @@ int	quotes_no_pair(t_data *data)
 	return (1);
 }
 
-// void	print_linked_list(t_command *cmd_list)
-// {
-// 	int	i;
-// 	int	node;
-
-// 	i = 0;
-// 	node = 0;
-// 	while (cmd_list)
-// 	{
-// 		if (cmd_list->args[i])
-// 				printf("NODE %d \nArray of commands:", node);
-// 		while (cmd_list->args[i])
-// 		{
-// 			printf("\n|%s|", cmd_list->args[i]);
-// 			i++;
-// 		}
-// 		printf("\n");
-// 		if (cmd_list->redir != NULL)
-// 			printf("\nList of redirections:");
-// 		if (!cmd_list->redir)
-//         	fprintf(stderr, "data->cmd_list->redir is NULL\n");
-// 		while (cmd_list->redir)
-// 		{
-// 			printf("\nTYPE %u\n%s", cmd_list->redir->type,
-// 				cmd_list->redir->file_or_limiter);
-// 			cmd_list->redir = cmd_list->redir->next;
-// 		}
-
-// 		printf("\n");
-// 		printf("\n");
-// 		i = 0;
-// 		node++;
-// 		cmd_list = cmd_list->next;
-// 	}
-// }
