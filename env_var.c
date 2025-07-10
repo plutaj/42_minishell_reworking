@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 13:43:29 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:23:37 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	update_existing_env(char **envp, int i,
 	int		current_key_len;
 	char	*equal_sign;
 	char	*new_entry;
-	
+
 	equal_sign = ft_strchr(envp[i], '=');
 	if (!equal_sign)
 		return (0);
