@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:28:30 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 19:29:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:51:20 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	wait_for_children(void)
 		;
 }
 
-void	executechild(t_data *data, t_command *cmd, int prev_pipe_read, int pipefd[])
+void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
+		int pipefd[])
 {
 	if (apply_redirections(cmd) == -1)
 		perror("redirection");

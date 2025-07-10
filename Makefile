@@ -6,7 +6,7 @@
 #    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/09 19:30:14 by huahmad          ###   ########.fr        #
+#    Updated: 2025/07/10 13:35:44 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ pipes/heredoc.c \
 parsing/expansion.c \
 parsing/handeling.c \
 pipes/pipe_child.c \
+env_var_utils.c \
 
 OBJ = $(SRC:.c=.o)
 

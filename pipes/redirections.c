@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/09 18:42:06 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:50:58 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	apply_output_redir(t_redir *redir, int saved_out)
 	if (redir->type == REDIR_APPEND)
 		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redir->type == REDIR_OUTPUT)
-		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_TRUNC,  0644);
-	else 
+		fd = open(redir->file_or_limiter, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
 	{
 		perror("Invalid redirection type\n");
 		return (-1);
@@ -81,7 +81,7 @@ int	apply_output_redir(t_redir *redir, int saved_out)
 		return (-1);
 	}
 	close(fd);
-	return (0);	
+	return (0);
 }
 
 int	redirectout(t_command *cmd_list)

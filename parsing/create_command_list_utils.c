@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/09 14:26:51 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 13:22:51 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	find_variables(t_command *new_cmd)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (new_cmd->args[i])
 	{
 		if (dollar_sign(new_cmd->args[i]))
@@ -35,8 +36,6 @@ void	handle_variable_expansion(char **str, t_data *data, int *i)
 	var = extract_var(&(*str)[*i]);
 	if (skip_invalid_var(start, var))
 	{
-		free(start);
-		free(var);
 		(*i)++;
 		return ;
 	}
@@ -48,10 +47,9 @@ void	handle_variable_expansion(char **str, t_data *data, int *i)
 		if (!ptr_to_env)
 			ptr_to_env = ft_strdup("");
 	}
-	context = (t_var_replace){str, var, start, ptr_to_env, i}; 
+	context = (t_var_replace){str, var, start, ptr_to_env, i};
 	replace_var(&context);
 }
-
 
 int	skip_invalid_var(char *start, char *var)
 {
@@ -74,7 +72,8 @@ void	replace_var(t_var_replace *context)
 	temp = ft_strjoin(context->start, context->ptr_to_env);
 	free(context->start);
 	if ((*context->str)[*context->i + ft_strlen(context->var)] != '\0')
-		end = ft_strdup(&(*context->str)[*context->i + ft_strlen(context->var)]);
+		end = ft_strdup(&(*context->str)[*context->i
+				+ ft_strlen(context->var)]);
 	else
 		end = ft_strdup("");
 	if (context->var[1] == '?')
@@ -86,4 +85,3 @@ void	replace_var(t_var_replace *context)
 	free(end);
 	free(temp);
 }
-

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/09 16:45:49 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:55:12 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	flush_buffer(t_parser *st)
 t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 {
 	t_parser	st;
-	char			quote;
+	char		quote;
 
 	st.args = ft_calloc(256, sizeof(char *));
 	st.i = 0;
@@ -80,9 +80,9 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 	{
 		handle_quotes(s[st.i], &quote);
 		if (!quote && handle_redirections(s, &st))
-			continue;
+			continue ;
 		if (!quote && handle_spaces(s, &st))
-			continue;
+			continue ;
 		st.buffer[st.buf_i++] = s[st.i++];
 	}
 	flush_buffer(&st);
@@ -93,9 +93,10 @@ t_command	*split_args_and_redirs(t_command *new_cmd, char *s)
 
 void	remove_quotes_from_args(char **args)
 {
-	int		i = 0;
+	int		i;
 	char	*cleaned;
 
+	i = 0;
 	while (args[i])
 	{
 		cleaned = remove_quotes(args[i]);
