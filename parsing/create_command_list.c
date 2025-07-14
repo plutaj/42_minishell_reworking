@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/10 18:38:49 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/14 17:02:48 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	create_command_list(t_data *data)
 		new_cmd->redir = NULL;
 		new_cmd->data = data;
 		new_cmd->next = NULL;
-		new_cmd = split_args_and_redirs(new_cmd, s[i]);
+		new_cmd = split_args_and_redirs(s[i], new_cmd);
 		find_variables(new_cmd);
 		remove_quotes_from_args(new_cmd->args);
 		if (!data->cmd_list)
@@ -66,7 +66,7 @@ void	flush_buffer(t_parser *st)
 	}
 }
 
-t_command	*split_args_and_redirs(t_command *new_cmd, char *string)
+t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 {
 	t_parser	st;
 	char		quote;

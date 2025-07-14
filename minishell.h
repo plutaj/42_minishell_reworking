@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/30 15:28:39 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 22:53:17 by huahmad          ###   ########.fr       */
+/*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
+/*   Updated: 2025/07/14 17:13:46 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdbool.h>
 
 #define GREEN "\001\033[32m\002"
 #define RESET "\001\033[0m\002"
@@ -34,10 +34,10 @@ extern int					g_last_exit_status;
 /* --- tokens --- */
 typedef enum e_redir_type
 {
-	REDIR_INPUT,  // <
-	REDIR_OUTPUT, // >
-	REDIR_APPEND, // >>
-	REDIR_HEREDOC // <<
+	REDIR_INPUT,
+	REDIR_OUTPUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
 }							t_redir_type;
 
 /* --- structs --- */
@@ -70,7 +70,7 @@ typedef struct s_var_replace
 typedef struct s_command
 {
 	char					**args;
-	int arg_i; // how many commands
+	int						arg_i;
 	t_redir					*redir;
 	t_data					*data;
 	struct s_command		*next;
@@ -132,7 +132,6 @@ t_redir						*create_redir_node(char **args);
 /* create_command_list.c */
 void						create_command_list(t_data *data);
 
-t_command					*split_args_and_redirs(t_command *new_cmd, char *string);
 char						*remove_quotes(const char *str);
 void						remove_quotes_from_args(char **args);
 int							handle_redirections(char *s, t_parser *st);
@@ -141,6 +140,8 @@ int							handle_spaces(char *s, t_parser *st);
 void						flush_buffer(t_parser *st);
 void						replace_var(t_var_replace *context);
 int							skip_invalid_var(char *start, char *var);
+t_command					*split_args_and_redirs(char *string,
+								t_command *new_cmd);
 
 /* create_command_list_utils.c */
 void						find_variables(t_command *new_cmd);
@@ -149,7 +150,6 @@ char						*extract_var(char *str);
 void						handle_variable_expansion(char **str, t_data *data,
 								int *i);
 int							handle_redir_loop(t_redir *redir, int in, int out);
-
 
 /* execuion/exbuil.c */
 int							is_builtin(t_command *cmd_list);
