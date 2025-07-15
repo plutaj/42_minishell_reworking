@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/10 22:41:46 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 14:20:33 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	redirectinp(t_command *cmd_list)
 		}
 		redir = redir->next;
 	}
+	close(saved_in);
 	return (saved_in);
 }
 

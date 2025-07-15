@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/15 12:25:26 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:03:15 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_command
 	t_redir					*redir;
 	t_data					*data;
 	struct s_command		*next;
+	int						parseerror;
 }							t_command;
 
 /* This structure holds all general data about a shell */
@@ -95,6 +96,10 @@ bool						valid_input(char *input);
 int							quotes_no_pair(t_data *data);
 int							readline_failure(t_data *data);
 void						minishell_loop(t_data *data);
+int							is_valid_redirection(char **args);
+bool						all_cmds_invalid(t_data *data);
+
+
 
 /* env_var.c */
 char						**copy_envp(char **envp);

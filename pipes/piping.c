@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/15 12:34:43 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:01:20 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ void	executepipecmds(t_data *data)
 	prev_pipe_read = STDIN_FILENO;
 	while (cmd)
 	{
+		if (cmd->parseerror)
+		{
+			g_last_exit_status = 2;
+			cmd = cmd->next;
+			continue;
+		}
 		last_pid = fork_and_execute_pipe_cmd(data, cmd, &prev_pipe_read);
 		cmd = cmd->next;
 	}
