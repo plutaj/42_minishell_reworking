@@ -1,3 +1,12 @@
+
+huahmad@Sam:~/final$ ./minishell
+minishell$ echo >>>>>>>>
+minishell: syntax error near unexpected token
+minishell: syntax error near unexpected token
+minishell$ echo $?
+minishell$
+
+
 echo "'$USER'"
 should expand
 
