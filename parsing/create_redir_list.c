@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/10 12:55:16 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 14:58:53 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,22 @@ void	process_command_redirs(t_command *cmd)
 	}
 }
 
+int	is_valid_redirection(char **args)
+{
+	if (!args || !args[0] || !args[1])
+		return (0);
+	if (!ft_strcmp(args[0], "<")
+		|| !ft_strcmp(args[0], ">>")
+		|| !ft_strcmp(args[0], ">")
+		|| !ft_strcmp(args[0], "<<"))
+	{
+		if (args[1][0] == '<' || args[1][0] == '>')
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
 t_redir	*create_redir_node(char **args)
 {
 	t_redir	*new_redir;
@@ -93,9 +109,20 @@ void	add_redir_node(char **args, t_command *cmd_list)
 	t_redir	*new_redir;
 	t_redir	*temp_redir;
 
+	if (!is_valid_redirection(args))
+	{
+		write(2, "minishell: syntax error near unexpected token\n", 46);
+		cmd_list->parseerror = 1;
+		g_last_exit_status = 2;	
+		return;
+	}	
 	new_redir = create_redir_node(args);
 	if (!new_redir)
+	{
+		cmd_list->parseerror = 1;
+		g_last_exit_status = 2;
 		return ;
+	}
 	if (!cmd_list->redir)
 		cmd_list->redir = new_redir;
 	else

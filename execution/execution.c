@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 14:20:26 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:07:23 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ static void	dup2andclose(int savedin, int savedout)
 	close(savedout);
 }
 
+bool all_cmds_invalid(t_data *data)
+{
+	t_command	*cmd;
+
+	cmd = data->cmd_list;
+	while (cmd)
+	{
+		if (!cmd->parseerror)
+			return false;
+		cmd = cmd->next;
+	}
+	return true;
+}
+
 void	execution(t_data *data)
 {
 	int	from;
@@ -27,6 +41,11 @@ void	execution(t_data *data)
 	int	saved_in;
 	int	saved_out;
 
+	if (all_cmds_invalid(data))
+	{
+		g_last_exit_status = 2; //i dont know but this is wrong
+		return; 
+	}
 	if (!data->cmd_list->next)
 	{
 		saved_in = dup(STDIN_FILENO);

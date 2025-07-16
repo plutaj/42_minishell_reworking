@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/10 14:19:02 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 14:20:52 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	apply_regular_input(t_redir *redir, int saved_in)
 {
 	int	fd;
 
-	fd = open(redir->file_or_limiter, O_RDONLY | O_WRONLY);
+	fd = open(redir->file_or_limiter, O_RDONLY);
 	if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("open or dup2 error");
@@ -105,5 +105,6 @@ int	redirectout(t_command *cmd_list)
 		}
 		redir = redir->next;
 	}
+	close(saved_out);
 	return (saved_out);
 }

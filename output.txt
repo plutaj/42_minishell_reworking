@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/15 15:03:15 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/14 17:13:46 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct s_command
 	t_redir					*redir;
 	t_data					*data;
 	struct s_command		*next;
-	int						parseerror;
 }							t_command;
 
 /* This structure holds all general data about a shell */
@@ -96,10 +95,6 @@ bool						valid_input(char *input);
 int							quotes_no_pair(t_data *data);
 int							readline_failure(t_data *data);
 void						minishell_loop(t_data *data);
-int							is_valid_redirection(char **args);
-bool						all_cmds_invalid(t_data *data);
-
-
 
 /* env_var.c */
 char						**copy_envp(char **envp);
@@ -181,9 +176,9 @@ int							heredoc_loop(int write_fd, char *limiter);
 int							handle_heredoc(char *limiter);
 void						execerror(char *full_path, char **args, char **env);
 int							redirectinp(t_command *cmd_list);
-pid_t						fork_and_execute_pipe_cmd(t_data *data,
+void						fork_and_execute_pipe_cmd(t_data *data,
 								t_command *cmd, int *prev_pipe_read);
-void						wait_for_children(pid_t last_pid);
+void						wait_for_children(void);
 void						executechild(t_data *data, t_command *cmd,
 								int prev_pipe_read, int pipefd[]);
 

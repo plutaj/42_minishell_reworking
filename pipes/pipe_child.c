@@ -6,16 +6,27 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:28:30 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/10 12:51:20 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 12:32:34 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	wait_for_children(void)
+void	wait_for_children(pid_t last_pid)
 {
-	while (wait(NULL) > 0)
-		;
+	int		status;
+	pid_t	pid;
+
+	while ((pid = wait(&status)) > 0)
+	{
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				g_last_exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				g_last_exit_status = 128 + WTERMSIG(status);
+		}
+	}
 }
 
 void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
@@ -25,6 +36,10 @@ void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 		perror("redirection");
 	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
 		perror("pipe dup");
+	if (pipefd[0] != -1)
+	    close(pipefd[0]);
+	if (pipefd[1] != -1)
+	    close(pipefd[1]);
 	if (prev_pipe_read != STDIN_FILENO)
 		close(prev_pipe_read);
 	if (is_builtin(cmd))

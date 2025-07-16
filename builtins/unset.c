@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:33:37 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 13:38:10 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/14 22:03:59 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ void	unset_remove_key(t_data *data, char *key)
 int	is_var(char *key, char **env)
 {
 	int	i;
-	int	j;
-
+	
 	i = 0;
-	j = 0;
 	while (env[i])
 	{
 		if (ft_strnstr(env[i], key, ft_strlen(key)))

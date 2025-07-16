@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/10 16:56:51 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/15 11:55:08 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,20 @@ void	is_external(t_data *data, t_command *cmd_list)
 
 void	update_pipe_fds(int *prev_pipe_read, int pipefd[2], int has_next)
 {
+	if (*prev_pipe_read != STDIN_FILENO && *prev_pipe_read != -1)
+		close(*prev_pipe_read);	
 	if (has_next)
 	{
-		close(pipefd[1]);
+		if (pipefd[1] != -1)
+			close(pipefd[1]);
 		*prev_pipe_read = pipefd[0];
 	}
-	else
-		close(pipefd[0]);
+	else 
+	{
+		if (pipefd[0] != -1)
+			close(pipefd[0]);
+		*prev_pipe_read = STDIN_FILENO;
+	}
 }
 
 int	create_pipe(int pipefd[2])
