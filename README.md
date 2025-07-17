@@ -10,6 +10,95 @@ minishell$
 echo "'$USER'"
 should expand
 
+----------------
+
+huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
+fucks up all execution
+
+
+^Cminishell$ cat < db
+cat: -: Bad file descriptor
+hasam did some magic with his quick fix
+
+minishell$ cat << db
+> adfsdf
+> ^C
+> ^C
+> ^C
+> ^C
+> ^C
+> ^C
+> ^C
+> ^C
+> ^C
+> ^C
+
+should exit without execution on ctrl-c
+
+**************************** FIXED *****************************
+
+minishell$ $a
+execve: Permission denied
+minishell$ echo $?
+126
+
+huahmad@c2r9s5:~/a$ $a
+huahmad@c2r9s5:~/a$ echo $?
+0
+
+
+
+
+
+minishell$ echo > > > > >
+open or dup2 error: Bad address
+
+minishell$ echo $?
+0
+
+huahmad@c2r9s5:~/a$ echo > > > > >
+bash: syntax error near unexpected token `>'
+huahmad@c2r9s5:~/a$ echo $?
+2
+
+
+
+
+
+
+
+
+
+huahmad@c2r9s5:~/a$ echo | |
+bash: syntax error near unexpected token `|'
+huahmad@c2r9s5:~/a$ echo $?
+2
+
+minishell$ echo | |
+minishell$ echo $?
+1
+
+
+
+
+
+
+
+
+
+minishell$ echo adshfsfdh > a > > >
+open or dup2 error: Bad address
+adshfsfdh
+parsing error
+
+
+
+
+
+
+
+
+
 minishell$ ls -n | ca
 minishell$: ca: command not found
 minishell$ echo $?
@@ -22,8 +111,14 @@ huahmad@c2r9s5:~/a$ echo $?
 
 probable needs to be code from last command in pipe
 
-----------------
 
+
+
+
+
+
+
+(IF ALL BELLOW IS ONE CASE THEN FIXED!!!)
 minishell$ echo $?
 130
 minishell$ ^C
@@ -48,62 +143,4 @@ minishell$ echo $?
 130
 minishell$ ls | ca | wc -l
 hasam knows
-
-huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
-fucks up all execution
-
-minishell$ $a
-execve: Permission denied
-minishell$ echo $?
-126
-
-huahmad@c2r9s5:~/a$ $a
-huahmad@c2r9s5:~/a$ echo $?
-0
-
-minishell$ echo > > > > >
-open or dup2 error: Bad address
-
-minishell$ echo $?
-0
-
-huahmad@c2r9s5:~/a$ echo > > > > >
-bash: syntax error near unexpected token `>'
-huahmad@c2r9s5:~/a$ echo $?
-2
-
-minishell$ echo adshfsfdh > a > > >
-open or dup2 error: Bad address
-adshfsfdh
-parsing error
-
-^Cminishell$ cat < db
-cat: -: Bad file descriptor
-hasam did some magic with his quick fix
-
-minishell$ cat << db
-> adfsdf
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-
-should exit without execution on ctrl-c
-
-huahmad@c2r9s5:~/a$ echo | |
-bash: syntax error near unexpected token `|'
-huahmad@c2r9s5:~/a$ echo $?
-2
-
-minishell$ echo | |
-minishell$ echo $?
-1
-
-
 

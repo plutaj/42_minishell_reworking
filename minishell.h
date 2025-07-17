@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/15 15:03:15 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:14:21 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ void						str_dup_err(char **env, int i);
 void						free_2d_array(char **arr);
 
 /* minishell_utils.c */
-void						print_linked_list(t_command *cmd_list);
 void						sigint_handler(int signo);
 int							only_spaces(const char *s);
+void						cleanup_and_exit(t_data *data);
 
 /* quotes_check.c */
 int							check_for_quotes(t_data *data);
@@ -248,3 +248,7 @@ int							count_slash(char *str);
 void						cmd_unset(t_data *data);
 int							count_rows_of_arr(t_data *data);
 void						unset_invalid_num_args(void);
+
+/* syntax_check.c */
+int							check_redir_list(t_redir *redir);
+int							check_syntax(t_data *data);

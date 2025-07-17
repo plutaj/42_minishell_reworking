@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/14 17:02:48 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/17 17:02:04 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_command	*set_new_node_to_def(t_command *new_cmd, t_data *data);
+void		var_and_quote_handling(t_command *new_cmd);
 
 void	create_command_list(t_data *data)
 {
@@ -20,17 +23,16 @@ void	create_command_list(t_data *data)
 	t_command	*temp_cmd;
 
 	s = ft_split_quote_aware(data->input, '|');
+	if (!s) // added malloc protec
+		return ; // added malloc protec
 	i = 0;
 	while (s[i])
 	{
-		new_cmd = (t_command *)malloc(sizeof(t_command));
-		new_cmd->args = NULL;
-		new_cmd->redir = NULL;
-		new_cmd->data = data;
-		new_cmd->next = NULL;
+		new_cmd = set_new_node_to_def(new_cmd, data);
+		if (!new_cmd)
+			break ;
 		new_cmd = split_args_and_redirs(s[i], new_cmd);
-		find_variables(new_cmd);
-		remove_quotes_from_args(new_cmd->args);
+		var_and_quote_handling(new_cmd);
 		if (!data->cmd_list)
 			data->cmd_list = new_cmd;
 		else
@@ -41,6 +43,24 @@ void	create_command_list(t_data *data)
 	free_2d_array(s);
 }
 
+void	var_and_quote_handling(t_command *new_cmd)
+{
+	find_variables(new_cmd);
+	remove_quotes_from_args(new_cmd->args);
+}
+
+t_command	*set_new_node_to_def(t_command *new_cmd, t_data *data)
+{
+	new_cmd = (t_command *)malloc(sizeof(t_command));
+	if (!new_cmd)
+		return (NULL);
+	new_cmd->args = NULL;
+	new_cmd->redir = NULL;
+	new_cmd->data = data;
+	new_cmd->next = NULL;
+	return (new_cmd);
+}
+
 int	handle_spaces(char *s, t_parser *st)
 {
 	if (s[st->i] == ' ')
@@ -49,6 +69,8 @@ int	handle_spaces(char *s, t_parser *st)
 		{
 			st->buffer[st->buf_i] = '\0';
 			st->args[st->j++] = ft_strdup(st->buffer);
+			// if (!st->args[st->j++]) // added malloc protec (update, not working)
+			// 	return (0);			// added malloc protec (update, not working)
 			st->buf_i = 0;
 		}
 		st->i++;
@@ -72,6 +94,8 @@ t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 	char		quote;
 
 	st.args = ft_calloc(256, sizeof(char *));
+	if (!st.args)
+		return (NULL);
 	st.i = 0;
 	st.j = 0;
 	st.buf_i = 0;
@@ -105,3 +129,32 @@ void	remove_quotes_from_args(char **args)
 		i++;
 	}
 }
+
+// void	create_command_list(t_data *data)
+// {
+// 	char		**s;
+// 	int			i;
+// 	t_command	*new_cmd;
+// 	t_command	*temp_cmd;
+
+// 	s = ft_split_quote_aware(data->input, '|');
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		new_cmd = (t_command *)malloc(sizeof(t_command));
+// 		new_cmd->args = NULL;
+// 		new_cmd->redir = NULL;
+// 		new_cmd->data = data;
+// 		new_cmd->next = NULL;
+// 		new_cmd = split_args_and_redirs(s[i], new_cmd);
+// 		find_variables(new_cmd);
+// 		remove_quotes_from_args(new_cmd->args);
+// 		if (!data->cmd_list)
+// 			data->cmd_list = new_cmd;
+// 		else
+// 			temp_cmd->next = new_cmd;
+// 		temp_cmd = new_cmd;
+// 		i++;
+// 	}
+// 	free_2d_array(s);
+// }

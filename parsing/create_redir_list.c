@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redir_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/15 14:58:53 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:55:57 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,11 @@ t_redir	*create_redir_node(char **args)
 	else if (ft_strcmp(args[0], "<<") == 0)
 		new_redir->type = REDIR_HEREDOC;
 	if (args[1])
+	{
 		new_redir->file_or_limiter = ft_strdup(args[1]);
+		if (!new_redir->file_or_limiter) // added malloc protec
+			return (NULL);
+	}
 	else
 		new_redir->file_or_limiter = NULL;
 	new_redir->next = NULL;
@@ -109,13 +113,13 @@ void	add_redir_node(char **args, t_command *cmd_list)
 	t_redir	*new_redir;
 	t_redir	*temp_redir;
 
-	if (!is_valid_redirection(args))
-	{
-		write(2, "minishell: syntax error near unexpected token\n", 46);
-		cmd_list->parseerror = 1;
-		g_last_exit_status = 2;	
-		return;
-	}	
+	// if (!is_valid_redirection(args))
+	// {
+	// 	write(2, "minishell: syntax error near unexpected token\n", 46);
+	// 	cmd_list->parseerror = 1;
+	// 	g_last_exit_status = 2;	
+	// 	return ;
+	// }	
 	new_redir = create_redir_node(args);
 	if (!new_redir)
 	{

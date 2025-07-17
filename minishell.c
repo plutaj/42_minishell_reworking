@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 22:40:57 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:56:22 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_last_exit_status = 0;
-
-bool	valid_input(char *input)
-{
-	int	i;
-
-	i = 0;
-	if ((input[0] == '<' || input[0] == '>') && (!input[i + 1] || input[i
-				+ 1] == ' '))
-	{
-		write(2, "parse error near `\\n'\n", 22);
-		g_last_exit_status = 1;
-		return (0);
-	}
-	if (input[0] == '|')
-	{
-		write(2, "parse error near `|'\n", 22);
-		g_last_exit_status = 1;
-		return (0);
-	}
-	return (1);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -65,7 +44,14 @@ void	minishell_loop(t_data *data)
 		if (!quotes_no_pair(data))
 			continue ;
 		create_command_list(data);
+		if (!data->cmd_list)
+			cleanup_and_exit(data);
 		create_redir_list(data);
+		if (!check_syntax(data)) // syntax protec
+		{
+			set_data_to_default(data);
+			continue ;
+		}
 		execution(data);
 		set_data_to_default(data);
 	}

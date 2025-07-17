@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/15 11:55:08 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/17 20:08:49 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	is_external(t_data *data, t_command *cmd_list)
 	if (result)
 	{
 		execute_command(result, cmd_list->args, data->env);
+		g_last_exit_status = 0;
 		free(result);
 	}
 	else
