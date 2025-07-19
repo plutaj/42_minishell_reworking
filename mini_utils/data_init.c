@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/08 18:27:04 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/19 21:55:41 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	init_data(t_data *data, char **envp)
 {
 	data->env = copy_envp(envp);
+	if (!data->env)
+		return ;
 	data->input = NULL;
 	get_path(data);
 	data->cmd_list = NULL;

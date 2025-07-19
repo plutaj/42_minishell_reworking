@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:07:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/10 22:40:34 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/19 21:52:33 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	str_dup_err(char **env, int i)
 {
@@ -31,6 +31,8 @@ char	**copy_envp(char **envp)
 	while (envp[count])
 		count++;
 	env = malloc(sizeof(char *) * (count + 1));
+	if (!env)
+		return (NULL);
 	while (i < count)
 	{
 		env[i] = ft_strdup(envp[i]);

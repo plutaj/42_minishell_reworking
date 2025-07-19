@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/17 19:56:22 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/19 21:56:42 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int argc, char **argv, char **envp)
 		return (printf("Error: Unexpected input.\n"));
 	signal(SIGINT, sigint_handler);
 	init_data(&data, envp);
+	if (!data.env)
+		return (1);
 	minishell_loop(&data);
 	return (0);
 }

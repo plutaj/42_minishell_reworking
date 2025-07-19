@@ -6,11 +6,11 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:44:45 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/17 20:20:50 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/19 21:06:02 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_redir_list(t_redir *redir)
 {

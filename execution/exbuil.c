@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/17 20:08:49 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/19 21:22:16 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void	is_external(t_data *data, t_command *cmd_list)
 	else
 	{
 		write(2, cmd_list->args[0], ft_strlen(cmd_list->args[0]));
-		write(2, ": command not found", 19);
-		write(2, "\n", 2);
+		write(2, ": command not found\n", 21);
 		g_last_exit_status = 127;
 	}
 }

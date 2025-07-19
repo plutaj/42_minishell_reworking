@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_functions.c                                   :+:      :+:    :+:   */
+/*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 12:08:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/06/29 16:02:12 by huahmad          ###   ########.fr       */
+/*   Created: 2025/07/10 13:43:10 by huahmad           #+#    #+#             */
+/*   Updated: 2025/07/19 21:05:44 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	free_2d_array(char **arr)
+void	strncpy_until_char(char *dest, const char *src, char stop_char)
+{
+	while (*src != '\0' && *src != stop_char)
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+}
+
+void	print_env(char **env)
 {
 	int	i;
 
 	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
+	while (env[i])
 	{
-		free(arr[i]);
-		arr[i] = NULL;
+		printf("%s\n", env[i]);
 		i++;
 	}
-	free(arr);
-	arr = NULL;
 }

@@ -1,12 +1,3 @@
-
-huahmad@Sam:~/final$ ./minishell
-minishell$ echo >>>>>>>>
-minishell: syntax error near unexpected token
-minishell: syntax error near unexpected token
-minishell$ echo $?
-minishell$
-
-
 echo "'$USER'"
 should expand
 
@@ -36,6 +27,14 @@ minishell$ cat << db
 should exit without execution on ctrl-c
 
 **************************** FIXED *****************************
+huahmad@Sam:~/final$ ./minishell
+minishell$ echo >>>>>>>>
+minishell: syntax error near unexpected token
+minishell: syntax error near unexpected token
+minishell$ echo $?
+minishell$
+
+
 
 minishell$ $a
 execve: Permission denied

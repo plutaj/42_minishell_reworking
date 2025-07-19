@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/15 15:07:23 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/19 21:38:23 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	execution(t_data *data)
 
 	if (all_cmds_invalid(data))
 	{
-		g_last_exit_status = 2; //i dont know but this is wrong
+		g_last_exit_status = 1;
 		return; 
 	}
 	if (!data->cmd_list->next)

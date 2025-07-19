@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/17 19:14:21 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/19 20:59:12 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,27 +134,30 @@ int							handle_heredoc(char *limiter);
 void						process_command_redirs(t_command *cmd);
 t_redir						*create_redir_node(char **args);
 
-/* create_command_list.c */
+/* parsing/create_command_list.c */
 void						create_command_list(t_data *data);
-
 char						*remove_quotes(const char *str);
-void						remove_quotes_from_args(char **args);
 int							handle_redirections(char *s, t_parser *st);
 void						handle_quotes(char c, char *quote);
-int							handle_spaces(char *s, t_parser *st);
 void						flush_buffer(t_parser *st);
 void						replace_var(t_var_replace *context);
 int							skip_invalid_var(char *start, char *var);
 t_command					*split_args_and_redirs(char *string,
 								t_command *new_cmd);
 
-/* create_command_list_utils.c */
+/* parsing/create_command_list_utils.c */
 void						find_variables(t_command *new_cmd);
 void						expand_variables(char **str, t_data *data);
 char						*extract_var(char *str);
 void						handle_variable_expansion(char **str, t_data *data,
 								int *i);
 int							handle_redir_loop(t_redir *redir, int in, int out);
+
+/* parsing/create_command_list_utils2.c */
+int							handle_spaces(char *s, t_parser *st);
+void 						append_command_to_list(t_data *data,
+								t_command *new_cmd, t_command **temp_cmd);
+void						remove_quotes_from_args(char **args);
 
 /* execuion/exbuil.c */
 int							is_builtin(t_command *cmd_list);

@@ -6,7 +6,7 @@
 /*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/17 17:02:04 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/19 21:00:40 by jozefpluta       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ void	create_command_list(t_data *data)
 		if (!new_cmd)
 			break ;
 		new_cmd = split_args_and_redirs(s[i], new_cmd);
+		if (!new_cmd)
+			return ; // added this 19.7
 		var_and_quote_handling(new_cmd);
-		if (!data->cmd_list)
-			data->cmd_list = new_cmd;
-		else
-			temp_cmd->next = new_cmd;
-		temp_cmd = new_cmd;
+		append_command_to_list(data, new_cmd, &temp_cmd);  // added this 19.7
 		i++;
 	}
 	free_2d_array(s);
@@ -61,24 +59,6 @@ t_command	*set_new_node_to_def(t_command *new_cmd, t_data *data)
 	return (new_cmd);
 }
 
-int	handle_spaces(char *s, t_parser *st)
-{
-	if (s[st->i] == ' ')
-	{
-		if (st->buf_i > 0)
-		{
-			st->buffer[st->buf_i] = '\0';
-			st->args[st->j++] = ft_strdup(st->buffer);
-			// if (!st->args[st->j++]) // added malloc protec (update, not working)
-			// 	return (0);			// added malloc protec (update, not working)
-			st->buf_i = 0;
-		}
-		st->i++;
-		return (1);
-	}
-	return (0);
-}
-
 void	flush_buffer(t_parser *st)
 {
 	if (st->buf_i > 0)
@@ -95,7 +75,10 @@ t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 
 	st.args = ft_calloc(256, sizeof(char *));
 	if (!st.args)
+	{
+		free(new_cmd); // added this 19.7
 		return (NULL);
+	}
 	st.i = 0;
 	st.j = 0;
 	st.buf_i = 0;
@@ -113,21 +96,6 @@ t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 	st.args[st.j] = NULL;
 	new_cmd->args = st.args;
 	return (new_cmd);
-}
-
-void	remove_quotes_from_args(char **args)
-{
-	int		i;
-	char	*cleaned;
-
-	i = 0;
-	while (args[i])
-	{
-		cleaned = remove_quotes(args[i]);
-		free(args[i]);
-		args[i] = cleaned;
-		i++;
-	}
 }
 
 // void	create_command_list(t_data *data)

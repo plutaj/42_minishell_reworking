@@ -6,7 +6,7 @@
 #    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/17 19:13:07 by jozefpluta       ###   ########.fr        #
+#    Updated: 2025/07/19 21:05:23 by jozefpluta       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,15 +16,16 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 LDFLAGS = -lreadline
 SRC = \
-data_init.c \
-env_var.c \
-free_functions.c \
+mini_utils/data_init.c \
+mini_utils/env_var.c \
+mini_utils/free_functions.c \
 minishell.c \
-minishell_utils.c \
+mini_utils/minishell_utils.c \
 parsing/quotes_check.c \
 parsing/create_redir_list.c \
 parsing/create_command_list.c \
 parsing/create_command_list_utils.c \
+parsing/create_command_list_utils2.c \
 execution/execution.c \
 builtins/echo.c \
 builtins/builtins.c \
@@ -44,8 +45,8 @@ pipes/heredoc.c \
 parsing/expansion.c \
 parsing/handeling.c \
 pipes/pipe_child.c \
-env_var_utils.c \
-syntax_check.c \
+mini_utils/env_var_utils.c \
+mini_utils/syntax_check.c \
 
 OBJ = $(SRC:.c=.o)
 
