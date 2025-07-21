@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/19 21:00:40 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 17:52:58 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	create_command_list(t_data *data)
 	t_command	*temp_cmd;
 
 	s = ft_split_quote_aware(data->input, '|');
-	if (!s) // added malloc protec
-		return ; // added malloc protec
+	if (!s) 
+		return ; 
 	i = 0;
 	while (s[i])
 	{
@@ -33,9 +33,9 @@ void	create_command_list(t_data *data)
 			break ;
 		new_cmd = split_args_and_redirs(s[i], new_cmd);
 		if (!new_cmd)
-			return ; // added this 19.7
+			return ; 
 		var_and_quote_handling(new_cmd);
-		append_command_to_list(data, new_cmd, &temp_cmd);  // added this 19.7
+		append_command_to_list(data, new_cmd, &temp_cmd);  
 		i++;
 	}
 	free_2d_array(s);
@@ -56,6 +56,7 @@ t_command	*set_new_node_to_def(t_command *new_cmd, t_data *data)
 	new_cmd->redir = NULL;
 	new_cmd->data = data;
 	new_cmd->next = NULL;
+	new_cmd->parseerror = 0;
 	return (new_cmd);
 }
 
@@ -76,7 +77,7 @@ t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 	st.args = ft_calloc(256, sizeof(char *));
 	if (!st.args)
 	{
-		free(new_cmd); // added this 19.7
+		free(new_cmd);
 		return (NULL);
 	}
 	st.i = 0;
