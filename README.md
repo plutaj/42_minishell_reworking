@@ -28,6 +28,29 @@ minishell$ cat << db
 
 should exit without execution on ctrl-c
 
+minishell$ cat < dv
+open or dup2 error: No such file or directory
+minishell$ echo $?
+1
+minishell$
+exit
+==29007==
+==29007== HEAP SUMMARY:
+==29007==     in use at exit: 208,448 bytes in 241 blocks
+==29007==   total heap usage: 773 allocs, 532 frees, 262,049 bytes allocated
+==29007==
+==29007== 2 bytes in 1 blocks are definitely lost in loss record 1 of 67
+==29007==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==29007==    by 0x10F6BA: do_conversion (in /home/huahmad/21.7/minishell)
+==29007==    by 0x10F659: ft_itoa (in /home/huahmad/21.7/minishell)
+==29007==    by 0x10AD7F: handle_variable_expansion (create_command_list_utils.c:43)
+==29007==    by 0x10DFDC: expand_variables (expansion.c:32)
+==29007==    by 0x10ACAF: find_variables (create_command_list_utils.c:23)
+==29007==    by 0x10A99D: var_and_quote_handling (create_command_list.c:46)
+==29007==    by 0x10A91B: create_command_list (create_command_list.c:37)
+==29007==    by 0x109E44: minishell_loop (minishell.c:48)
+==29007==    by 0x109D68: main (minishell.c:29)
+
 **************************** FIXED *****************************
 huahmad@Sam:~/final$ ./minishell
 minishell$ echo >>>>>>>>

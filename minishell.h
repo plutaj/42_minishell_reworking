@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
 /*   Updated: 2025/07/21 18:17:29 by jpluta           ###   ########.fr       */

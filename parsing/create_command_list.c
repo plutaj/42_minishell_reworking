@@ -91,7 +91,8 @@ t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 			continue ;
 		if (!quote && handle_spaces(string, &st))
 			continue ;
-		st.buffer[st.buf_i++] = string[st.i++];
+		if (string[st.i]) 
+			st.buffer[st.buf_i++] = string[st.i++];
 	}
 	flush_buffer(&st);
 	st.args[st.j] = NULL;
