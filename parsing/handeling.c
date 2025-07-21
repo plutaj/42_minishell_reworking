@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handeling.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/17 17:02:01 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 17:22:49 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ int	handle_redirections(char *s, t_parser *st)
 		while (s[st->i] && s[st->i] != ' ' && s[st->i] != '<'
 			&& s[st->i] != '>')
 			st->buffer[st->buf_i++] = s[st->i++];
+		st->buffer[st->buf_i] = '\0';
+		if (st->args[st->j])
+			free(st->args[st->j]);
 		st->args[(st->j)] = ft_strdup(st->buffer);
-		// if (!(st->args[(st->j)])) // added malloc protec (update, not working)
-		// 	return (0);			// added malloc protec (update, not working)
+		if (!st->args[st->j]) 
+			return (0);
 		return (1);
 	}
 	return (0);
