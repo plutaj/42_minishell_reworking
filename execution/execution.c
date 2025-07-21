@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 17:08:16 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:09:43 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	errorfromto(int from, int to, int saved_in, int saved_out)
 	return (false);
 }
 
-bool all_cmds_invalid(t_data *data)
+bool	all_cmds_invalid(t_data *data)
 {
 	t_command	*cmd;
 
@@ -39,10 +39,10 @@ bool all_cmds_invalid(t_data *data)
 	while (cmd)
 	{
 		if (!cmd->parseerror)
-			return false;
+			return (false);
 		cmd = cmd->next;
 	}
-	return true;
+	return (true);
 }
 
 void	execution(t_data *data)
@@ -74,7 +74,7 @@ void	execution(t_data *data)
 		executepipecmds(data);
 }
 
-static void	child_process(char *full_path, char **args, char **env)
+void	child_process(char *full_path, char **args, char **env)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -83,42 +83,4 @@ static void	child_process(char *full_path, char **args, char **env)
 		perror("execve");
 		exit(126);
 	}
-}
-
-static void	parent_process(pid_t pid)
-{
-	int	status;
-	int	sig;
-
-	signal(SIGINT, SIG_IGN);
-	waitpid(pid, &status, 0);
-	signal(SIGINT, sigint_handler);
-	if (WIFEXITED(status))
-		g_last_exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		if (sig == SIGQUIT)
-			write(2, "Quit (core dumped)\n", 20);
-		else if (sig == SIGINT)
-			write(1, "\n", 1);
-		g_last_exit_status = 128 + sig;
-	}
-}
-
-int	execute_command(char *full_path, char **args, char **env)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return (-1);
-	}
-	if (pid == 0)
-		child_process(full_path, args, env);
-	else
-		parent_process(pid);
-	return (0);
 }

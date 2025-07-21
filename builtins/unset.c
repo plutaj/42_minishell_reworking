@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 12:33:37 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/14 22:03:59 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:03:03 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	unset_remove_key(t_data *data, char *key)
 int	is_var(char *key, char **env)
 {
 	int	i;
-	
+
 	i = 0;
 	while (env[i])
 	{

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:44:45 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 15:43:57 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:19:26 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	syntax_err_msg(void);
 
 int	check_redir_list(t_redir *redir)
 {
@@ -45,8 +47,7 @@ int	check_syntax(t_data *data)
 	cmd = data->cmd_list;
 	if (cmd && (!cmd->args || !cmd->args[0]))
 	{
-		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
-		g_last_exit_status = 2;
+		syntax_err_msg();
 		return (0);
 	}
 	else if (cmd->args[0][0] == '\0')
@@ -58,8 +59,7 @@ int	check_syntax(t_data *data)
 	{
 		if (!cmd->args || !cmd->args[0])
 		{
-			write(2, "minishell: syntax error near unexpected token `|'\n", 51);
-			g_last_exit_status = 2;
+			syntax_err_msg();
 			return (0);
 		}
 		if (!check_redir_list(cmd->redir))
@@ -67,4 +67,10 @@ int	check_syntax(t_data *data)
 		cmd = cmd->next;
 	}
 	return (1);
+}
+
+void	syntax_err_msg(void)
+{
+	write(2, "minishell: syntax error near unexpected token `|'\n", 51);
+	g_last_exit_status = 2;
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
+#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/21 16:48:55 by huahmad          ###   ########.fr        #
+#    Updated: 2025/07/21 18:12:14 by jpluta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ parsing/create_command_list.c \
 parsing/create_command_list_utils.c \
 parsing/create_command_list_utils2.c \
 execution/execution.c \
+execution/execution2.c \
 builtins/echo.c \
 builtins/builtins.c \
 builtins/pwd.c \

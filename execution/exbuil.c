@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exbuil.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:07:29 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/19 21:22:16 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 18:03:21 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ void	is_external(t_data *data, t_command *cmd_list)
 void	update_pipe_fds(int *prev_pipe_read, int pipefd[2], int has_next)
 {
 	if (*prev_pipe_read != STDIN_FILENO && *prev_pipe_read != -1)
-		close(*prev_pipe_read);	
+		close(*prev_pipe_read);
 	if (has_next)
 	{
 		if (pipefd[1] != -1)
 			close(pipefd[1]);
 		*prev_pipe_read = pipefd[0];
 	}
-	else 
+	else
 	{
 		if (pipefd[0] != -1)
 			close(pipefd[0]);
