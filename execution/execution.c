@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/19 21:38:23 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 15:44:31 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ void	execution(t_data *data)
 	int	saved_in;
 	int	saved_out;
 
-	if (all_cmds_invalid(data))
-	{
-		g_last_exit_status = 1;
-		return; 
-	}
 	if (!data->cmd_list->next)
 	{
 		saved_in = dup(STDIN_FILENO);

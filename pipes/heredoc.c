@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/15 14:20:33 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 16:20:48 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	heredoc_loop(int write_fd, char *limiter)
 {
 	char	*line;
 
+	signal(SIGINT, sigint_handler_heredoc);
 	while (1)
 	{
 		line = readline("> ");

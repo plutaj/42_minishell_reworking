@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/19 21:05:58 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 15:33:44 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	sigint_handler(int signo)
 	write(1, "\n", 1);
 	g_last_exit_status = 130;
 	rl_on_new_line();
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -53,13 +53,13 @@ bool	valid_input(char *input)
 				+ 1] == ' '))
 	{
 		write(2, "parse error near `\\n'\n", 22);
-		g_last_exit_status = 1;
+		g_last_exit_status = 2;
 		return (0);
 	}
 	if (input[0] == '|')
 	{
 		write(2, "parse error near `|'\n", 22);
-		g_last_exit_status = 1;
+		g_last_exit_status = 2;
 		return (0);
 	}
 	return (1);

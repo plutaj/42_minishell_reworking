@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/10 16:58:06 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/21 16:04:22 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,38 @@ void	cmd_echo(t_command *cmd_list)
 		cmd_echo_exec(cmd_list, 1);
 }
 
+static int	theloop(char *str, int *is_newline, int i, int j)
+{
+	while (str[i] == '-' && str[i + 1] == 'n')
+	{
+		j = i + 2;
+		while (str[j] == 'n')
+			j++;
+		if (str[j] == ' ')
+		{
+			i = j + 1;
+			while (str[i] == ' ')
+				i++;
+			*is_newline = 0;
+		}
+		else
+			break;
+	}
+	return (i);
+}
+
 void	cmd_echo_exec(t_command *cmd_list, int is_newline)
 {
 	char	*str;
-
+	int		i;
+	int		j;
+	
+	i = 0;
+	j = 0;
 	str = convert_to_string(cmd_list, is_newline);
+	i = theloop(str, &is_newline, i, j);
 	if (!is_newline)
-		printf("%s", str);
+		printf("%s", &str[i]);
 	else
 		printf("%s\n", str);
 	g_last_exit_status = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/19 20:59:12 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 16:16:51 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ void						executechild(t_data *data, t_command *cmd,
 /* pipes/inpredir.c */
 t_command					*temp(int *fd, t_data *data);
 int							do_input_redir(t_redir *redir);
+void						sigint_handler_heredoc(int signo);
+
 
 /* pipes/piping.c */
 void						executepipecmds(t_data *data);
