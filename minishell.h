@@ -86,6 +86,7 @@ typedef struct s_data
 	t_command				*cmd_list;
 	int						is_single;
 	int						is_double;
+	t_parser				ptr_st;
 }							t_data;
 
 /* data_init.c */
@@ -113,6 +114,8 @@ int							is_var(char *key, char **env);
 int							update_existing_env(char **envp, int i,
 								const char *key, const char *value);
 void						str_dup_err(char **env, int i);
+void						free_args(char **args);
+
 
 /* free_functions.c */
 void						free_2d_array(char **arr);
