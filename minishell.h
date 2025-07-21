@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 17:57:44 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/21 18:17:29 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int							update_existing_env(char **envp, int i,
 								const char *key, const char *value);
 void						str_dup_err(char **env, int i);
 void						free_args(char **args);
-
 
 /* free_functions.c */
 void						free_2d_array(char **arr);
@@ -259,3 +258,9 @@ void						unset_invalid_num_args(void);
 /* syntax_check.c */
 int							check_redir_list(t_redir *redir);
 int							check_syntax(t_data *data);
+
+void						parent_process(pid_t pid);
+int							execute_command(char *full_path,
+								char **args, char **env);
+void						child_process(char *full_path,
+								char **args, char **env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list_utils2.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:53:21 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/19 20:54:54 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 18:20:21 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	handle_spaces(char *s, t_parser *st)
 		{
 			st->buffer[st->buf_i] = '\0';
 			st->args[st->j++] = ft_strdup(st->buffer);
-			// if (!st->args[st->j++]) // added malloc protec (update, not working)
-			// 	return (0);			// added malloc protec (update, not working)
 			st->buf_i = 0;
 		}
 		st->i++;
@@ -30,7 +28,8 @@ int	handle_spaces(char *s, t_parser *st)
 	return (0);
 }
 
-void append_command_to_list(t_data *data, t_command *new_cmd, t_command **temp_cmd)
+void	append_command_to_list(t_data *data, t_command *new_cmd,
+		t_command **temp_cmd)
 {
 	if (!data->cmd_list)
 		data->cmd_list = new_cmd;

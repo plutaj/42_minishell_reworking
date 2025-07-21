@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 16:04:22 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:02:11 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	theloop(char *str, int *is_newline, int i, int j)
 			*is_newline = 0;
 		}
 		else
-			break;
+			break ;
 	}
 	return (i);
 }
@@ -50,7 +50,7 @@ void	cmd_echo_exec(t_command *cmd_list, int is_newline)
 	char	*str;
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	j = 0;
 	str = convert_to_string(cmd_list, is_newline);
