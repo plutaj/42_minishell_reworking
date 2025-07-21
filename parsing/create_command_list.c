@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 17:52:58 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:04:58 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ t_command	*split_args_and_redirs(char *string, t_command *new_cmd)
 			continue ;
 		if (!quote && handle_spaces(string, &st))
 			continue ;
-		st.buffer[st.buf_i++] = string[st.i++];
+		if (string[st.i]) 
+			st.buffer[st.buf_i++] = string[st.i++];
 	}
 	flush_buffer(&st);
 	st.args[st.j] = NULL;

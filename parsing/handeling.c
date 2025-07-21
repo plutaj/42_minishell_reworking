@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/21 17:56:55 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 18:01:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	handle_redirections(char *s, t_parser *st)
 		st->buffer[st->buf_i] = '\0';
 		if (st->args[st->j])
 			free(st->args[st->j]);
-		// st->args[(st->j)] = ft_strdup(st->buffer);
 		if (!st->args[st->j]) 
 			return (0);
 		return (1);
