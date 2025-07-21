@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 17:35:06 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/21 17:40:31 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	set_data_to_default(t_data *data)
 				free(data->cmd_list->redir->file_or_limiter);
 			r_temp = data->cmd_list->redir->next;
 			free(data->cmd_list->redir);
+			data->cmd_list->redir = r_temp;
 		}
 		free_2d_array(data->cmd_list->args);
 		temp = data->cmd_list->next;

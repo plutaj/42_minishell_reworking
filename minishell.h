@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 17:08:34 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:57:44 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,8 @@ int							readline_failure(t_data *data);
 void						minishell_loop(t_data *data);
 int							is_valid_redirection(char **args);
 bool						all_cmds_invalid(t_data *data);
-bool						errorfromto(int from, int to, int saved_in, int saved_out);
-
-
+bool						errorfromto(int from, int to,
+								int saved_in, int saved_out);
 
 /* env_var.c */
 char						**copy_envp(char **envp);
@@ -156,7 +155,7 @@ int							handle_redir_loop(t_redir *redir, int in, int out);
 
 /* parsing/create_command_list_utils2.c */
 int							handle_spaces(char *s, t_parser *st);
-void 						append_command_to_list(t_data *data,
+void						append_command_to_list(t_data *data,
 								t_command *new_cmd, t_command **temp_cmd);
 void						remove_quotes_from_args(char **args);
 
@@ -195,7 +194,6 @@ void						executechild(t_data *data, t_command *cmd,
 t_command					*temp(int *fd, t_data *data);
 int							do_input_redir(t_redir *redir);
 void						sigint_handler_heredoc(int signo);
-
 
 /* pipes/piping.c */
 void						executepipecmds(t_data *data);
