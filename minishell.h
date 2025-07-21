@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 16:16:51 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:08:34 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int							readline_failure(t_data *data);
 void						minishell_loop(t_data *data);
 int							is_valid_redirection(char **args);
 bool						all_cmds_invalid(t_data *data);
+bool						errorfromto(int from, int to, int saved_in, int saved_out);
 
 
 

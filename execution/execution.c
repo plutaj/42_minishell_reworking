@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 15:44:31 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:08:16 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ static void	dup2andclose(int savedin, int savedout)
 	dup2(savedout, STDOUT_FILENO);
 	close(savedin);
 	close(savedout);
+}
+
+bool	errorfromto(int from, int to, int saved_in, int saved_out)
+{
+	if (from == -1 || to == -1)
+	{
+		dup2andclose(saved_in, saved_out);
+		g_last_exit_status = 1;
+		return (true);
+	}
+	return (false);
 }
 
 bool all_cmds_invalid(t_data *data)
@@ -47,6 +58,8 @@ void	execution(t_data *data)
 		saved_out = dup(STDOUT_FILENO);
 		from = redirectinp(data->cmd_list);
 		to = redirectout(data->cmd_list);
+		if (errorfromto(from, to, saved_in, saved_out))
+			return ;
 		if (is_builtin(data->cmd_list))
 			builtin(data->cmd_list);
 		else

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:55:51 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/10 12:56:29 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:12:58 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 void	expand_variables(char **str, t_data *data)
 {
-	int		i;
-	int		is_single_q;
-
+    int     i;
+    int     in_single_q;
+    int     in_double_q;    
+	
 	i = 0;
-	is_single_q = 0;
-	while ((*str)[i] != '\0')
-	{
-		if ((*str)[i] == '\'')
-			is_single_q = !is_single_q;
-		if ((*str)[i] == '$' && !is_single_q)
-		{
-			handle_variable_expansion(str, data, &i);
-			continue ;
-		}
-		i++;
-	}
+    in_single_q = 0;
+    in_double_q = 0;
+    while ((*str)[i] != '\0')
+    {
+        if ((*str)[i] == '\"' && !in_single_q)
+            in_double_q = !in_double_q;
+        else if ((*str)[i] == '\'' && !in_double_q)
+            in_single_q = !in_single_q;
+        if ((*str)[i] == '$' && !in_single_q)
+        {
+            handle_variable_expansion(str, data, &i);
+            continue ;
+        }
+        i++;
+    }
 }
 
 char	*extract_var(char *str)

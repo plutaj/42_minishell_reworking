@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+         #
+#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/19 21:05:23 by jozefpluta       ###   ########.fr        #
+#    Updated: 2025/07/21 16:48:55 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ parsing/handeling.c \
 pipes/pipe_child.c \
 mini_utils/env_var_utils.c \
 mini_utils/syntax_check.c \
+pipes/heredocutil.c \
 
 OBJ = $(SRC:.c=.o)
 

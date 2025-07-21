@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 15:36:31 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/21 17:01:56 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	minishell_loop(t_data *data)
 		if (!data->cmd_list)
 			cleanup_and_exit(data);
 		create_redir_list(data);
-		if (!check_syntax(data)) // syntax protec
+		if (!check_syntax(data))
 		{
 			set_data_to_default(data);
 			continue ;
