@@ -1,3 +1,5 @@
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
+
 echo "'$USER'"
 should expand
 

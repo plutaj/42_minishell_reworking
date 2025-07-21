@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/19 21:55:41 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/21 17:35:06 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,18 @@ void	get_path(t_data *data)
 void	set_data_to_default(t_data *data)
 {
 	t_command	*temp;
+	t_redir		*r_temp;
 
 	temp = data->cmd_list;
 	while (data->cmd_list)
 	{
+		if (data->cmd_list->redir)
+		{
+			if (data->cmd_list->redir->file_or_limiter)
+				free(data->cmd_list->redir->file_or_limiter);
+			r_temp = data->cmd_list->redir->next;
+			free(data->cmd_list->redir);
+		}
 		free_2d_array(data->cmd_list->args);
 		temp = data->cmd_list->next;
 		free(data->cmd_list);
