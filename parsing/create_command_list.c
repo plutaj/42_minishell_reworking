@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:08:56 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/22 14:32:01 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 16:38:13 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	create_command_list(t_data *data)
 		new_cmd = split_args_and_redirs(s[i], new_cmd);
 		if (!new_cmd)
 		{
+			free_command_list(data->cmd_list);
+    		data->cmd_list = NULL;
 			free_2d_array(s);
 			return ;
 		}

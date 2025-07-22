@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:53:21 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/22 13:17:10 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:09:01 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	remove_quotes_from_args(char **args)
 	while (args[i])
 	{
 		cleaned = remove_quotes(args[i]);
-		free(args[i]);
-		args[i] = cleaned;
+		if (cleaned)
+		{
+			free(args[i]);
+			args[i] = cleaned;
+		}
 		i++;
-		cleaned = NULL;
 	}
 }

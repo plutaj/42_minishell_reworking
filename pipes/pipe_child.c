@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:28:30 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/15 12:32:34 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 16:01:35 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 	if (prev_pipe_read != STDIN_FILENO)
 		close(prev_pipe_read);
 	if (is_builtin(cmd))
+	{
 		builtin(cmd);
+		free_env(data->env);
+		set_data_to_default(data);
+		exit(g_last_exit_status);
+	}
 	else
 		is_my_external(data, cmd);
 	exit(1);

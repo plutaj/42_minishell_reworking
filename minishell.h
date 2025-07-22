@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/22 14:39:53 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 16:24:14 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int							is_var(char *key, char **env);
 int							update_existing_env(char **envp, int i,
 								const char *key, const char *value);
 void						str_dup_err(char **env, int i);
+void						free_command_list(t_command *cmd_list);
+
 
 /* free_functions.c */
 void						free_2d_array(char **arr);
