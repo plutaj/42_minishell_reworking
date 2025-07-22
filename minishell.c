@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/22 15:55:51 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:50:56 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	minishell_loop(t_data *data)
 		if (data->input == NULL)
 			readline_failure(data);
 		if (!*data->input || only_spaces(data->input))
-			continue;
+			continue ;
 		if (!valid_input(data->input))
 			continue ;
 		if (*data->input)
@@ -63,8 +63,6 @@ void	minishell_loop(t_data *data)
 int	readline_failure(t_data *data)
 {
 	printf("exit\n");
-	if (*data->current_path)
-		free(data->current_path);
 	free_2d_array(data->env);
 	set_data_to_default(data);
 	exit(0);

@@ -1,22 +1,26 @@
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
 
-echo "'$USER'"
-should expand
-
-----------------
-
-huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
-fucks up all execution
-
 
 
 minishell$ cat << db
 > ^C
 echo $? 
-0   
+0
 
 
 **************************** FIXED *****************************
+huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
+fucks up all execution
+
+
+
+
+echo "'$USER'"
+should expand
+
+
+
+
 huahmad@Sam:~/final$ ./minishell
 minishell$ echo >>>>>>>>
 minishell: syntax error near unexpected token

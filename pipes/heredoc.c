@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/22 12:49:54 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:40:58 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	heredoc_loop(int write_fd, char *limiter)
 	char	*line;
 
 	signal(SIGINT, sigint_handler_heredoc);
-	// rl_catch_signals = 0;
 	while (1)
 	{
 		line = readline("> ");
