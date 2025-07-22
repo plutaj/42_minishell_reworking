@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 12:08:32 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/19 21:05:53 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/07/22 13:46:58 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,19 @@ void	free_2d_array(char **arr)
 	}
 	free(arr);
 	arr = NULL;
+}
+
+void	free_env(char **env)
+{
+	int	i;
+	
+	i = 0;
+	if (!env)
+		return;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
 }

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 18:17:29 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/22 14:39:53 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,14 @@ int							is_var(char *key, char **env);
 int							update_existing_env(char **envp, int i,
 								const char *key, const char *value);
 void						str_dup_err(char **env, int i);
-void						free_args(char **args);
 
 /* free_functions.c */
 void						free_2d_array(char **arr);
+void						parse_input_string(char *string, t_parser *st, char *quote);
+int							init_parser_state(t_parser *st, t_command *new_cmd);
+void						free_env(char **env);
+t_command					*set_new_node_to_def(t_command *new_cmd, t_data *data);
+void						var_and_quote_handling(t_command *new_cmd);
 
 /* minishell_utils.c */
 void						sigint_handler(int signo);
@@ -146,6 +150,7 @@ void						replace_var(t_var_replace *context);
 int							skip_invalid_var(char *start, char *var);
 t_command					*split_args_and_redirs(char *string,
 								t_command *new_cmd);
+char						*resolve_variable_value(char *var, t_data *data);
 
 /* parsing/create_command_list_utils.c */
 void						find_variables(t_command *new_cmd);

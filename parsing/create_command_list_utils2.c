@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list_utils2.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:53:21 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 18:20:21 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/22 13:17:10 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void	remove_quotes_from_args(char **args)
 		free(args[i]);
 		args[i] = cleaned;
 		i++;
+		cleaned = NULL;
 	}
 }

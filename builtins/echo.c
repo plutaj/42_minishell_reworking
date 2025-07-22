@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 18:02:11 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/22 12:45:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	cmd_echo(t_command *cmd_list)
 
 static int	theloop(char *str, int *is_newline, int i, int j)
 {
-	while (str[i] == '-' && str[i + 1] == 'n')
+	while (str[i] == '-')
 	{
-		j = i + 2;
+		j = i + 1;
 		while (str[j] == 'n')
 			j++;
-		if (str[j] == ' ')
+		if (j > i + 1 && (str[j] == ' ' || str[j] == '\0'))
 		{
-			i = j + 1;
+			i = j;
 			while (str[i] == ' ')
 				i++;
 			*is_newline = 0;

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 17:01:56 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:16:34 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!data.env)
 		return (1);
 	minishell_loop(&data);
+	free_env(data.env);
 	return (0);
 }
 
@@ -38,7 +39,7 @@ void	minishell_loop(t_data *data)
 		if (data->input == NULL)
 			readline_failure(data);
 		if (!*data->input || only_spaces(data->input))
-			continue ;
+			continue;
 		if (!valid_input(data->input))
 			continue ;
 		if (*data->input)

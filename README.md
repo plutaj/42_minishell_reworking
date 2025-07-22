@@ -9,29 +9,21 @@ huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
 fucks up all execution
 
 
-^Cminishell$ cat < db
-cat: -: Bad file descriptor
-hasam did some magic with his quick fix
 
 minishell$ cat << db
-> adfsdf
 > ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
-> ^C
+echo $? 
+0   
 
-should exit without execution on ctrl-c
 
-minishell$ cat < dv
-open or dup2 error: No such file or directory
+**************************** FIXED *****************************
+huahmad@Sam:~/final$ ./minishell
+minishell$ echo >>>>>>>>
+minishell: syntax error near unexpected token
+minishell: syntax error near unexpected token
 minishell$ echo $?
-1
+minishell$
+
 minishell$
 exit
 ==29007==
@@ -51,15 +43,9 @@ exit
 ==29007==    by 0x109E44: minishell_loop (minishell.c:48)
 ==29007==    by 0x109D68: main (minishell.c:29)
 
-**************************** FIXED *****************************
-huahmad@Sam:~/final$ ./minishell
-minishell$ echo >>>>>>>>
-minishell: syntax error near unexpected token
-minishell: syntax error near unexpected token
-minishell$ echo $?
-minishell$
-
-
+^Cminishell$ cat < db
+cat: -: Bad file descriptor
+hasam did some magic with his quick fix
 
 minishell$ $a
 execve: Permission denied

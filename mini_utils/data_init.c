@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 17:40:31 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/22 14:05:28 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,19 @@ void	set_data_to_default(t_data *data)
 {
 	t_command	*temp;
 	t_redir		*r_temp;
+	t_redir 	*next;
 
 	temp = data->cmd_list;
 	while (data->cmd_list)
 	{
-		if (data->cmd_list->redir)
+		r_temp = data->cmd_list->redir;
+		while (r_temp)
 		{
-			if (data->cmd_list->redir->file_or_limiter)
-				free(data->cmd_list->redir->file_or_limiter);
-			r_temp = data->cmd_list->redir->next;
-			free(data->cmd_list->redir);
-			data->cmd_list->redir = r_temp;
+			next = r_temp->next;
+			if (r_temp->file_or_limiter)
+				free(r_temp->file_or_limiter);
+			free(r_temp);
+			r_temp = next;
 		}
 		free_2d_array(data->cmd_list->args);
 		temp = data->cmd_list->next;
@@ -64,8 +66,7 @@ void	set_data_to_default(t_data *data)
 	}
 	data->cmd_list = NULL;
 	if (data->input)
-	{
-		free (data->input);
-		data->input = NULL;
-	}
+		free(data->input);
+	data->input = NULL;	
 }
+
