@@ -6,66 +6,66 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:53:13 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/08 18:01:53 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/22 17:35:46 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-char		**free_split(char **split, size_t count);
-void		set_quote(char *quote, const char *s, int i);
-char		**ft_split_quote_aware(const char *s, char c);
-static int	count_tokens_quote_aware(const char *s, char c);
-static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len);
+int	count_tokens_quote_aware(const char *s, char delim);
+char	*alloc_token_quote_aware(const char *s, char delim, int *consumed_len);
+char	**free_split(char **split, size_t count);
+void	copy_token(char *dst, const char *src, int len);
 
-char	**ft_split_quote_aware(const char *s, char c)
+char	**ft_split_quote_aware(const char *s, char delim)
 {
-	size_t	i;
+	size_t	i = 0;
 	size_t	len;
 	char	**result;
 	int		consumed;
 
-	i = 0;
-	len = count_tokens_quote_aware(s, c);
-	result = ft_calloc(len + 1, sizeof(char *));
+	if (!s)
+		return (NULL);
+	len = count_tokens_quote_aware(s, delim);
+	result = calloc(len + 1, sizeof(char *));
 	if (!result)
 		return (NULL);
 	while (i < len)
 	{
-		while (*s == c)
+		while (*s == delim)
 			s++;
-		result[i] = alloc_token_quote_aware(s, c, &consumed);
+		result[i] = alloc_token_quote_aware(s, delim, &consumed);
 		if (!result[i])
 			return (free_split(result, i));
 		s += consumed;
+		while (*s == delim) // skip delim after token
+			s++;
 		i++;
 	}
 	result[i] = NULL;
 	return (result);
 }
 
-static int	count_tokens_quote_aware(const char *s, char c)
+int	count_tokens_quote_aware(const char *s, char delim)
 {
-	int		i;
-	int		count;
-	char	quote;
+	int		i = 0;
+	int		count = 0;
+	char	quote = 0;
 
-	i = 0;
-	count = 0;
-	quote = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
+		while (s[i] == delim)
 			i++;
 		if (!s[i])
 			break ;
 		count++;
 		while (s[i])
 		{
-			set_quote(&quote, s, i);
-			if (!quote && (s[i] == '\'' || s[i] == '"'))
+			if (quote && s[i] == quote)
+				quote = 0;
+			else if (!quote && (s[i] == '"' || s[i] == '\''))
 				quote = s[i];
-			else if (!quote && s[i] == c)
+			else if (!quote && s[i] == delim)
 				break ;
 			i++;
 		}
@@ -73,27 +73,19 @@ static int	count_tokens_quote_aware(const char *s, char c)
 	return (count);
 }
 
-void	set_quote(char *quote, const char *s, int i)
+char	*alloc_token_quote_aware(const char *s, char delim, int *consumed_len)
 {
-	if (*quote && s[i] == *quote)
-		*quote = 0;
-}
-
-static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
-{
-	int		i;
-	char	quote;
+	int		i = 0;
+	char	quote = 0;
 	char	*token;
 
-	i = 0;
-	quote = 0;
 	while (s[i])
 	{
 		if (quote && s[i] == quote)
 			quote = 0;
-		else if (!quote && (s[i] == '\'' || s[i] == '"'))
+		else if (!quote && (s[i] == '"' || s[i] == '\''))
 			quote = s[i];
-		else if (!quote && s[i] == c)
+		else if (!quote && s[i] == delim)
 			break ;
 		i++;
 	}
@@ -106,6 +98,13 @@ static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
 	return (token);
 }
 
+void	copy_token(char *dst, const char *src, int len)
+{
+	for (int i = 0; i < len; i++)
+		dst[i] = src[i];
+	dst[len] = '\0';
+}
+
 char	**free_split(char **split, size_t count)
 {
 	while (count--)
@@ -114,10 +113,11 @@ char	**free_split(char **split, size_t count)
 	return (NULL);
 }
 
+// char		**free_split(char **split, size_t count);
+// void		set_quote(char *quote, const char *s, int i);
 // char		**ft_split_quote_aware(const char *s, char c);
 // static int	count_tokens_quote_aware(const char *s, char c);
-// static char	*alloc_token_quote_aware(const char *s,
-// char c, int *consumed_len);
+// static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len);
 
 // char	**ft_split_quote_aware(const char *s, char c)
 // {
@@ -137,12 +137,7 @@ char	**free_split(char **split, size_t count)
 // 			s++;
 // 		result[i] = alloc_token_quote_aware(s, c, &consumed);
 // 		if (!result[i])
-// 		{
-// 			while (i--)
-// 				free(result[i]);
-// 			free(result);
-// 			return (NULL);
-// 		}
+// 			return (free_split(result, i));
 // 		s += consumed;
 // 		i++;
 // 	}
@@ -152,12 +147,12 @@ char	**free_split(char **split, size_t count)
 
 // static int	count_tokens_quote_aware(const char *s, char c)
 // {
-// 	int		count;
 // 	int		i;
+// 	int		count;
 // 	char	quote;
 
-// 	count = 0;
 // 	i = 0;
+// 	count = 0;
 // 	quote = 0;
 // 	while (s[i])
 // 	{
@@ -168,26 +163,24 @@ char	**free_split(char **split, size_t count)
 // 		count++;
 // 		while (s[i])
 // 		{
-// 			if (quote)
-// 			{
-// 				if (s[i] == quote)
-// 					quote = 0;
-// 			}
-// 			else
-// 			{
-// 				if (s[i] == '\'' || s[i] == '"')
-// 					quote = s[i];
-// 				else if (s[i] == c)
-// 					break ;
-// 			}
+// 			set_quote(&quote, s, i);
+// 			if (!quote && (s[i] == '\'' || s[i] == '"'))
+// 				quote = s[i];
+// 			else if (!quote && s[i] == c)
+// 				break ;
 // 			i++;
 // 		}
 // 	}
 // 	return (count);
 // }
 
-// static char	*alloc_token_quote_aware(const char *s,
-// char c, int *consumed_len)
+// void	set_quote(char *quote, const char *s, int i)
+// {
+// 	if (*quote && s[i] == *quote)
+// 		*quote = 0;
+// }
+
+// static char	*alloc_token_quote_aware(const char *s, char c, int *consumed_len)
 // {
 // 	int		i;
 // 	char	quote;
@@ -197,18 +190,12 @@ char	**free_split(char **split, size_t count)
 // 	quote = 0;
 // 	while (s[i])
 // 	{
-// 		if (quote)
-// 		{
-// 			if (s[i] == quote)
-// 				quote = 0;
-// 		}
-// 		else
-// 		{
-// 			if (s[i] == '\'' || s[i] == '"')
-// 				quote = s[i];
-// 			else if (s[i] == c)
-// 				break ;
-// 		}
+// 		if (quote && s[i] == quote)
+// 			quote = 0;
+// 		else if (!quote && (s[i] == '\'' || s[i] == '"'))
+// 			quote = s[i];
+// 		else if (!quote && s[i] == c)
+// 			break ;
 // 		i++;
 // 	}
 // 	if (consumed_len)
@@ -216,8 +203,15 @@ char	**free_split(char **split, size_t count)
 // 	token = malloc(i + 1);
 // 	if (!token)
 // 		return (NULL);
-// 	for (int j = 0; j < i; j++)
-// 		token[j] = s[j];
-// 	token[i] = '\0';
+// 	copy_token(token, s, i);
 // 	return (token);
 // }
+
+// char	**free_split(char **split, size_t count)
+// {
+// 	while (count--)
+// 		free(split[count]);
+// 	free(split);
+// 	return (NULL);
+// }
+
