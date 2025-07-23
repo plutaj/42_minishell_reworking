@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/23 17:41:49 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/23 18:07:22 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	handle_variable_expansion(char **str, t_data *data, int *i)
 	ptr_to_env = resolve_variable_value(var, data);
 	context = (t_var_replace){str, var, start, ptr_to_env, i};
 	replace_var(&context);
-	free (ptr_to_env);
+	// free (ptr_to_env);
 }
 
 int	skip_invalid_var(char *start, char *var)
