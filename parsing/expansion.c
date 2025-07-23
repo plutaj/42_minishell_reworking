@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:55:51 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/21 18:20:48 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:50:04 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	expand_variables(char **str, t_data *data)
 		if ((*str)[i] == '$' && !in_single_q)
 		{
 			handle_variable_expansion(str, data, &i);
+			i = 0;
 			continue ;
 		}
 		i++;
