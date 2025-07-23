@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:28:30 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/23 17:15:57 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/23 18:41:02 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,12 @@ void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 		exit(g_last_exit_status);
 	}
 	else
+	{
 		is_my_external(data, cmd);
+		free_env(data->env);
+		set_data_to_default(data);
+		exit(g_last_exit_status);
+	}
 	exit(1);
 }
 

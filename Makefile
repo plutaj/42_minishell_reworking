@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+         #
+#    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/21 18:12:14 by jpluta           ###   ########.fr        #
+#    Updated: 2025/07/23 18:51:12 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ pipes/pipe_child.c \
 mini_utils/env_var_utils.c \
 mini_utils/syntax_check.c \
 pipes/heredocutil.c \
+builtins/forecho.c \
 
 OBJ = $(SRC:.c=.o)
 

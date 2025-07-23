@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/23 17:14:28 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/23 18:41:27 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	is_my_external(t_data *data, t_command *cmd_list)
 	{
 		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
 		g_last_exit_status = 127;
-		exit(g_last_exit_status);
+		// exit(g_last_exit_status);
 	}
 }
