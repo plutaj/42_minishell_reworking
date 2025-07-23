@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/21 18:01:02 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:12:28 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	handle_redirections(char *s, t_parser *st)
 		st->buffer[st->buf_i] = '\0';
 		if (st->args[st->j])
 			free(st->args[st->j]);
-		if (!st->args[st->j]) 
+		if (!st->args[st->j])
 			return (0);
 		return (1);
 	}
@@ -63,4 +63,26 @@ void	handle_quotes(char c, char *quote)
 		else if (*quote == c)
 			*quote = 0;
 	}
+}
+
+void	var_and_quote_handling(t_command *new_cmd)
+{
+	find_variables(new_cmd);
+	remove_quotes_from_args(new_cmd->args);
+}
+
+int	is_valid_redirection(char **args)
+{
+	if (!args || !args[0] || !args[1])
+		return (0);
+	if (!ft_strcmp(args[0], "<")
+		|| !ft_strcmp(args[0], ">>")
+		|| !ft_strcmp(args[0], ">")
+		|| !ft_strcmp(args[0], "<<"))
+	{
+		if (args[1][0] == '<' || args[1][0] == '>')
+			return (0);
+		return (1);
+	}
+	return (0);
 }

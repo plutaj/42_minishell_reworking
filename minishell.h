@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/22 17:50:38 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:16:57 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,15 @@ int							update_existing_env(char **envp, int i,
 void						str_dup_err(char **env, int i);
 void						free_command_list(t_command *cmd_list);
 
-
 /* free_functions.c */
 void						free_2d_array(char **arr);
-void						parse_input_string(char *string, t_parser *st, char *quote);
-int							init_parser_state(t_parser *st, t_command *new_cmd);
+void						parse_input_string(char *string,
+								t_parser *st, char *quote);
+int							init_parser_state(t_parser *st,
+								t_command *new_cmd);
 void						free_env(char **env);
-t_command					*set_new_node_to_def(t_command *new_cmd, t_data *data);
+t_command					*set_new_node_to_def(t_command *new_cmd,
+								t_data *data);
 void						var_and_quote_handling(t_command *new_cmd);
 
 /* minishell_utils.c */

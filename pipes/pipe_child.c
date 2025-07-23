@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:28:30 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/22 16:01:35 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/23 17:15:57 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	wait_for_children(pid_t last_pid)
 	int		status;
 	pid_t	pid;
 
-	while ((pid = wait(&status)) > 0)
+	pid = wait(&status);
+	while (pid > 0)
 	{
 		if (pid == last_pid)
 		{
@@ -26,6 +27,7 @@ void	wait_for_children(pid_t last_pid)
 			else if (WIFSIGNALED(status))
 				g_last_exit_status = 128 + WTERMSIG(status);
 		}
+		pid = wait(&status);
 	}
 }
 
@@ -37,9 +39,9 @@ void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 	if (setup_redirection(prev_pipe_read, pipefd, cmd) == -1)
 		perror("pipe dup");
 	if (pipefd[0] != -1)
-	    close(pipefd[0]);
+		close(pipefd[0]);
 	if (pipefd[1] != -1)
-	    close(pipefd[1]);
+		close(pipefd[1]);
 	if (prev_pipe_read != STDIN_FILENO)
 		close(prev_pipe_read);
 	if (is_builtin(cmd))
@@ -53,3 +55,37 @@ void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 		is_my_external(data, cmd);
 	exit(1);
 }
+
+int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
+{
+	if (prev_pipe_read != STDIN_FILENO && !has_input_redirection(cmd))
+		if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
+			return (perror("dup2"), -1);
+	if (cmd->next && !has_output_redirection(cmd))
+	{
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			return (perror("dup2"), -1);
+	}
+	if (pipefd[0] != -1)
+		close(pipefd[0]);
+	if (pipefd[1] != -1)
+		close(pipefd[1]);
+	return (0);
+}
+
+// void	wait_for_children(pid_t last_pid)
+// {
+// 	int		status;
+// 	pid_t	pid;
+
+// 	while ((pid = wait(&status)) > 0)
+// 	{
+// 		if (pid == last_pid)
+// 		{
+// 			if (WIFEXITED(status))
+// 				g_last_exit_status = WEXITSTATUS(status);
+// 			else if (WIFSIGNALED(status))
+// 				g_last_exit_status = 128 + WTERMSIG(status);
+// 		}
+// 	}
+// }

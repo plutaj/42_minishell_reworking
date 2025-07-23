@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/22 16:22:53 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/23 17:14:28 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static void	closeiferror(int from, int to)
 static void	handle_child_process(t_data *data, t_command *cmd,
 		int prev_pipe_read, int pipefd[2])
 {
-	int from;
-	int to;	
-	
+	int	from;
+	int	to;	
+
 	from = redirectinp(cmd);
 	to = redirectout(cmd);
 	closeiferror(from, to);
@@ -72,29 +72,12 @@ void	executepipecmds(t_data *data)
 		{
 			g_last_exit_status = 2;
 			cmd = cmd->next;
-			continue;
+			continue ;
 		}
 		last_pid = fork_and_execute_pipe_cmd(data, cmd, &prev_pipe_read);
 		cmd = cmd->next;
 	}
 	wait_for_children(last_pid);
-}
-
-int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
-{
-	if (prev_pipe_read != STDIN_FILENO && !has_input_redirection(cmd))
-		if (dup2(prev_pipe_read, STDIN_FILENO) == -1)
-			return (perror("dup2"), -1);
-	if (cmd->next && !has_output_redirection(cmd))
-	{
-		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-			return (perror("dup2"), -1);
-	}
-	if (pipefd[0] != -1)
-		close(pipefd[0]);
-	if (pipefd[1] != -1)
-		close(pipefd[1]);
-	return (0);
 }
 
 void	is_my_external(t_data *data, t_command *cmd_list)

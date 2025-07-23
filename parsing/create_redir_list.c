@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redir_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:06:39 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 17:28:03 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/23 17:12:02 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,6 @@ void	process_command_redirs(t_command *cmd)
 		}
 		i++;
 	}
-}
-
-int	is_valid_redirection(char **args)
-{
-	if (!args || !args[0] || !args[1])
-		return (0);
-	if (!ft_strcmp(args[0], "<")
-		|| !ft_strcmp(args[0], ">>")
-		|| !ft_strcmp(args[0], ">")
-		|| !ft_strcmp(args[0], "<<"))
-	{
-		if (args[1][0] == '<' || args[1][0] == '>')
-			return (0);
-		return (1);
-	}
-	return (0);
 }
 
 t_redir	*create_redir_node(char **args)

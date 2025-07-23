@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/22 16:26:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/23 17:04:37 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	get_path(t_data *data)
 void	set_data_to_default(t_data *data)
 {
 	if (!data)
-		return;
+		return ;
 	free_command_list(data->cmd_list);
 	data->cmd_list = NULL;
 	if (data->input)

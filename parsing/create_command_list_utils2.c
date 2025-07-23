@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command_list_utils2.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:53:21 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/22 15:09:01 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/23 17:09:13 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,33 @@ void	remove_quotes_from_args(char **args)
 			args[i] = cleaned;
 		}
 		i++;
+	}
+}
+
+int	init_parser_state(t_parser *st, t_command *new_cmd)
+{
+	st->args = ft_calloc(256, sizeof(char *));
+	if (!st->args)
+	{
+		free(new_cmd);
+		return (0);
+	}
+	st->i = 0;
+	st->j = 0;
+	st->buf_i = 0;
+	return (1);
+}
+
+void	parse_input_string(char *string, t_parser *st, char *quote)
+{
+	while (string[st->i])
+	{
+		handle_quotes(string[st->i], quote);
+		if (!(*quote) && handle_redirections(string, st))
+			continue ;
+		if (!(*quote) && handle_spaces(string, st))
+			continue ;
+		if (string[st->i])
+			st->buffer[st->buf_i++] = string[st->i++];
 	}
 }
