@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/23 18:50:55 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/28 14:45:44 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,9 @@ int							update_existing_env(char **envp, int i,
 								const char *key, const char *value);
 void						str_dup_err(char **env, int i);
 void						free_command_list(t_command *cmd_list);
-int							is_only_special_chars(const char *str);
+int							export_syntax_invalid(char *str);
+void						printf_err_msg(char *str);
+void						handle_dollar_sign(char **str, t_data *data, int *i);
 
 
 /* free_functions.c */

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:06:06 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 16:51:04 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:29:37 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	update_path_failed(char **temp, char *original_path)
 {
 	free_2d_array(temp);
 	free (original_path);
+    original_path = NULL;
 }
 
 void	err_no_such_file(void)
@@ -42,6 +43,8 @@ int	count_slash(char *str)
 {
 	int	count;
 
+	if (str == NULL)
+		return (0);
 	count = 0;
 	while (*str)
 	{

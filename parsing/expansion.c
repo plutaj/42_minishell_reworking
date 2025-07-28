@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:55:51 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/23 17:50:04 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/28 15:38:41 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	handle_dollar_sign(char **str, t_data *data, int *i)
+{
+	char *exit_status_str;
+	char *new_str;
+
+	if ((*str)[*i + 1] == '?')
+	{
+		exit_status_str = ft_itoa(g_last_exit_status);
+		new_str =  ft_strdup(exit_status_str);
+		free(exit_status_str);
+		free(*str);
+		*str = new_str;
+		*i += 1;
+	}
+    else if ((*str)[*i + 1] == '\0' || !ft_isalnum((*str)[*i + 1]))
+        (*i)++;
+	else
+	{
+		handle_variable_expansion(str, data, i);
+		*i = 0;
+	}
+}
 
 void	expand_variables(char **str, t_data *data)
 {
@@ -29,8 +52,7 @@ void	expand_variables(char **str, t_data *data)
 			in_single_q = !in_single_q;
 		if ((*str)[i] == '$' && !in_single_q)
 		{
-			handle_variable_expansion(str, data, &i);
-			i = 0;
+			handle_dollar_sign(str, data, &i);
 			continue ;
 		}
 		i++;

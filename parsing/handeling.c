@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handeling.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/23 17:12:28 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/28 16:14:36 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,52 @@ static void	parse_operator(char *s, t_parser *st)
 	}
 }
 
+// int	handle_redirections(char *s, t_parser *st)
+// {
+// 	if (s[st->i] == '<' || s[st->i] == '>')
+// 	{
+// 		flush_buffer(st);
+// 		parse_operator(s, st);
+// 		while (s[st->i] == ' ')
+// 			st->i++;
+// 		st->buf_i = 0;
+// 		while (s[st->i] && s[st->i] != ' ' && s[st->i] != '<'
+// 			&& s[st->i] != '>')
+// 			st->buffer[st->buf_i++] = s[st->i++];
+// 		st->buffer[st->buf_i] = '\0';
+// 		if (st->args[st->j])
+// 			free(st->args[st->j]);
+// 		if (!st->args[st->j])
+// 			return (0);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+
+static int	parse_redirection_target(char *s, t_parser *st)
+{
+	char quote = 0;
+
+	while (s[st->i])
+	{
+		if (!quote && (s[st->i] == '\'' || s[st->i] == '"'))
+			quote = s[st->i++];
+		else if (quote && s[st->i] == quote)
+		{
+			quote = 0;
+			st->buffer[st->buf_i++] = s[st->i++];
+		}
+		else if (!quote && (s[st->i] == ' ' || s[st->i] == '<' || s[st->i] == '>'))
+			break;
+		else
+			st->buffer[st->buf_i++] = s[st->i++];
+	}
+	st->buffer[st->buf_i] = '\0';
+	if (st->args[st->j])
+		free(st->args[st->j]);
+	return (st->args[st->j] != NULL);
+}
+
 int	handle_redirections(char *s, t_parser *st)
 {
 	if (s[st->i] == '<' || s[st->i] == '>')
@@ -41,17 +87,9 @@ int	handle_redirections(char *s, t_parser *st)
 		while (s[st->i] == ' ')
 			st->i++;
 		st->buf_i = 0;
-		while (s[st->i] && s[st->i] != ' ' && s[st->i] != '<'
-			&& s[st->i] != '>')
-			st->buffer[st->buf_i++] = s[st->i++];
-		st->buffer[st->buf_i] = '\0';
-		if (st->args[st->j])
-			free(st->args[st->j]);
-		if (!st->args[st->j])
-			return (0);
-		return (1);
+		return parse_redirection_target(s, st);
 	}
-	return (0);
+	return 0;
 }
 
 void	handle_quotes(char c, char *quote)

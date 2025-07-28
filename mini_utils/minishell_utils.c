@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/23 18:57:59 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/28 16:17:16 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	valid_input(char *input)
 	int	i;
 
 	i = 0;
-	if (strstr(input, "||") != NULL)
+	if (ft_strstr(input, "||") != NULL)
 	{
 	    printf("bash: syntax error near unexpected token `||'\n");
 	    g_last_exit_status = 2;

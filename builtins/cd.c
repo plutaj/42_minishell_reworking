@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:54 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/08 17:33:08 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/28 13:33:33 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ void	cmd_cd_dir(t_data *data)
 	char	**temp;
 	int		i;
 
+	if (!data->current_path) // Check if current_path is NULL when it should not be
+    {
+        err_no_such_file();
+        return;
+    }
 	original_path = ft_strdup(data->current_path);
 	temp = ft_split(data->cmd_list->args[1], '/');
 	i = 0;

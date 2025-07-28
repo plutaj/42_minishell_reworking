@@ -1,18 +1,25 @@
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
 
+when ctrl-d we are not freeing the current_path.
+ls >"one two three" this should make one file instead it only conciders "one"
 
-
-minishell$ cat << db
-> ^C
-echo $? 
-0
 
 
 **************************** FIXED *****************************
 huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
 fucks up all execution
 
+export without arguments segfaulted
+cd then cd dir segfaulted
+export $ infinite loop
+echo $ infinite loop
 
+
+
+minishell$ cat << db
+> ^C
+echo $? 
+0
 
 
 echo "'$USER'"

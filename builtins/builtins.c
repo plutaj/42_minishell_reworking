@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:18:19 by jpluta            #+#    #+#             */
-/*   Updated: 2025/06/22 17:09:29 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/07/28 14:36:44 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,22 @@ int	builtin2(t_command *cmd_list)
 	else if (ft_strcmp("exit", cmd_list->args[0]) == 0)
 		exit_f(cmd_list);
 	return (0);
+}
+
+int	export_syntax_invalid(char *str)
+{
+    int	i; 
+	
+	i = 0;
+    if (!str || str[0] == '\0')
+        return (1);
+    if (!ft_isalpha(str[0]) && str[0] != '_')
+        return (1);
+    while (str[i] && str[i] != '=')
+    {
+        if (!ft_isalnum(str[i]) && str[i] != '_')
+            return (1);
+        i++;
+    }
+    return (0);
 }
