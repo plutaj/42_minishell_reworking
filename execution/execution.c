@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/28 14:37:15 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 16:08:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ void	execution(t_data *data)
 	{
 		saved_in = dup(STDIN_FILENO);
 		saved_out = dup(STDOUT_FILENO);
-		from = redirectinp(data->cmd_list);
 		to = redirectout(data->cmd_list);
+		from = redirectinp(data->cmd_list);
 		if (errorfromto(from, to, saved_in, saved_out))
 			return ;
-		if (is_builtin(data->cmd_list))
-			builtin(data->cmd_list);
-		else
-			is_external(data, data->cmd_list);
+		if (from != -1 && to != -1)
+		{
+			if (is_builtin(data->cmd_list))
+				builtin(data->cmd_list);
+			else
+				is_external(data, data->cmd_list);
+		}
 		if (from != -1)
 			close(from);
 		if (to != -1)

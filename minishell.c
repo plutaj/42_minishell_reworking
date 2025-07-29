@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/28 14:28:18 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 16:15:06 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,34 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+void	delete_later(t_data *data)
+{
+    t_command *cmd;
+	int cmd_num;
+	t_redir *redir;
+	
+	cmd = data->cmd_list;
+    cmd_num = 0;
+    while (cmd)
+    {
+        printf("command %d:\n", cmd_num++);
+        if (cmd->args)
+        {
+            for (int i = 0; cmd->args[i]; i++)
+                printf("  args[%d]: '%s'\n", i, cmd->args[i]);
+        }
+        else
+            printf("  (no args)\n");
+        redir = cmd->redir;
+        while (redir)
+        {
+            printf("  the redir: type=%d, file_or_limiter='%s'\n", redir->type, redir->file_or_limiter);
+            redir = redir->next;
+        }
+        cmd = cmd->next;
+    }
+}
+
 void	minishell_loop(t_data *data)
 {
 	while (1)
@@ -50,6 +78,7 @@ void	minishell_loop(t_data *data)
 		if (!data->cmd_list)
 			cleanup_and_exit(data);
 		create_redir_list(data);
+		// delete_later(data);
 		if (!check_syntax(data))
 		{
 			set_data_to_default(data);

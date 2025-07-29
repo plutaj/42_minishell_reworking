@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:06:49 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/23 18:33:14 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 15:57:49 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ int	redirectinp(t_command *cmd_list)
 		if (redir->type == REDIR_INPUT || redir->type == REDIR_HEREDOC)
 		{
 			if (apply_input_redir(redir, saved_in) == -1)
+			{
+				close(saved_in);
 				return (-1);
+			}
 		}
 		redir = redir->next;
 	}

@@ -1,7 +1,9 @@
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
 
 when ctrl-d we are not freeing the current_path.
-ls >"one two three" this should make one file instead it only conciders "one"
+ctrl+\ dumps core
+echo $?hello 
+grep hi "<missing" echo $? is still zero
 
 
 
@@ -14,6 +16,7 @@ cd then cd dir segfaulted
 export $ infinite loop
 echo $ infinite loop
 
+ls >"one two three" this should make one file instead it only conciders "one"
 
 
 minishell$ cat << db

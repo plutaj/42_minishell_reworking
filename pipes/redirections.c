@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/28 15:36:33 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 16:03:33 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	apply_regular_input(t_redir *redir, int saved_in)
 		if (fd != -1)
 			close(fd);
 		dup2(saved_in, STDIN_FILENO);
+		g_last_exit_status = 1;
 		close(saved_in);
 		return (-1);
 	}
@@ -42,7 +43,8 @@ int	apply_heredoc_input(t_redir *redir, int saved_in)
 			close(fd);
 		dup2(saved_in, STDIN_FILENO);
 		close(saved_in);
-		return (-1);
+		g_last_exit_status = 1;
+		exit(1);
 	}
 	close(fd);
 	return (0);
@@ -50,8 +52,20 @@ int	apply_heredoc_input(t_redir *redir, int saved_in)
 
 int	apply_input_redir(t_redir *redir, int saved_in)
 {
+	int fd;
+	
 	if (redir->type == REDIR_INPUT)
-		return (apply_regular_input(redir, saved_in));
+	{
+		fd = open(redir->file_or_limiter, O_RDONLY);
+		if (fd == -1)
+		{
+			perror("open error");
+			g_last_exit_status = 1;
+			return (-1);
+		}
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
 	else if (redir->type == REDIR_HEREDOC)
 		return (apply_heredoc_input(redir, saved_in));
 	return (0);

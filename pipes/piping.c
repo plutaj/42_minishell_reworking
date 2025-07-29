@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/23 18:41:27 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 14:44:47 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ static void	handle_child_process(t_data *data, t_command *cmd,
 
 	from = redirectinp(cmd);
 	to = redirectout(cmd);
+	if (errorfromto(from, to, prev_pipe_read, pipefd[1]))
+	{
+		closeiferror(from, to);
+		set_data_to_default(data);
+		free_env(data->env);
+		if (data->current_path)
+			free(data->current_path);
+		data->current_path = NULL;	
+		exit(EXIT_FAILURE);
+	}
 	closeiferror(from, to);
 	executechild(data, cmd, prev_pipe_read, pipefd);
 }
@@ -104,6 +114,5 @@ void	is_my_external(t_data *data, t_command *cmd_list)
 	{
 		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
 		g_last_exit_status = 127;
-		// exit(g_last_exit_status);
 	}
 }

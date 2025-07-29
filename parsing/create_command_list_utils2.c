@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:53:21 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/28 16:02:56 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 16:29:20 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,39 @@ int	init_parser_state(t_parser *st, t_command *new_cmd)
 	return (1);
 }
 
+static void	handle_redir_token(char *string, t_parser *st)
+{
+    if (st->buf_i > 0)
+    {
+        st->buffer[st->buf_i] = '\0';
+        st->args[st->j++] = ft_strdup(st->buffer);
+        st->buf_i = 0;
+    }
+    if (string[st->i] == string[st->i + 1] && (string[st->i] == '<' || string[st->i] == '>'))
+    {
+        st->args[st->j++] = ft_substr(string, st->i, 2);
+        st->i += 2;
+    }
+    else
+    {
+        st->args[st->j++] = ft_substr(string, st->i, 1);
+        st->i += 1;
+    }
+}
+
 void	parse_input_string(char *string, t_parser *st, char *quote)
 {
-	while (string[st->i])
-	{
-		handle_quotes(string[st->i], quote);
-		if (!(*quote) && handle_redirections(string, st))
-			continue ;
-		if (!(*quote) && handle_spaces(string, st))
-			continue ;
-		if (string[st->i])
-			st->buffer[st->buf_i++] = string[st->i++];
-	}
+    while (string[st->i])
+    {
+        handle_quotes(string[st->i], quote);
+        if (!(*quote) && (string[st->i] == '<' || string[st->i] == '>'))
+        {
+            handle_redir_token(string, st);
+            continue;
+        }
+        if (!(*quote) && handle_spaces(string, st))
+            continue;
+        if (string[st->i])
+            st->buffer[st->buf_i++] = string[st->i++];
+    }
 }

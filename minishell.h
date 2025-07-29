@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/28 14:45:44 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 13:39:51 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void						free_env(char **env);
 t_command					*set_new_node_to_def(t_command *new_cmd,
 								t_data *data);
 void						var_and_quote_handling(t_command *new_cmd);
+char						*ft_strstr(const char *haystack, const char *needle);
 
 /* minishell_utils.c */
 void						sigint_handler(int signo);

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/28 16:14:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 16:21:24 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ static void	parse_operator(char *s, t_parser *st)
 
 static int	parse_redirection_target(char *s, t_parser *st)
 {
-	char quote = 0;
-
+	char quote;
+	
+	quote = 0;
 	while (s[st->i])
 	{
 		if (!quote && (s[st->i] == '\'' || s[st->i] == '"'))
@@ -67,8 +68,12 @@ static int	parse_redirection_target(char *s, t_parser *st)
 			quote = 0;
 			st->buffer[st->buf_i++] = s[st->i++];
 		}
-		else if (!quote && (s[st->i] == ' ' || s[st->i] == '<' || s[st->i] == '>'))
-			break;
+		else if (!quote && (s[st->i] == '<' || s[st->i] == '>'))
+            break; // <-- break on redirection even without space
+        else if (!quote && s[st->i] == ' ')
+            break;
+		// else if (!quote && (s[st->i] == ' ' || s[st->i] == '<' || s[st->i] == '>'))
+		// 	break;
 		else
 			st->buffer[st->buf_i++] = s[st->i++];
 	}
