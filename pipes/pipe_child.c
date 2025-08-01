@@ -6,13 +6,13 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 19:28:30 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/28 13:47:13 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:38:23 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void		closeiferror(int pipefd[2], int prev_pipe_read)
+static void	closeiferror(int pipefd[2], int prev_pipe_read)
 {
 	if (pipefd[0] != -1)
 		close(pipefd[0]);
@@ -64,6 +64,8 @@ void	executechild(t_data *data, t_command *cmd, int prev_pipe_read,
 		is_my_external(data, cmd);
 		free_env(data->env);
 		set_data_to_default(data);
+		if (data->current_path)
+			free(data->current_path);
 		exit(g_last_exit_status);
 	}
 	exit(1);
@@ -85,4 +87,3 @@ int	setup_redirection(int prev_pipe_read, int pipefd[], t_command *cmd)
 		close(pipefd[1]);
 	return (0);
 }
-

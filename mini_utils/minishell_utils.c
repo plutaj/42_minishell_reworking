@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/29 13:39:21 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:37:46 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ bool	valid_input(char *input)
 	i = 0;
 	if (ft_strstr(input, "||") != NULL)
 	{
-	    printf("bash: syntax error near unexpected token `||'\n");
-	    g_last_exit_status = 2;
-	    return (0);
+		printf("bash: syntax error near unexpected token `||'\n");
+		g_last_exit_status = 2;
+		return (0);
 	}
 	if ((input[0] == '<' || input[0] == '>') && (!input[i + 1] || input[i
-				+ 1] == ' '))
+			+ 1] == ' '))
 	{
 		write(2, "parse error near `\\n'\n", 22);
 		g_last_exit_status = 2;
@@ -73,8 +73,8 @@ bool	valid_input(char *input)
 
 char	*ft_strstr(const char *haystack, const char *needle)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (!*needle)
 		return ((char *)haystack);

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:45:50 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/29 14:44:47 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:38:15 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	handle_child_process(t_data *data, t_command *cmd,
 		int prev_pipe_read, int pipefd[2])
 {
 	int	from;
-	int	to;	
+	int	to;
 
 	from = redirectinp(cmd);
 	to = redirectout(cmd);
@@ -35,7 +35,7 @@ static void	handle_child_process(t_data *data, t_command *cmd,
 		free_env(data->env);
 		if (data->current_path)
 			free(data->current_path);
-		data->current_path = NULL;	
+		data->current_path = NULL;
 		exit(EXIT_FAILURE);
 	}
 	closeiferror(from, to);
@@ -92,27 +92,8 @@ void	executepipecmds(t_data *data)
 
 void	is_my_external(t_data *data, t_command *cmd_list)
 {
-	char	*result;
-
-	result = NULL;
 	if (ft_strchr(cmd_list->args[0], '/'))
-	{
-		if (access(cmd_list->args[0], X_OK) == 0)
-		{
-			execerror(cmd_list->args[0], cmd_list->args, data->env);
-			return ;
-		}
-	}
+		exec_external_path(data, cmd_list);
 	else
-		result = search_command_in_path(cmd_list, data);
-	if (result)
-	{
-		execerror(result, cmd_list->args, data->env);
-		free(result);
-	}
-	else
-	{
-		printf("minishell$: %s: command not found\n", cmd_list->args[0]);
-		g_last_exit_status = 127;
-	}
+		exec_external_search(data, cmd_list);
 }

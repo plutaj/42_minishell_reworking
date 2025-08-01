@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:22:09 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/28 13:37:01 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:37:59 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ void	set_data_to_default(t_data *data)
 	if (data->input)
 		free(data->input);
 	data->input = NULL;
-	// if (data->current_path)
-	// 	free(data->current_path);
-	// data->current_path = NULL;
 }
 
 void	free_command_list(t_command *cmd_list)

@@ -6,7 +6,7 @@
 #    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/07/28 15:23:27 by huahmad          ###   ########.fr        #
+#    Updated: 2025/08/01 16:48:09 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ pipes/pipe_child.c \
 mini_utils/env_var_utils.c \
 mini_utils/syntax_check.c \
 pipes/heredocutil.c \
+builtins/cd_helpers.c \
 
 OBJ = $(SRC:.c=.o)
 

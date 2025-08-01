@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 18:04:08 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/21 18:06:10 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/08/01 16:42:27 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,34 @@ int	execute_command(char *full_path, char **args, char **env)
 	else
 		parent_process(pid);
 	return (0);
+}
+
+void	exec_external_path(t_data *data, t_command *cmd)
+{
+	if (access(cmd->args[0], X_OK) == 0)
+	{
+		execerror(cmd->args[0], cmd->args, data->env);
+		return ;
+	}
+}
+
+void	exec_external_search(t_data *data, t_command *cmd)
+{
+	char *result;
+	
+	result = search_command_in_path(cmd, data);
+	if (result)
+	{
+		execute_command(result, cmd->args, data->env);
+		free(result);
+	}
+	else
+	{
+		printf("minishell$: %s: command not found\n", cmd->args[0]);
+		free_env(data->env);
+		set_data_to_default(data);
+		if (data->current_path)
+			free(data->current_path);
+		exit(g_last_exit_status);
+	}
 }

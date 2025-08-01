@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 15:18:19 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/28 14:36:44 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:37:31 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,18 @@ int	builtin2(t_command *cmd_list)
 
 int	export_syntax_invalid(char *str)
 {
-    int	i; 
-	
+	int	i;
+
 	i = 0;
-    if (!str || str[0] == '\0')
-        return (1);
-    if (!ft_isalpha(str[0]) && str[0] != '_')
-        return (1);
-    while (str[i] && str[i] != '=')
-    {
-        if (!ft_isalnum(str[i]) && str[i] != '_')
-            return (1);
-        i++;
-    }
-    return (0);
+	if (!str || str[0] == '\0')
+		return (1);
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (1);
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
 }

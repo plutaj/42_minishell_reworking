@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:55:51 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/28 15:38:41 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:40:40 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 void	handle_dollar_sign(char **str, t_data *data, int *i)
 {
-	char *exit_status_str;
-	char *new_str;
+	char	*exit_status_str;
+	char	*new_str;
 
 	if ((*str)[*i + 1] == '?')
 	{
 		exit_status_str = ft_itoa(g_last_exit_status);
-		new_str =  ft_strdup(exit_status_str);
+		new_str = ft_strdup(exit_status_str);
 		free(exit_status_str);
 		free(*str);
 		*str = new_str;
 		*i += 1;
 	}
-    else if ((*str)[*i + 1] == '\0' || !ft_isalnum((*str)[*i + 1]))
-        (*i)++;
+	else if ((*str)[*i + 1] == '\0' || !ft_isalnum((*str)[*i + 1]))
+		(*i)++;
 	else
 	{
 		handle_variable_expansion(str, data, i);

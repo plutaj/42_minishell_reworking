@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/01 16:47:48 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/07/29 13:39:51 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,6 @@ void						free_command_list(t_command *cmd_list);
 int							export_syntax_invalid(char *str);
 void						printf_err_msg(char *str);
 void						handle_dollar_sign(char **str, t_data *data, int *i);
-void						exec_external_search(t_data *data, t_command *cmd);
-void						exec_external_path(t_data *data, t_command *cmd);
-void						cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-int							list_directory_contents(char *str, const char *path);
-
 
 
 /* free_functions.c */
@@ -136,8 +131,6 @@ t_command					*set_new_node_to_def(t_command *new_cmd,
 								t_data *data);
 void						var_and_quote_handling(t_command *new_cmd);
 char						*ft_strstr(const char *haystack, const char *needle);
-void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-
 
 /* minishell_utils.c */
 void						sigint_handler(int signo);

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/29 16:21:24 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 16:41:10 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	parse_operator(char *s, t_parser *st)
 {
 	if ((s[st->i] == '<' && s[st->i + 1] == '<') || (s[st->i] == '>' && s[st->i
-				+ 1] == '>'))
+			+ 1] == '>'))
 	{
 		st->buffer[0] = s[st->i];
 		st->buffer[1] = s[st->i + 1];
@@ -32,32 +32,10 @@ static void	parse_operator(char *s, t_parser *st)
 	}
 }
 
-// int	handle_redirections(char *s, t_parser *st)
-// {
-// 	if (s[st->i] == '<' || s[st->i] == '>')
-// 	{
-// 		flush_buffer(st);
-// 		parse_operator(s, st);
-// 		while (s[st->i] == ' ')
-// 			st->i++;
-// 		st->buf_i = 0;
-// 		while (s[st->i] && s[st->i] != ' ' && s[st->i] != '<'
-// 			&& s[st->i] != '>')
-// 			st->buffer[st->buf_i++] = s[st->i++];
-// 		st->buffer[st->buf_i] = '\0';
-// 		if (st->args[st->j])
-// 			free(st->args[st->j]);
-// 		if (!st->args[st->j])
-// 			return (0);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
 static int	parse_redirection_target(char *s, t_parser *st)
 {
-	char quote;
-	
+	char	quote;
+
 	quote = 0;
 	while (s[st->i])
 	{
@@ -69,11 +47,9 @@ static int	parse_redirection_target(char *s, t_parser *st)
 			st->buffer[st->buf_i++] = s[st->i++];
 		}
 		else if (!quote && (s[st->i] == '<' || s[st->i] == '>'))
-            break; // <-- break on redirection even without space
-        else if (!quote && s[st->i] == ' ')
-            break;
-		// else if (!quote && (s[st->i] == ' ' || s[st->i] == '<' || s[st->i] == '>'))
-		// 	break;
+			break ;
+		else if (!quote && s[st->i] == ' ')
+			break ;
 		else
 			st->buffer[st->buf_i++] = s[st->i++];
 	}
@@ -92,9 +68,9 @@ int	handle_redirections(char *s, t_parser *st)
 		while (s[st->i] == ' ')
 			st->i++;
 		st->buf_i = 0;
-		return parse_redirection_target(s, st);
+		return (parse_redirection_target(s, st));
 	}
-	return 0;
+	return (0);
 }
 
 void	handle_quotes(char c, char *quote)
@@ -118,10 +94,8 @@ int	is_valid_redirection(char **args)
 {
 	if (!args || !args[0] || !args[1])
 		return (0);
-	if (!ft_strcmp(args[0], "<")
-		|| !ft_strcmp(args[0], ">>")
-		|| !ft_strcmp(args[0], ">")
-		|| !ft_strcmp(args[0], "<<"))
+	if (!ft_strcmp(args[0], "<") || !ft_strcmp(args[0], ">>")
+		|| !ft_strcmp(args[0], ">") || !ft_strcmp(args[0], "<<"))
 	{
 		if (args[1][0] == '<' || args[1][0] == '>')
 			return (0);
