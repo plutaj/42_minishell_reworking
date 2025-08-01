@@ -1,9 +1,6 @@
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
 
-when ctrl-d we are not freeing the current_path.
-ctrl+\ dumps core
 echo $?hello 
-grep hi "<missing" echo $? is still zero
 
 
 
@@ -11,6 +8,9 @@ grep hi "<missing" echo $? is still zero
 huahmad@c2r9s5:~/a$ "$a" dsygf sduyg | ls
 fucks up all execution
 
+ctrl+\ dumps core
+grep hi "<missing" echo $? is still zero
+when ctrl-d we are not freeing the current_path.
 export without arguments segfaulted
 cd then cd dir segfaulted
 export $ infinite loop

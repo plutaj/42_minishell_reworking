@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/01 16:40:54 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/01 19:31:38 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (printf("Error: Unexpected input.\n"));
 	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	init_data(&data, envp);
 	if (!data.env)
 		return (1);
@@ -94,6 +95,7 @@ int	readline_failure(t_data *data)
 {
 	printf("exit\n");
 	free_2d_array(data->env);
+	free(data->current_path);
 	set_data_to_default(data);
 	exit(0);
 }
