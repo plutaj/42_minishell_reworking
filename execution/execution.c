@@ -6,13 +6,13 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/06 14:24:09 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:35:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	dup2andclose(int savedin, int savedout)
+void	dup2andclose(int savedin, int savedout)
 {
 	dup2(savedin, STDIN_FILENO);
 	dup2(savedout, STDOUT_FILENO);

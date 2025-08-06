@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 18:04:08 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/06 14:20:36 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:46:56 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	exec_external_search(t_data *data, t_command *cmd)
 	else
 	{
 		printf("minishell$: %s: command not found\n", cmd->args[0]);
+		g_last_exit_status = 127;
 		free_env(data->env);
 		set_data_to_default(data);
 		if (data->current_path)

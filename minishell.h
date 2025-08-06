@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/06 14:26:28 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:35:20 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,8 @@ int							handle_spaces(char *s, t_parser *st);
 void						append_command_to_list(t_data *data,
 								t_command *new_cmd, t_command **temp_cmd);
 void						remove_quotes_from_args(char **args);
+void						dup2andclose(int savedin, int savedout);
+
 
 /* execuion/exbuil.c */
 int							is_builtin(t_command *cmd_list);
@@ -190,6 +192,8 @@ void						is_external(t_data *data, t_command *cmd_list);
 char						*search_command_in_path(t_command *cmd_list,
 								t_data *data);
 void						cmd_export_set_var(t_data *data, char *arg);
+void						cmd_export_util(t_data *data, char *var_name);
+
 
 /* execuion/execution.c */
 void						execution(t_data *data);

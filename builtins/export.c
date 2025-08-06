@@ -6,13 +6,11 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/06 14:26:19 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:34:19 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	cmd_export_util(t_data *data, char *var_name);
 
 void	cmd_export(t_data *data)
 {
@@ -33,7 +31,7 @@ void	cmd_export(t_data *data)
 	cmd_export_set_var(data, arg);
 }
 
-static void	cmd_export_util(t_data *data, char *var_name)
+void	cmd_export_util(t_data *data, char *var_name)
 {
 	create_env_var(data, data->cmd_list->args[1]);
 	g_last_exit_status = 0;
