@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:08:18 by huahmad           #+#    #+#             */
-/*   Updated: 2025/08/01 17:27:59 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:17:33 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	apply_heredoc_input(t_redir *redir, int saved_in)
 
 int	apply_input_redir(t_redir *redir, int saved_in)
 {
-	int fd;
-	
+	int	fd;
+
 	if (redir->type == REDIR_INPUT)
 	{
 		fd = open(redir->file_or_limiter, O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/01 16:36:14 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:26:19 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,21 @@ static void	cmd_export_util(t_data *data, char *var_name);
 
 void	cmd_export(t_data *data)
 {
-	char	*var_name;
-	char	*var_value;
-	char	*equal_sign;
+	char	*arg;
 
-	if (!data->cmd_list->args[1])
+	arg = data->cmd_list->args[1];
+	if (!arg)
 	{
 		print_exported_env(data->env);
 		return ;
 	}
-	if (export_syntax_invalid(data->cmd_list->args[1]))
+	if (export_syntax_invalid(arg))
 	{
-		printf_err_msg(data->cmd_list->args[1]);
+		printf_err_msg(arg);
 		g_last_exit_status = 1;
 		return ;
 	}
-	equal_sign = ft_strchr(data->cmd_list->args[1], '=');
-	if (equal_sign)
-		var_name = ft_substr(data->cmd_list->args[1], 0,
-				ft_index_of_pointer(data->cmd_list->args[1], equal_sign));
-	else
-		var_name = ft_strdup(data->cmd_list->args[1]);
-	var_value = extract_var_value(data->cmd_list->args[1]);
-	if (update_env_var(data->env, var_name, var_value))
-		g_last_exit_status = 0;
-	else
-		cmd_export_util(data, var_name);
-	free(var_value);
+	cmd_export_set_var(data, arg);
 }
 
 static void	cmd_export_util(t_data *data, char *var_name)

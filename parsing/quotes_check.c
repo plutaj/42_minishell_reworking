@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:46:18 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/10 12:51:51 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:19:47 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,36 @@ char	*remove_quotes(const char *str)
 	}
 	result[j] = '\0';
 	return (result);
+}
+
+int	is_valid_redirection(char **args)
+{
+	if (!args || !args[0] || !args[1])
+		return (0);
+	if (!ft_strcmp(args[0], "<") || !ft_strcmp(args[0], ">>")
+		|| !ft_strcmp(args[0], ">") || !ft_strcmp(args[0], "<<"))
+	{
+		if (args[1][0] == '<' || args[1][0] == '>')
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
+void	remove_quotes_from_args(char **args)
+{
+	int		i;
+	char	*cleaned;
+
+	i = 0;
+	while (args[i])
+	{
+		cleaned = remove_quotes(args[i]);
+		if (cleaned)
+		{
+			free(args[i]);
+			args[i] = cleaned;
+		}
+		i++;
+	}
 }

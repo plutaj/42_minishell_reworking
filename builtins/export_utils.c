@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 14:03:44 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/28 14:20:04 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:26:40 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,23 @@ void	print_exported_env(char **env)
 			printf("declare -x %s\n", env[i]);
 		i++;
 	}
+}
+
+void	cmd_export_set_var(t_data *data, char *arg)
+{
+	char	*var_name;
+	char	*var_value;
+	char	*equal_sign;
+
+	equal_sign = ft_strchr(arg, '=');
+	if (equal_sign)
+		var_name = ft_substr(arg, 0, ft_index_of_pointer(arg, equal_sign));
+	else
+		var_name = ft_strdup(arg);
+	var_value = extract_var_value(arg);
+	if (update_env_var(data->env, var_name, var_value))
+		g_last_exit_status = 0;
+	else
+		cmd_export_util(data, var_name);
+	free(var_value);
 }

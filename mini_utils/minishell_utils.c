@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jozefpluta <jozefpluta@student.42.fr>      +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/04 19:11:23 by jozefpluta       ###   ########.fr       */
+/*   Updated: 2025/08/06 14:20:12 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	valid_input(char *input)
 		return (0);
 	}
 	if ((input[0] == '<' || input[0] == '>') && (!input[i + 1] || input[i
-			+ 1] == ' '))
+				+ 1] == ' '))
 	{
 		write(2, "parse error near `\\n'\n", 22);
 		g_last_exit_status = 2;

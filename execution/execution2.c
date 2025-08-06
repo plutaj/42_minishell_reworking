@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 18:04:08 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/01 16:42:27 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:20:36 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	exec_external_path(t_data *data, t_command *cmd)
 
 void	exec_external_search(t_data *data, t_command *cmd)
 {
-	char *result;
-	
+	char	*result;
+
 	result = search_command_in_path(cmd, data);
 	if (result)
 	{

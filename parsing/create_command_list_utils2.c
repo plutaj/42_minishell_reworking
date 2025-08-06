@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 20:53:21 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/29 16:29:20 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:19:35 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,6 @@ void	append_command_to_list(t_data *data, t_command *new_cmd,
 	*temp_cmd = new_cmd;
 }
 
-void	remove_quotes_from_args(char **args)
-{
-	int		i;
-	char	*cleaned;
-
-	i = 0;
-	while (args[i])
-	{
-		cleaned = remove_quotes(args[i]);
-		if (cleaned)
-		{
-			free(args[i]);
-			args[i] = cleaned;
-		}
-		i++;
-	}
-}
-
 int	init_parser_state(t_parser *st, t_command *new_cmd)
 {
 	st->args = ft_calloc(256, sizeof(char *));
@@ -72,37 +54,38 @@ int	init_parser_state(t_parser *st, t_command *new_cmd)
 
 static void	handle_redir_token(char *string, t_parser *st)
 {
-    if (st->buf_i > 0)
-    {
-        st->buffer[st->buf_i] = '\0';
-        st->args[st->j++] = ft_strdup(st->buffer);
-        st->buf_i = 0;
-    }
-    if (string[st->i] == string[st->i + 1] && (string[st->i] == '<' || string[st->i] == '>'))
-    {
-        st->args[st->j++] = ft_substr(string, st->i, 2);
-        st->i += 2;
-    }
-    else
-    {
-        st->args[st->j++] = ft_substr(string, st->i, 1);
-        st->i += 1;
-    }
+	if (st->buf_i > 0)
+	{
+		st->buffer[st->buf_i] = '\0';
+		st->args[st->j++] = ft_strdup(st->buffer);
+		st->buf_i = 0;
+	}
+	if (string[st->i] == string[st->i + 1] && (string[st->i] == '<'
+			|| string[st->i] == '>'))
+	{
+		st->args[st->j++] = ft_substr(string, st->i, 2);
+		st->i += 2;
+	}
+	else
+	{
+		st->args[st->j++] = ft_substr(string, st->i, 1);
+		st->i += 1;
+	}
 }
 
 void	parse_input_string(char *string, t_parser *st, char *quote)
 {
-    while (string[st->i])
-    {
-        handle_quotes(string[st->i], quote);
-        if (!(*quote) && (string[st->i] == '<' || string[st->i] == '>'))
-        {
-            handle_redir_token(string, st);
-            continue;
-        }
-        if (!(*quote) && handle_spaces(string, st))
-            continue;
-        if (string[st->i])
-            st->buffer[st->buf_i++] = string[st->i++];
-    }
+	while (string[st->i])
+	{
+		handle_quotes(string[st->i], quote);
+		if (!(*quote) && (string[st->i] == '<' || string[st->i] == '>'))
+		{
+			handle_redir_token(string, st);
+			continue ;
+		}
+		if (!(*quote) && handle_spaces(string, st))
+			continue ;
+		if (string[st->i])
+			st->buffer[st->buf_i++] = string[st->i++];
+	}
 }

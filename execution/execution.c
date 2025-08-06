@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:46:03 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/01 19:03:56 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:24:09 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,8 @@ bool	all_cmds_invalid(t_data *data)
 
 void	execution(t_data *data)
 {
-	int	from;
-	int	to;
-	int	saved_in;
-	int	saved_out;
-
 	if (!data->cmd_list->next)
-	{
-		saved_in = dup(STDIN_FILENO);
-		saved_out = dup(STDOUT_FILENO);
-		to = redirectout(data->cmd_list);
-		from = redirectinp(data->cmd_list);
-		if (errorfromto(from, to, saved_in, saved_out))
-			return ;
-		if (from != -1 && to != -1)
-		{
-			if (is_builtin(data->cmd_list))
-				builtin(data->cmd_list);
-			else
-				is_external(data, data->cmd_list);
-		}
-		if (from != -1)
-			close(from);
-		if (to != -1)
-			close(to);
-		dup2andclose(saved_in, saved_out);
-	}
+		execute_single_cmd(data);
 	else
 		executepipecmds(data);
 }

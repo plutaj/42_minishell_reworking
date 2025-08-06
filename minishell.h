@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/01 16:47:48 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:26:28 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ int							readline_failure(t_data *data);
 void						minishell_loop(t_data *data);
 int							is_valid_redirection(char **args);
 bool						all_cmds_invalid(t_data *data);
-bool						errorfromto(int from, int to,
-								int saved_in, int saved_out);
+bool						errorfromto(int from, int to, int saved_in,
+								int saved_out);
 
 /* env_var.c */
 char						**copy_envp(char **envp);
@@ -117,27 +117,28 @@ void						str_dup_err(char **env, int i);
 void						free_command_list(t_command *cmd_list);
 int							export_syntax_invalid(char *str);
 void						printf_err_msg(char *str);
-void						handle_dollar_sign(char **str, t_data *data, int *i);
+void						handle_dollar_sign(char **str, t_data *data,
+								int *i);
 void						exec_external_search(t_data *data, t_command *cmd);
 void						exec_external_path(t_data *data, t_command *cmd);
-void						cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-int							list_directory_contents(char *str, const char *path);
-
-
+void						cmd_cd_dir2(t_data *data, char **temp,
+								char **original_path, int i);
+int							list_directory_contents(char *str,
+								const char *path);
 
 /* free_functions.c */
 void						free_2d_array(char **arr);
-void						parse_input_string(char *string,
-								t_parser *st, char *quote);
-int							init_parser_state(t_parser *st,
-								t_command *new_cmd);
+void						parse_input_string(char *string, t_parser *st,
+								char *quote);
+int							init_parser_state(t_parser *st, t_command *new_cmd);
 void						free_env(char **env);
 t_command					*set_new_node_to_def(t_command *new_cmd,
 								t_data *data);
 void						var_and_quote_handling(t_command *new_cmd);
-char						*ft_strstr(const char *haystack, const char *needle);
-void	cmd_cd_dir2(t_data *data, char **temp, char **original_path, int i);
-
+char						*ft_strstr(const char *haystack,
+								const char *needle);
+void						cmd_cd_dir2(t_data *data, char **temp,
+								char **original_path, int i);
 
 /* minishell_utils.c */
 void						sigint_handler(int signo);
@@ -188,6 +189,7 @@ char						*find_command_in_path(char *cmd);
 void						is_external(t_data *data, t_command *cmd_list);
 char						*search_command_in_path(t_command *cmd_list,
 								t_data *data);
+void						cmd_export_set_var(t_data *data, char *arg);
 
 /* execuion/execution.c */
 void						execution(t_data *data);
@@ -201,6 +203,7 @@ int							create_pipe(int pipefd[2]);
 int							apply_redirections(t_command *cmd);
 int							has_output_redirection(t_command *cmd);
 int							has_input_redirection(t_command *cmd);
+void						execute_single_cmd(t_data *data);
 
 /* pipes/heredoc.c */
 int							heredoc_loop(int write_fd, char *limiter);
@@ -281,7 +284,7 @@ int							check_redir_list(t_redir *redir);
 int							check_syntax(t_data *data);
 
 void						parent_process(pid_t pid);
-int							execute_command(char *full_path,
-								char **args, char **env);
-void						child_process(char *full_path,
-								char **args, char **env);
+int							execute_command(char *full_path, char **args,
+								char **env);
+void						child_process(char *full_path, char **args,
+								char **env);

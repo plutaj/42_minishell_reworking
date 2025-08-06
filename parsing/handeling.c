@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:58:31 by huahmad           #+#    #+#             */
-/*   Updated: 2025/08/01 16:41:10 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:19:57 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	parse_operator(char *s, t_parser *st)
 {
 	if ((s[st->i] == '<' && s[st->i + 1] == '<') || (s[st->i] == '>' && s[st->i
-			+ 1] == '>'))
+				+ 1] == '>'))
 	{
 		st->buffer[0] = s[st->i];
 		st->buffer[1] = s[st->i + 1];
@@ -88,18 +88,4 @@ void	var_and_quote_handling(t_command *new_cmd)
 {
 	find_variables(new_cmd);
 	remove_quotes_from_args(new_cmd->args);
-}
-
-int	is_valid_redirection(char **args)
-{
-	if (!args || !args[0] || !args[1])
-		return (0);
-	if (!ft_strcmp(args[0], "<") || !ft_strcmp(args[0], ">>")
-		|| !ft_strcmp(args[0], ">") || !ft_strcmp(args[0], "<<"))
-	{
-		if (args[1][0] == '<' || args[1][0] == '>')
-			return (0);
-		return (1);
-	}
-	return (0);
 }

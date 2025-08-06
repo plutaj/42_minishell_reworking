@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:13:10 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/01 19:31:38 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/06 14:28:17 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	delete_later(t_data *data)
 	t_command	*cmd;
 	int			cmd_num;
 	t_redir		*redir;
+	int			i;
 
+	i = 0;
 	cmd = data->cmd_list;
 	cmd_num = 0;
 	while (cmd)
@@ -45,8 +47,11 @@ void	delete_later(t_data *data)
 		printf("command %d:\n", cmd_num++);
 		if (cmd->args)
 		{
-			for (int i = 0; cmd->args[i]; i++)
+			while (cmd->args[i])
+			{
 				printf("  args[%d]: '%s'\n", i, cmd->args[i]);
+				i++;	
+			}
 		}
 		else
 			printf("  (no args)\n");

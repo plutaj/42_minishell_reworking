@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 15:14:45 by huahmad           #+#    #+#             */
-/*   Updated: 2025/07/03 16:56:53 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/08/06 14:24:15 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,31 @@ char	*concatenate_paths(char *dir, char *cmd)
 	ft_strcat(full_path, "/");
 	ft_strcat(full_path, cmd);
 	return (full_path);
+}
+
+void	execute_single_cmd(t_data *data)
+{
+	int	from;
+	int	to;
+	int	saved_in;
+	int	saved_out;
+
+	saved_in = dup(STDIN_FILENO);
+	saved_out = dup(STDOUT_FILENO);
+	to = redirectout(data->cmd_list);
+	from = redirectinp(data->cmd_list);
+	if (errorfromto(from, to, saved_in, saved_out))
+		return ;
+	if (from != -1 && to != -1)
+	{
+		if (is_builtin(data->cmd_list))
+			builtin(data->cmd_list);
+		else
+			is_external(data, data->cmd_list);
+	}
+	if (from != -1)
+		close(from);
+	if (to != -1)
+		close(to);
+	dup2andclose(saved_in, saved_out);
 }
