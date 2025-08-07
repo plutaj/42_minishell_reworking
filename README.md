@@ -1,6 +1,7 @@
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
 
 echo $ss leak
+zuzana had another issue with redir and pipe causing a leak
 
 
 
