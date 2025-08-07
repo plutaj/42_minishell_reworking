@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:02:27 by jpluta            #+#    #+#             */
-/*   Updated: 2025/07/03 15:24:51 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/08/07 14:05:10 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	exit_err_msg(char *str, t_command *cmd_list)
 	write(STDERR_FILENO, "minishell: exit: ", 17);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, ": numeric argument required", 27);
+	free(cmd_list->data->current_path);
 	free_2d_array(cmd_list->data->env);
 	set_data_to_default(cmd_list->data);
 	g_last_exit_status = 2;
@@ -58,9 +59,8 @@ static void	exit_err_msg(char *str, t_command *cmd_list)
 
 static void	exit_err_msg2(t_command *cmd_list)
 {
-	write(STDERR_FILENO, "minishell$: exit: too many arguments", 36);
-	free_2d_array(cmd_list->data->env);
-	set_data_to_default(cmd_list->data);
+	write(STDERR_FILENO, "minishell$: exit: too many arguments\n", 37);
+	(void)	cmd_list;
 	g_last_exit_status = 1;
 }
 

@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:03 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/06 14:35:20 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/07 16:07:07 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ void						cmd_cd_dir2(t_data *data, char **temp,
 								char **original_path, int i);
 int							list_directory_contents(char *str,
 								const char *path);
+char						*ft_strjoin_f(char *s1, char *s2, int i);
+
 
 /* free_functions.c */
 void						free_2d_array(char **arr);

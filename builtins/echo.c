@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:19:40 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/01 16:37:09 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/07 14:11:05 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ void	cmd_echo_exec(t_command *cmd_list, int is_newline)
 	i = 0;
 	j = 0;
 	str = convert_to_string(cmd_list, is_newline);
+	if (!str)
+	{
+		g_last_exit_status = 0;
+		return ;
+	}
 	i = theloop(str, &is_newline, i, j);
 	if (!is_newline)
 		printf("%s", &str[i]);

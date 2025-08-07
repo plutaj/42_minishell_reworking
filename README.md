@@ -1,6 +1,6 @@
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=supress.supp ./minishell
 
-echo $?hello 
+echo $ss leak
 
 
 
@@ -15,6 +15,10 @@ export without arguments segfaulted
 cd then cd dir segfaulted
 export $ infinite loop
 echo $ infinite loop
+echo ss$?
+echo $?hello 
+echo -n
+echo $? is causing a leak
 
 ls >"one two three" this should make one file instead it only conciders "one"
 
