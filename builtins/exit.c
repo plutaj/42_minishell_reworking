@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:02:27 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/07 14:05:10 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:56:50 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	exit_f(t_command *cmd_list)
 
 static void	exit_err_msg(char *str, t_command *cmd_list)
 {
+	printf("exit\n");
 	write(STDERR_FILENO, "minishell: exit: ", 17);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, ": numeric argument required", 27);
@@ -59,6 +60,7 @@ static void	exit_err_msg(char *str, t_command *cmd_list)
 
 static void	exit_err_msg2(t_command *cmd_list)
 {
+	printf("exit\n");
 	write(STDERR_FILENO, "minishell$: exit: too many arguments\n", 37);
 	(void)	cmd_list;
 	g_last_exit_status = 1;
@@ -66,6 +68,7 @@ static void	exit_err_msg2(t_command *cmd_list)
 
 static void	ft_clean_n_exit(t_command *cmd_list)
 {
+	printf("exit\n");
 	free_2d_array(cmd_list->data->env);
 	free(cmd_list->data->current_path);
 	set_data_to_default(cmd_list->data);
