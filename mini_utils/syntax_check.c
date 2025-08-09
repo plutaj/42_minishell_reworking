@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 18:44:45 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/07/21 18:19:26 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/08/09 13:40:46 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ int	check_syntax(t_data *data)
 
 void	syntax_err_msg(void)
 {
-	write(2, "minishell: syntax error near unexpected token `|'\n", 51);
+	write(2, "minishell: syntax error near unexpected token\n", 46);
 	g_last_exit_status = 2;
 }

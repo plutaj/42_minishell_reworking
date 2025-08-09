@@ -6,15 +6,15 @@
 #    By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/30 16:06:32 by jozefpluta        #+#    #+#              #
-#    Updated: 2025/08/09 12:13:12 by huahmad          ###   ########.fr        #
+#    Updated: 2025/08/09 12:32:31 by huahmad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Variables
 NAME = minishell	
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-LDFLAGS = -lreadline -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror 
+LDFLAGS = -lreadline 
 SRC = \
 mini_utils/data_init.c \
 mini_utils/env_var.c \

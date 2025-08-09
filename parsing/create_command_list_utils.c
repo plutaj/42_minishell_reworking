@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/07 18:10:42 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/09 14:26:39 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*resolve_variable_value(char *var, t_data *data)
 	}
 	else
 	{
-		result = is_env_var(var, data->env);
+		result = ft_strdup(is_env_var(var, data->env));
 		if (!result)
 			result = ft_strdup("");
 	}
@@ -95,8 +95,7 @@ void	replace_var(t_var_replace *context)
 		end = ft_strdup("");
 	free(*context->str);
 	*context->str = ft_strjoin(temp, end);
-	if (context->var[1] == '?')
-		free(context->ptr_to_env);
+	free(context->ptr_to_env);
 	*context->i = start_len + value_len - 1;
 	free(context->var);
 	free(end);
