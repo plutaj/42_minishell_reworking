@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:38:50 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/09 12:56:46 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/09 14:41:43 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,6 @@ bool	valid_input(char *input)
 		g_last_exit_status = 2;
 		return (0);
 	}
-	// if ((input[0] == '<' || input[0] == '>') && (!input[i + 1] || input[i
-	// 			+ 1] == ' '))
-	// {
-	// 	write(2, "parse error near `\\n'\n", 22);
-	// 	g_last_exit_status = 2;
-	// 	return (0);
-	// }
 	if (input[0] == '|')
 	{
 		write(2, "parse error near `|'\n", 22);

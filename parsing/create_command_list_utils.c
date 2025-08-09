@@ -6,7 +6,7 @@
 /*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:38:29 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/09 14:26:39 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/09 16:06:37 by huahmad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ char	*resolve_variable_value(char *var, t_data *data)
 	}
 	else
 	{
-		result = ft_strdup(is_env_var(var, data->env));
+		result = is_env_var(var, data->env);
 		if (!result)
-			result = ft_strdup("");
+			result = ft_strdup(var);
+		else
+			result = ft_strdup(result);
 	}
 	return (result);
 }
@@ -67,11 +69,17 @@ void	handle_variable_expansion(char **str, t_data *data, int *i)
 int	skip_invalid_var(char *start, char *var)
 {
 	if (var[1] == '\0')
-	{
-		if (*start)
+	{	
+		if (*start || start)
+		{
 			free(start);
-		if (*var)
+			start = NULL;
+		}	
+		if (var)
+		{
 			free(var);
+			var = NULL;
+		}
 		return (1);
 	}
 	return (0);
@@ -88,6 +96,7 @@ void	replace_var(t_var_replace *context)
 	value_len = ft_strlen(context->ptr_to_env);
 	temp = ft_strjoin(context->start, context->ptr_to_env);
 	free(context->start);
+	context->start = NULL;
 	if ((*context->str)[*context->i + ft_strlen(context->var)] != '\0')
 		end = ft_strdup(&(*context->str)[*context->i
 				+ ft_strlen(context->var)]);
