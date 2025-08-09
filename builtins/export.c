@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/09 16:00:39 by jpluta           ###   ########.fr       */
+/*   Updated: 2025/08/09 17:24:55 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	cmd_export(t_data *data)
 	int		i;
 
 	i = 1;
+	if (!data->cmd_list->args[1])
+	{
+		print_exported_env(data->env);
+		return ;
+	}
 	while (data->cmd_list->args[i])
 	{
 		arg = data->cmd_list->args[i];
-		if (!arg)
-		{
-			print_exported_env(data->env);
-			return ;
-		}
 		if (export_syntax_invalid(arg))
 		{
 			printf_err_msg(arg);
