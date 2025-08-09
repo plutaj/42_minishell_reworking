@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 14:03:44 by jpluta            #+#    #+#             */
-/*   Updated: 2025/08/06 14:26:40 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:54:06 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*extract_var_value(char *str)
 	char	*new_str;
 
 	i = 0;
+	new_str = NULL;
 	if (!str)
 		return (NULL);
 	while (str[i])
@@ -68,6 +69,28 @@ void	cmd_export_set_var(t_data *data, char *arg)
 	if (update_env_var(data->env, var_name, var_value))
 		g_last_exit_status = 0;
 	else
-		cmd_export_util(data, var_name);
+		cmd_export_util(data, arg);
 	free(var_value);
+	free(var_name);
 }
+
+// void	cmd_export_set_var(t_data *data, char *arg)
+// {
+// 	char	*var_name;
+// 	char	*var_value;
+// 	char	*equal_sign;
+
+// 	equal_sign = ft_strchr(arg, '=');
+// 	if (equal_sign)
+// 		var_name = ft_substr(arg, 0, ft_index_of_pointer(arg, equal_sign));
+// 	else
+// 		var_name = ft_strdup(arg);
+// 	var_value = extract_var_value(arg);
+// 	// printf("name:  %s\n", var_name);
+// 	// printf("value: %s\n", var_value);
+// 	if (update_env_var(data->env, var_name, var_value))
+// 		g_last_exit_status = 0;
+// 	else
+// 		cmd_export_util(data, var_name);
+// 	free(var_value);
+// }

@@ -3,39 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: huahmad <huahmad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jpluta <jpluta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 10:46:12 by jozefpluta        #+#    #+#             */
-/*   Updated: 2025/08/06 14:34:19 by huahmad          ###   ########.fr       */
+/*   Updated: 2025/08/09 16:00:39 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// void	cmd_export(t_data *data)
+// {
+// 	char	*arg;
+
+// 	arg = data->cmd_list->args[1];
+// 	if (!arg)
+// 	{
+// 		print_exported_env(data->env);
+// 		return ;
+// 	}
+// 	if (export_syntax_invalid(arg))
+// 	{
+// 		printf_err_msg(arg);
+// 		g_last_exit_status = 1;
+// 		return ;
+// 	}
+// 	cmd_export_set_var(data, arg);
+// }
+
 void	cmd_export(t_data *data)
 {
 	char	*arg;
+	int		i;
 
-	arg = data->cmd_list->args[1];
-	if (!arg)
+	i = 1;
+	while (data->cmd_list->args[i])
 	{
-		print_exported_env(data->env);
-		return ;
+		arg = data->cmd_list->args[i];
+		if (!arg)
+		{
+			print_exported_env(data->env);
+			return ;
+		}
+		if (export_syntax_invalid(arg))
+		{
+			printf_err_msg(arg);
+			g_last_exit_status = 1;
+			return ;
+		}
+		cmd_export_set_var(data, arg);
+		i++;
 	}
-	if (export_syntax_invalid(arg))
-	{
-		printf_err_msg(arg);
-		g_last_exit_status = 1;
-		return ;
-	}
-	cmd_export_set_var(data, arg);
 }
 
 void	cmd_export_util(t_data *data, char *var_name)
 {
-	create_env_var(data, data->cmd_list->args[1]);
+	create_env_var(data, var_name);
 	g_last_exit_status = 0;
-	free(var_name);
 }
 
 void	printf_err_msg(char *str)
